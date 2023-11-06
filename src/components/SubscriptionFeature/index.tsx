@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Card, CardHeader, CardTitle, CardDescription, CardFooter, Button, cn } from 'xy-ui';
+import { Card, CardHeader, CardTitle, CardDescription, CardFooter, Button, cn } from '@xyflow/xy-ui';
 import { SubscriptionPlan } from '@/types';
 import Link from 'next/link';
 import { ArrowLongRightIcon } from '@heroicons/react/20/solid';

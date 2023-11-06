@@ -1,8 +1,7 @@
 import React from 'react';
-import { NotFoundLayout } from 'xy-ui';
 
 function NotFound() {
-  return <NotFoundLayout />;
+  return <div>404</div>;
 }
 
 export default NotFound;

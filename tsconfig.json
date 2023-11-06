@@ -24,8 +24,7 @@
     "resolveJsonModule": true,
     "target": "es5",
     "paths": {
-      "@/*": ["./*"],
-      "xy-ui": ["./components/xy-ui"]
+      "@/*": ["./*"]
     },
     "baseUrl": "src/",
     "allowJs": true

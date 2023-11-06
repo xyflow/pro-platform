@@ -3,13 +3,14 @@
 import { useState } from 'react';
 import { useSignUpEmailPassword } from '@nhost/nextjs';
 
-import { Button, Input, InputLabel } from 'xy-ui';
-import { AuthErrorNotification } from './AuthNotification';
+import { Button, Input, InputLabel } from '@xyflow/xy-ui';
+import { AuthErrorNotification, MagicLinkSuccessNotification } from './AuthNotification';
 
 function Signup() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const { signUpEmailPassword, isLoading, isError, error } = useSignUpEmailPassword();
+  const { signUpEmailPassword, isLoading, isError, needsEmailVerification, isSuccess, error } =
+    useSignUpEmailPassword();
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
@@ -19,6 +20,7 @@ function Signup() {
   return (
     <form onSubmit={handleSubmit}>
       {isError && <AuthErrorNotification error={error} />}
+      {needsEmailVerification && <MagicLinkSuccessNotification />}
       <div className="mb-2">
         <InputLabel htmlFor="email">Email</InputLabel>
         <Input
@@ -44,7 +46,14 @@ function Signup() {
           required
         />
       </div>
-      <Button size="lg" className="w-full" disabled={isLoading} loading={isLoading} type="submit" variant="react">
+      <Button
+        size="lg"
+        className="w-full"
+        disabled={isLoading || needsEmailVerification}
+        loading={isLoading}
+        type="submit"
+        variant="react"
+      >
         Sign Up
       </Button>
     </form>

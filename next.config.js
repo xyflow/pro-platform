@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  transpilePackages: ['xy-ui'],
+  transpilePackages: ['@xyflow/xy-ui'],
   reactStrictMode: true,
 };
 
