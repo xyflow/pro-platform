@@ -6,7 +6,7 @@ export type DashboardHeaderProps = {
   showSubscriptionPlan?: boolean;
 };
 
-export default function ({ title, description, showSubscriptionPlan = false }: DashboardHeaderProps) {
+export default function DashboardHeader({ title, description, showSubscriptionPlan = false }: DashboardHeaderProps) {
   return (
     <div className="my-6">
       {title && (

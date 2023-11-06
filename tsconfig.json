@@ -38,5 +38,5 @@
     "theme.config.jsx",
     "tailwind.config.ts"
   ],
-  "exclude": ["node_modules", "pro-examples"]
+  "exclude": ["node_modules", "nhost"]
 }
