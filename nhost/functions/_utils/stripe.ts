@@ -13,9 +13,9 @@ type GetPricesOptions = {
 let prices: Stripe.Price[] | null = null;
 
 export const getPrices = async (options?: GetPricesOptions) => {
-  if (prices && !options?.forceUpdate) {
-    return prices;
-  }
+  // if (prices && !options?.forceUpdate) {
+  //   return prices;
+  // }
 
   const { data } = await stripe.prices.list({
     active: true,
@@ -23,9 +23,9 @@ export const getPrices = async (options?: GetPricesOptions) => {
     limit: 100,
   });
 
-  prices = data;
+  // prices = data;
 
-  return prices;
+  return data;
 };
 
 type GetLineItemParams = {
@@ -34,19 +34,14 @@ type GetLineItemParams = {
   interval?: 'month' | 'year';
 };
 
-export const getLineItem = async ({
-  plan,
-  quantity = 1,
-  interval = 'month',
-}: GetLineItemParams) => {
+export const getLineItem = async ({ plan, quantity = 1, interval = 'month' }: GetLineItemParams) => {
   const prices = await getPrices();
 
   const priceId = prices.find(
     (price) =>
       (plan === 'seats'
         ? (price.product as Stripe.Product).metadata.seats
-        : (price.product as Stripe.Product).metadata.plan === plan) &&
-      price.recurring?.interval === interval,
+        : (price.product as Stripe.Product).metadata.plan === plan) && price.recurring?.interval === interval
   )?.id;
 
   if (!priceId) {
@@ -59,13 +54,7 @@ export const getLineItem = async ({
   };
 };
 
-export async function createStripeCustomer({
-  email,
-  userId,
-}: {
-  email?: string;
-  userId: string;
-}) {
+export async function createStripeCustomer({ email, userId }: { email?: string; userId: string }) {
   const customer = await stripe.customers.create({
     email,
     metadata: {
@@ -99,14 +88,14 @@ export async function updateSeatQuantity(userId: string) {
   const products = await Promise.all(
     subscription.items?.data?.map(async (item: Stripe.SubscriptionItem) => {
       return await stripe.products.retrieve(item.price.product as string);
-    }),
+    })
   );
 
   const seatProduct = products?.find((product) => product.metadata.seats);
 
   if (seatProduct) {
     const seatSubscriptionItem = subscription.items?.data?.find(
-      (item: Stripe.SubscriptionItem) => item.price.product === seatProduct.id,
+      (item: Stripe.SubscriptionItem) => item.price.product === seatProduct.id
     );
 
     if (!seatSubscriptionItem) {
