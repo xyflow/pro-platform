@@ -7,7 +7,7 @@ type NotificationProps = {
 } & React.HTMLAttributes<HTMLDivElement>;
 
 // @todo maybe move this into ui package
-export default function ({ title, description, button, className, ...rest }: NotificationProps) {
+export default function Notification({ title, description, button, className, ...rest }: NotificationProps) {
   return (
     <div
       className={cn(

@@ -1,6 +1,6 @@
-import { Framework } from 'utils/server/examples';
+import { Framework } from '@/types';
 
-export default function ({ children }: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }
 
@@ -9,3 +9,5 @@ export function generateStaticParams() {
 }
 
 export const dynamicParams = false;
+
+export default Layout;

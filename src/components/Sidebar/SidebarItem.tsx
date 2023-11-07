@@ -25,8 +25,9 @@ const SidebarItem = ({
   const btnClassName = cn(
     'shrink-0 bg-gray-100 lg:bg-transparent gap-1 text-muted-foreground justify-start',
     {
-      '!bg-pink-100 !text-react': isActive,
+      '!bg-pink-100 !text-primary': isActive,
       'pl-4': !!icon,
+      'hover:!bg-gray-100': !isActive,
     },
     className
   );

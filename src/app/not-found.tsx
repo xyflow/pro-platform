@@ -1,7 +1,12 @@
 import React from 'react';
+import Loader from '@/components/Loader';
 
 function NotFound() {
-  return <div>404</div>;
+  return (
+    <div>
+      <Loader />
+    </div>
+  );
 }
 
 export default NotFound;

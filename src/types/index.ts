@@ -11,3 +11,15 @@ export enum Environment {
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
 }
+
+export enum Framework {
+  REACT = 'react',
+}
+
+export type ProExampleConfig = {
+  id: string;
+  name?: string;
+  description?: string;
+  framework: string;
+  hidden?: boolean;
+};

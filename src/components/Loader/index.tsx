@@ -1,3 +1,6 @@
+import { cn } from '@xyflow/xy-ui';
+import styles from './loader.module.css';
+
 export default function Loader() {
   return (
     <div role="status">
@@ -18,6 +21,17 @@ export default function Loader() {
         />
       </svg>
       <span className="sr-only">Loading...</span>
+    </div>
+  );
+}
+
+export function LogoLoader({ width = 100, height = 100 }) {
+  return (
+    <div style={{ width, height }} className={styles.wrapper}>
+      <div className={cn(styles.node, styles.topLeft)} />
+      <div className={cn(styles.node, styles.topRight)} />
+      <div className={cn(styles.node, styles.bottomLeft)} />
+      <div className={cn(styles.node, styles.bottomRight)} />
     </div>
   );
 }

@@ -6,24 +6,12 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-11-15',
 });
 
-type GetPricesOptions = {
-  forceUpdate?: boolean;
-};
-
-let prices: Stripe.Price[] | null = null;
-
-export const getPrices = async (options?: GetPricesOptions) => {
-  // if (prices && !options?.forceUpdate) {
-  //   return prices;
-  // }
-
+export const getPrices = async () => {
   const { data } = await stripe.prices.list({
     active: true,
     expand: ['data.product'],
     limit: 100,
   });
-
-  // prices = data;
 
   return data;
 };
