@@ -26,7 +26,7 @@
   top: 0;
   right: 0;
   border-color: #ff0071;
-  animation: pulse 4s bounceTopRight;
+  animation: bounceTopRight 4s infinite;
 }
 
 .node.topRight:before,
@@ -47,7 +47,7 @@
 .node.bottomRight {
   bottom: 0;
   right: 0;
-  animation: bounce 3s infinite;
+  animation: bounceBottomRight 3s infinite;
   animation-delay: 1s;
 }
 
@@ -64,7 +64,7 @@
 .node.bottomLeft {
   bottom: 0;
   left: 0;
-  animation: bounce 2s infinite;
+  animation: bounceBottomRight 2s infinite;
   animation-delay: 2s;
 }
 
@@ -80,7 +80,7 @@
 .node.topLeft {
   top: 0;
   left: 0;
-  animation: bounce 1s infinite;
+  animation: bounceBottomRight 1s infinite;
   animation-delay: 3s;
 }
 

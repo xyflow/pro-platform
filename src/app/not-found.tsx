@@ -1,10 +1,12 @@
+'use client';
+
 import React from 'react';
-import Loader from '@/components/Loader';
+import { LogoLoader } from '@/components/Loader';
 
 function NotFound() {
   return (
-    <div>
-      <Loader />
+    <div className="flex h-[500px] items-center">
+      <LogoLoader />
     </div>
   );
 }

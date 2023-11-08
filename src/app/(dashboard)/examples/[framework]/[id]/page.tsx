@@ -14,7 +14,10 @@ export default function ProExamplePage({ params }: { params: { id: string; frame
 
 // @todo fetch this from the backend
 export function generateStaticParams() {
-  return [{ id: 'auto-layout', framework: Framework.REACT }];
+  return [
+    { id: 'auto-layout', framework: Framework.REACT },
+    { id: 'helper-lines', framework: Framework.REACT },
+  ];
 }
 
 export const dynamicParams = false;

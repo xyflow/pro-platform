@@ -1,18 +1,15 @@
-import { serialize } from 'next-mdx-remote/serialize';
-import ProCodeViewer from '@/components/ProExampleViewer';
-import { Framework, getExample } from '@/utils/server/examples';
+import { cookies } from 'next/headers';
+import ProExampleViewer from '@/components/ProExampleViewer/next';
+import { Framework } from '@/types';
 
-type ProExampleFrontmatter = {
-  name?: string;
-  description?: string;
-};
+export default async function SubscribedProExampleViewer({
+  exampleId,
+  frameworkId,
+}: {
+  exampleId: string;
+  frameworkId: Framework;
+}) {
+  console.log(cookies());
 
-export default async function ({ exampleId, frameworkId }: { exampleId: string; frameworkId: Framework }) {
-  const example = getExample(frameworkId, exampleId, { includeFiles: true });
-  const readme = example.files?.['README.mdx'] || '';
-  const readmeSource = await serialize<Record<string, unknown>, ProExampleFrontmatter>(readme as string, {
-    parseFrontmatter: true,
-  });
-
-  return <ProCodeViewer {...example} files={example.files ?? {}} readme={readmeSource} />;
+  return <ProExampleViewer exampleId={exampleId} frameworkId={frameworkId} />;
 }

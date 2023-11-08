@@ -5,7 +5,7 @@ import { useUserEmail, useSignOut } from '@nhost/nextjs';
 import { Select, SelectContent, SelectSeparator, SelectLabel, SelectTrigger, SelectGroup } from '@xyflow/xy-ui';
 
 // @todo style status badge
-export default function () {
+export default function UserMenu() {
   const userEmail = useUserEmail();
   const { signOut } = useSignOut();
 

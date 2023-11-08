@@ -1,9 +1,20 @@
 import { Request, Response } from 'express';
+import { authPost } from '../_utils/middleware';
+import { getProExampleContent } from '../_utils/github';
 
-async function downloadProExample(req: Request, res: Response) {
-  console.log(req.headers);
+// @todo check if user is subscribed
+async function downloadProExample(req: Request, res: Response, { userId }: { userId: string }) {
+  const { id, framework } = req.body;
 
-  return res.status(200).send([{ id: 'auto-layout', framework: 'react' }]);
+  if (!id || !framework) {
+    return res.status(500).send({ message: 'Bad request.' });
+  }
+
+  const content = await getProExampleContent(id);
+
+  console.log(content);
+
+  return res.status(200).json(content);
 }
 
-export default downloadProExample;
+export default authPost(downloadProExample);

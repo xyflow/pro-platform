@@ -23,3 +23,5 @@ export type ProExampleConfig = {
   framework: string;
   hidden?: boolean;
 };
+
+export type GithubFile = { name: string; content: string; path: string };

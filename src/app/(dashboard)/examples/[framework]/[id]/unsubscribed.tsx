@@ -2,7 +2,13 @@ import DashboardHeader from '@/components/DashboardHeader';
 import NotSubscribedNotification from '@/components/Notification/not-subscribed';
 import { getExample, type Framework } from '@/utils/server/examples';
 
-export default function ({ exampleId, frameworkId }: { exampleId: string; frameworkId: Framework }) {
+export default function UnsubscribedProExampleViewer({
+  exampleId,
+  frameworkId,
+}: {
+  exampleId: string;
+  frameworkId: Framework;
+}) {
   const example = getExample(frameworkId, exampleId, { includeFiles: false });
 
   return (
@@ -15,9 +21,3 @@ export default function ({ exampleId, frameworkId }: { exampleId: string; framew
     </div>
   );
 }
-
-// return (
-//   <div style={{ width: 500, height: 500 }}>
-//     <iframe src={`https://xyflow-pro-examples.vercel.app/${exampleId}`} />
-//   </div>
-// );
