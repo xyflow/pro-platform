@@ -1,23 +1,14 @@
-import SubscriptionCheck from './subscription-check';
-import SubscribedExampleViewer from './subscribed';
-import UnSubscribedExampleViewer from './unsubscribed';
+import ProExampleViewer from '@/components/ProExampleViewer/next';
 import { Framework } from '@/types';
+import { getExampleList } from '@/utils';
 
 export default function ProExamplePage({ params }: { params: { id: string; framework: Framework } }) {
-  // the only way to render a server component (UnSubscribedExampleViewer, SubscribedExampleViewer) within a client component (SubscriptionCheck) is to pass it as a prop or children
-  return (
-    <SubscriptionCheck fallback={<UnSubscribedExampleViewer frameworkId={params.framework} exampleId={params.id} />}>
-      <SubscribedExampleViewer frameworkId={params.framework} exampleId={params.id} />
-    </SubscriptionCheck>
-  );
+  return <ProExampleViewer exampleId={params.id} frameworkId={params.framework} />;
 }
 
-// @todo fetch this from the backend
-export function generateStaticParams() {
-  return [
-    { id: 'auto-layout', framework: Framework.REACT },
-    { id: 'helper-lines', framework: Framework.REACT },
-  ];
+export async function generateStaticParams() {
+  const examples = await getExampleList();
+  return examples.map((example) => ({ id: example.id, framework: example.framework }));
 }
 
 export const dynamicParams = false;

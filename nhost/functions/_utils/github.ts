@@ -2,16 +2,16 @@ import fetch from 'node-fetch';
 import NodeCache from 'node-cache';
 
 type GithubFile = { name: string; content: string; path: string };
-type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean };
+type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
 type GetRepoContentReturn = Promise<GithubFile[]>;
 
 const cache = new NodeCache({ stdTTL: 60 * 60 * 24 });
 
 export async function getRepoContent(
   path: string,
-  { basePath = '', result = [], recursive = true }: GetRepoContentOptions = {}
+  { basePath = '', result = [], recursive = true, repo = 'xyflow/pro-example-apps' }: GetRepoContentOptions = {}
 ): GetRepoContentReturn {
-  const response = await fetch(`https://api.github.com/repos/xyflow/pro-example-apps/contents/${path}`, {
+  const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
