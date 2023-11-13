@@ -28,3 +28,9 @@ export async function getExampleList({ framework }: { framework?: Framework } = 
 
   return visibleExamples;
 }
+
+export async function getExampleConfig({ id, framework }: { id: string; framework: Framework }) {
+  const nhostClient = getNhostClient();
+  const { res } = await nhostClient.functions.call<ProExampleConfig>('/pro-examples/info', { id, framework });
+  return res?.data;
+}

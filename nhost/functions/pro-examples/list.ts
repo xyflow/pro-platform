@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { getRepoContent } from '../_utils/github';
+import { getProExampleList } from '../_utils/github';
 
 async function listProExamples(req: Request, res: Response) {
-  const exampleFolders = await getRepoContent('examples', { recursive: false });
-  console.log(exampleFolders);
-  return res.status(200).send(exampleFolders.map((file) => ({ id: file.name, name: file.name, framework: 'react' })));
+  const list = await getProExampleList();
+
+  return res.status(200).json(list.map((config) => ({ ...config, framework: 'react' })));
 }
 
 export default listProExamples;

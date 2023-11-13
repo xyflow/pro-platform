@@ -12,8 +12,6 @@ async function downloadProExample(req: Request, res: Response, { userId }: { use
 
   const content = await getProExampleContent(id);
 
-  console.log(content);
-
   return res.status(200).json(content);
 }
 
