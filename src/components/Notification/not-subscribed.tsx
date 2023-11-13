@@ -8,7 +8,7 @@ export type NotificationProps = {
   button?: { label: string; href: string };
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export default function (props: NotificationProps) {
+export default function NotSubscribedNotification(props: NotificationProps) {
   return (
     <NotSubscribed>
       <Notification

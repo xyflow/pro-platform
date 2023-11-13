@@ -65,6 +65,7 @@ export default function ManageTeamCard() {
     };
 
     updateStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const removeMember = async (email: string) => {

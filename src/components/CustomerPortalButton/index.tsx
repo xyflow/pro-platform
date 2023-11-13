@@ -4,7 +4,7 @@
 import { Button, ButtonProps } from '@xyflow/xy-ui';
 import useStripeCustomerPortal from '@/hooks/useStripeCustomerPortal';
 
-export default function (props: ButtonProps) {
+export default function CustomerPortalButton(props: ButtonProps) {
   const { openCustomerPortal } = useStripeCustomerPortal();
   return <Button onClick={openCustomerPortal} {...props} />;
 }

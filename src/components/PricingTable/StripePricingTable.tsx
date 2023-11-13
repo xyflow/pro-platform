@@ -1,6 +1,6 @@
 import { useUserEmail, useUserId } from '@nhost/nextjs';
 
-export default function () {
+export default function StripePricingTable() {
   const userEmail = useUserEmail();
   const userId = useUserId();
 
