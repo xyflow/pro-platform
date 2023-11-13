@@ -11,3 +11,23 @@ export enum Environment {
   DEVELOPMENT = 'development',
   PRODUCTION = 'production',
 }
+
+export enum Framework {
+  REACT = 'react',
+}
+
+export type ProExampleVariant = {
+  id: string;
+  label: string;
+};
+
+export type ProExampleConfig = {
+  id: string;
+  name?: string;
+  description?: string;
+  framework: string;
+  hidden?: boolean;
+  variants?: ProExampleVariant[];
+};
+
+export type GithubFile = { name: string; content: string; path: string };

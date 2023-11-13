@@ -25,7 +25,7 @@ const AuthFormWrapper = ({
   description = null,
 }: AuthFormWrapperProps) => {
   return (
-    <div className="relative overflow-hidden -m-4 min-h-[70vh]">
+    <div className="overflow-hidden -m-4 h-full">
       <div
         className="absolute opacity-10 w-[100vw] h-[70vw] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10"
         style={{
@@ -35,14 +35,11 @@ const AuthFormWrapper = ({
       <div className="flex max-w-6xl mx-auto my-20">
         {showHero && (
           <div className="hidden lg:block flex-1 max-w-xl mt-6 relative p-4">
-            <h3 className="text-md font-black mb-2 flex items-center">
-              xyflow<span className="text-react">pro</span>
-            </h3>
             <Heading className="mb-4 font-black">
               Build Better Node-Based UIs with <span className="text-react">React Flow</span>
             </Heading>
             <Text size="lg">
-              By subscribing to xyflow pro you are securing the maintanance and development of our open source
+              By subscribing to React Flow Pro you are securing the maintanance and development of our open source
               libraries.
             </Text>
           </div>

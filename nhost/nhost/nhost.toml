@@ -19,6 +19,10 @@ value = '{{ secrets.MAILJET_APIKEY_PUBLIC }}'
 name = 'DISCORD_NOTIFICATIONS_WEBHOOK'
 value = '{{ secrets.DISCORD_NOTIFICATIONS_WEBHOOK }}'
 
+[[global.environment]]
+name = 'GITHUB_ACCESS_TOKEN'
+value = '{{ secrets.GITHUB_ACCESS_TOKEN }}'
+
 [hasura]
 version = 'v2.25.1-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'

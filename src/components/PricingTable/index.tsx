@@ -4,12 +4,16 @@ import useNhostFunction from '@/hooks/useNhostFunction';
 import { useState } from 'react';
 import { PricingTable, defaultSubscriptionPlans, BillingInterval, SubscriptionPlanId } from '@xyflow/xy-ui';
 
-export default function () {
+export default function PricingTableComponent() {
   const callNhostFunction = useNhostFunction();
   const [plans, setPlans] = useState(defaultSubscriptionPlans);
 
-  const setLoading = (isLoading: boolean) => {
-    setPlans((plans) => plans.map((plan) => ({ ...plan, isLoading })));
+  const setLoading = (planId: SubscriptionPlanId, isLoading: boolean) => {
+    setPlans((plans) =>
+      plans.map((plan) =>
+        plan.id === planId ? { ...plan, buttonLabel: isLoading ? 'Loading...' : 'Subscribe' } : plan
+      )
+    );
   };
 
   const subscribe = async ({ plan, interval }: { plan: SubscriptionPlanId; interval: BillingInterval }) => {
@@ -17,7 +21,7 @@ export default function () {
       return window.open('https://reactflow.dev/pro/enterprise', '_blank');
     }
 
-    setLoading(true);
+    setLoading(plan, true);
 
     const response = await callNhostFunction<{ url: string }>('/stripe/create-checkout', {
       plan,
@@ -26,11 +30,11 @@ export default function () {
 
     if (response.res?.data?.url) {
       window.location.href = response.res.data.url;
-      setTimeout(() => setLoading(false), 500);
+      setTimeout(() => setLoading(plan, false), 500);
       return;
     }
 
-    setLoading(false);
+    setLoading(plan, false);
   };
 
   return (
