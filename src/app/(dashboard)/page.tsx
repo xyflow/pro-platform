@@ -8,7 +8,7 @@ function OverviewPage() {
   return (
     <>
       <DashboardHeader
-        title="Overview"
+        title="Dashboard"
         description="Welcome to xyflow pro! With a subscription, you are ensuring the sustainable maintenance and development of our open-source libraries."
         showSubscriptionPlan
       />
@@ -17,7 +17,13 @@ function OverviewPage() {
           <SubscriptionFeature
             title="Pro Examples"
             description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
-            plans={[SubscriptionPlan.STARTER, SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
+            plans={[
+              SubscriptionPlan.STARTER,
+              SubscriptionPlan.PRO,
+              SubscriptionPlan.ENTERPRISE,
+              SubscriptionPlan.STUDENT,
+              SubscriptionPlan.OSS,
+            ]}
             button={{ label: 'Browse Examples', href: '/examples' }}
           />
           <SubscriptionFeature

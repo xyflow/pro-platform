@@ -94,6 +94,7 @@ export default function ManageTeamCard() {
     if (error) {
       setIsLoading(false);
       setIsError(true);
+      setConfirmPayment(false);
       return;
     }
 
@@ -128,7 +129,7 @@ export default function ManageTeamCard() {
           <CardDescription>
             Your subscription includes {status.includedSeats} free seats. Additional seats can be added for{' '}
             {currencySign}
-            {seatPrice} per {status.billingPeriod}.
+            {seatPrice} per {status.billingPeriod || 'month'}.
           </CardDescription>
         )}
         {confirmPayment && (

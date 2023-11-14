@@ -3,11 +3,7 @@ import { authPost } from '../_utils/middleware';
 import { removeTeamMember } from '../_utils/graphql/team-subscriptions';
 import { updateSeatQuantity } from '../_utils/stripe';
 
-async function removeTeamMemberHandler(
-  req: Request,
-  res: Response,
-  { userId }: { userId: string }
-) {
+async function removeTeamMemberHandler(req: Request, res: Response, { userId }: { userId: string }) {
   const { email } = req.body;
 
   if (!userId || !email) {
@@ -15,11 +11,10 @@ async function removeTeamMemberHandler(
   }
 
   const removedCount = await removeTeamMember({ createdById: userId, email });
+
   await updateSeatQuantity(userId);
 
-  return res
-    .status(200)
-    .send({ message: `removed ${removedCount} team member` });
+  return res.status(200).send({ message: `removed ${removedCount} team member` });
 }
 
 export default authPost(removeTeamMemberHandler);

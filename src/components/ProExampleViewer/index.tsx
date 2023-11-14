@@ -11,6 +11,7 @@ import DownloadButton from './download-button';
 import OverviewButton from './overview-button';
 import Tabs from './tabs';
 import VariantSelect from './variant-select';
+import { Subscribed } from '../SubscriptionStatus';
 
 function ProExampleViewer({
   exampleId,
@@ -43,7 +44,9 @@ function ProExampleViewer({
             <div>{config.name}</div>
             <div className="ml-auto flex gap-x-2">
               <VariantSelect exampleId={exampleId} variants={config.variants} />
-              <DownloadButton files={files} fileName={`${exampleId}-pro-example`} />
+              <Subscribed>
+                <DownloadButton files={files} fileName={`${exampleId}-pro-example`} />
+              </Subscribed>
             </div>
           </>
         }
