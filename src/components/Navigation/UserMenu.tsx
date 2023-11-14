@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { useUserEmail, useSignOut } from '@nhost/nextjs';
 import { Select, SelectContent, SelectSeparator, SelectLabel, SelectTrigger, SelectGroup } from '@xyflow/xy-ui';
-import useSubscription from '@/hooks/useSubscription';
 import { UserIcon } from '@heroicons/react/24/solid';
 import useStripeCustomerPortal from '@/hooks/useStripeCustomerPortal';
 import { PlanLabel } from '@/components/SubscriptionStatus';

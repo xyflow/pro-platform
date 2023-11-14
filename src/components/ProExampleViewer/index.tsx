@@ -6,12 +6,12 @@ import { type SandpackFiles } from '@codesandbox/sandpack-react';
 import { Framework, ProExampleConfig } from '@/types';
 import DashboardHeader from '@/components/DashboardHeader';
 import useDownloadExample from '@/hooks/useDownloadExample';
+import { Subscribed } from '@/components/SubscriptionStatus';
 
 import DownloadButton from './download-button';
 import OverviewButton from './overview-button';
 import Tabs from './tabs';
 import VariantSelect from './variant-select';
-import { Subscribed } from '../SubscriptionStatus';
 
 function ProExampleViewer({
   exampleId,
