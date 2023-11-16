@@ -7,7 +7,8 @@ type GetRepoContentReturn = Promise<GithubFile[]>;
 type GetRepoConfigReturn = Promise<{}>;
 type GetProExamplesListReturn = Promise<{}[]>;
 
-const cache = new NodeCache({ stdTTL: 60 * 60 * 24 });
+const stdTTL = process.env.NODE_ENV === 'production' ? 60 * 60 * 24 : 60;
+const cache = new NodeCache({ stdTTL });
 
 export async function getRepoContent(
   path: string,

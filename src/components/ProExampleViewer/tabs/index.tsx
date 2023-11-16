@@ -53,7 +53,7 @@ export default function ProExampleViewerTabs({
   files: null | SandpackFiles;
 }) {
   // @ts-ignore
-  const readme = files?.['/README.mdx']?.code;
+  const readme = files?.['/README.mdx']?.code || files?.['/README.md']?.code;
   const { isSubscribed } = useSubscription();
 
   return (

@@ -19,3 +19,6 @@ export default async function ProExamplesOverview({ params }: { params: { framew
     </div>
   );
 }
+
+// @todo this needs to be configured correctly to fetch the pro examples from the server
+export const fetchCache = 'only-no-store';
