@@ -6,6 +6,7 @@ import { type SandpackFiles } from '@codesandbox/sandpack-react';
 import { Framework, ProExampleConfig } from '@/types';
 import DashboardHeader from '@/components/DashboardHeader';
 import useDownloadExample from '@/hooks/useDownloadExample';
+import { Subscribed } from '@/components/SubscriptionStatus';
 
 import DownloadButton from './download-button';
 import OverviewButton from './overview-button';
@@ -43,7 +44,9 @@ function ProExampleViewer({
             <div>{config.name}</div>
             <div className="ml-auto flex gap-x-2">
               <VariantSelect exampleId={exampleId} variants={config.variants} />
-              <DownloadButton files={files} fileName={`${exampleId}-pro-example`} />
+              <Subscribed>
+                <DownloadButton files={files} fileName={`${exampleId}-pro-example`} />
+              </Subscribed>
             </div>
           </>
         }

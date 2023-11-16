@@ -7,6 +7,11 @@ import PreviewTab from './preview';
 import EditorTab from './editor';
 import MarkdownTab from './markdown';
 import { SandpackFiles } from '@codesandbox/sandpack-react/types';
+import NotSubscribedNotification from '@/components/Notification/not-subscribed';
+import { Subscribed } from '@/components/SubscriptionStatus';
+import { LockClosedIcon } from '@heroicons/react/24/outline';
+import useSubscription from '@/hooks/useSubscription';
+import Loader from '@/components/Loader';
 
 const TabButton = (props) => {
   const isActive = props['data-state'] === 'active';
@@ -18,7 +23,24 @@ const TabButton = (props) => {
     props.className
   );
 
-  return <Button variant="ghost" {...props} className={className} />;
+  return (
+    <Button variant="ghost" {...props} className={className}>
+      {props.children}
+      {props.disabled && <LockClosedIcon className="w-4 h-4 stroke-2 ml-1" />}
+    </Button>
+  );
+};
+
+const TabContent = (props: { value: string; loading?: boolean; children: React.ReactNode }) => {
+  const children = props.loading ? (
+    <div className="flex items-center justify-center h-[300px]">
+      <Loader />
+    </div>
+  ) : (
+    props.children
+  );
+
+  return <TabsContent value={props.value}>{children}</TabsContent>;
 };
 
 export default function ProExampleViewerTabs({
@@ -31,7 +53,8 @@ export default function ProExampleViewerTabs({
   files: null | SandpackFiles;
 }) {
   // @ts-ignore
-  const readme = files?.['/README.mdx']?.code;
+  const readme = files?.['/README.mdx']?.code || files?.['/README.md']?.code;
+  const { isSubscribed } = useSubscription();
 
   return (
     <>
@@ -40,39 +63,45 @@ export default function ProExampleViewerTabs({
           <TabsTrigger asChild value="preview">
             <TabButton>Preview</TabButton>
           </TabsTrigger>
-          <TabsTrigger asChild value="editor">
+          <TabsTrigger asChild value="editor" disabled={!isSubscribed}>
             <TabButton>Code</TabButton>
           </TabsTrigger>
-          <TabsTrigger asChild value="guide">
+          <TabsTrigger asChild value="guide" disabled={!isSubscribed}>
             <TabButton>Guide</TabButton>
           </TabsTrigger>
-          <TabsTrigger asChild value="installation">
+          {/* <TabsTrigger asChild value="installation">
             <TabButton>Installation</TabButton>
           </TabsTrigger>
           <TabsTrigger asChild value="license">
             <TabButton>License</TabButton>
-          </TabsTrigger>
+          </TabsTrigger> */}
         </TabsList>
 
-        <TabsContent value="preview">
+        <NotSubscribedNotification />
+
+        <TabContent value="preview">
           <PreviewTab exampleId={exampleId} frameworkId={frameworkId} />
-        </TabsContent>
+        </TabContent>
 
-        <TabsContent value="editor">
-          <EditorTab files={files} />
-        </TabsContent>
+        <Subscribed>
+          <TabContent value="editor" loading={!files}>
+            <EditorTab files={files} />
+          </TabContent>
+        </Subscribed>
 
-        <TabsContent value="guide">
-          <MarkdownTab markdown={readme} />
-        </TabsContent>
+        <Subscribed>
+          <TabContent value="guide" loading={!files}>
+            <MarkdownTab markdown={readme} />
+          </TabContent>
+        </Subscribed>
 
-        <TabsContent value="installation">
+        {/* <TabsContent value="installation">
           <MarkdownTab markdown={`# installation`} />
         </TabsContent>
 
         <TabsContent value="license">
-          <MarkdownTab markdown={`# license`} />
-        </TabsContent>
+          <MarkdownTab markdown={`## Pro Example License`} />
+        </TabsContent> */}
       </Tabs>
     </>
   );

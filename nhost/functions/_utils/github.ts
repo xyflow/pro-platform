@@ -7,7 +7,8 @@ type GetRepoContentReturn = Promise<GithubFile[]>;
 type GetRepoConfigReturn = Promise<{}>;
 type GetProExamplesListReturn = Promise<{}[]>;
 
-const cache = new NodeCache({ stdTTL: 60 * 60 * 24 });
+const stdTTL = process.env.NODE_ENV === 'production' ? 60 * 60 * 24 : 60;
+const cache = new NodeCache({ stdTTL });
 
 export async function getRepoContent(
   path: string,
@@ -51,7 +52,7 @@ export async function getProExampleContent(exampleId: string): GetRepoContentRet
 
   const content = await getRepoContent(`examples/${exampleId}`);
 
-  // @todo cache example here
+  cache.set(cacheId, content);
 
   return content;
 }
@@ -63,11 +64,12 @@ export async function getProExampleConfig(exampleId: string): GetRepoConfigRetur
     return cache.get(cacheId) as GithubFile;
   }
 
-  const content = await getRepoContent(`examples/${exampleId}/config.json`, { recursive: false });
+  const files = await getRepoContent(`examples/${exampleId}/config.json`, { recursive: false });
+  const config = JSON.parse(files[0].content);
 
-  // @todo cache example here
+  cache.set(cacheId, config);
 
-  return JSON.parse(content[0].content);
+  return config;
 }
 
 export async function getProExampleList(): GetProExamplesListReturn {
@@ -85,7 +87,7 @@ export async function getProExampleList(): GetProExamplesListReturn {
     })
   );
 
-  // @todo cache list here
+  cache.set(cacheId, result);
 
   return result;
 }

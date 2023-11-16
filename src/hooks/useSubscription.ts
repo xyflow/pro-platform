@@ -21,7 +21,7 @@ export default function useSubscription(): SubscriptionStatus {
     if (!subscription.isLoading) {
       const timeout = setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 100);
 
       return () => clearTimeout(timeout);
     }
@@ -30,7 +30,10 @@ export default function useSubscription(): SubscriptionStatus {
   return {
     isSubscribed: subscription.plan !== SubscriptionPlan.FREE || subscription.teamPlan !== SubscriptionPlan.FREE,
     isTeamSubscribed: subscription.teamPlan !== SubscriptionPlan.FREE,
-    isUserSubscribed: subscription.plan !== SubscriptionPlan.FREE,
+    isUserSubscribed:
+      subscription.plan !== SubscriptionPlan.FREE &&
+      subscription.plan !== SubscriptionPlan.OSS &&
+      subscription.plan !== SubscriptionPlan.STUDENT,
     plan: subscription.plan !== SubscriptionPlan.FREE ? subscription.plan : subscription.teamPlan,
     userPlan: subscription.plan,
     teamPlan: subscription.teamPlan,

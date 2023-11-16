@@ -22,9 +22,8 @@ export async function getExampleList({ framework }: { framework?: Framework } = 
   const nhostClient = getNhostClient();
   const { res } = await nhostClient.functions.call<ProExampleConfig[]>('/pro-examples/list');
   const examples = res?.data ?? [];
-  const visibleExamples = examples.filter((example) =>
-    framework ? example.framework === framework && !example.hidden : !example.hidden
-  );
+
+  const visibleExamples = examples.filter((example) => (framework ? example.framework === framework : true));
 
   return visibleExamples;
 }
