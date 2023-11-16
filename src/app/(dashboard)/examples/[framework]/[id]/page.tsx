@@ -1,27 +1,17 @@
-import SubscriptionCheck from './subscription-check';
-import SubscribedExampleViewer from './subscribed';
-import UnSubscribedExampleViewer from './unsubscribed';
-import { Framework, getExampleIds, getExamples } from 'utils/server/examples';
+import ProExampleViewer from '@/components/ProExampleViewer';
+import { Framework } from '@/types';
+import { getExampleList, getExampleConfig } from '@/utils';
 
-export default function ({ params }: { params: { id: string; framework: Framework } }) {
-  // the only way to render a server component (UnSubscribedExampleViewer, SubscribedExampleViewer) within a client component (SubscriptionCheck) is to pass it as a prop or children
-  return (
-    <SubscriptionCheck fallback={<UnSubscribedExampleViewer frameworkId={params.framework} exampleId={params.id} />}>
-      <SubscribedExampleViewer frameworkId={params.framework} exampleId={params.id} />
-    </SubscriptionCheck>
-  );
+export default async function ProExamplePage({ params }: { params: { id: string; framework: Framework } }) {
+  const exampleConfig = await getExampleConfig(params);
+  return <ProExampleViewer config={exampleConfig} exampleId={params.id} frameworkId={params.framework} />;
 }
 
-export function generateStaticParams() {
-  return Object.values(Framework).reduce<{ id: string; framework: Framework }[]>((params, framework) => {
-    const ids = getExampleIds(framework);
-
-    ids.forEach((id) => {
-      params.push({ id, framework });
-    });
-
-    return params;
-  }, []);
+export async function generateStaticParams() {
+  const examples = await getExampleList();
+  return examples.map((example) => ({ id: example.id, framework: example.framework }));
 }
 
 export const dynamicParams = false;
+// @todo this needs to be configured correctly to fetch the pro examples from the server
+export const fetchCache = 'only-no-store';

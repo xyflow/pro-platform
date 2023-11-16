@@ -1,20 +1,20 @@
 import Link from 'next/link';
 
-import Logo from '@/components/Logo';
+import { LogoLabel } from '@xyflow/xy-ui';
 import NavMenu from './NavMenu';
 
 function Navigation() {
   return (
     <div className="bg-white relative border-b px-4 top-0">
       <div className="flex items-center justify-between py-3 max-w-7xl mx-auto">
-        <Link href="/">
-          <div className="flex items-center">
-            <Logo width={28} height={28} />
-            <div className="ml-2 font-black text-gray-900 text-xl flex items-center">
-              xyflow<span className="text-react">pro</span>
-            </div>
-          </div>
-        </Link>
+        <LogoLabel
+          label={
+            <span className="flex items-center">
+              <span>React Flow</span>
+              <span className="bg-pink-100 text-xs rounded-full text-primary px-1 py-0.5 ml-1">Pro</span>
+            </span>
+          }
+        />
         <NavMenu />
       </div>
     </div>

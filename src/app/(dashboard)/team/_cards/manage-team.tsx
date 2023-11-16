@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { gql } from '@apollo/client';
 import { useAuthQuery } from '@nhost/react-apollo';
-import { useUserId } from '@nhost/nextjs';
+import { useUserEmail, useUserId } from '@nhost/nextjs';
 import {
   Button,
   Card,
@@ -11,7 +11,6 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
   Input,
   InputLabel,
   AlertDialog,
@@ -52,6 +51,7 @@ export default function ManageTeamCard() {
   const { data, refetch } = useAuthQuery(GET_TEAM_MEMBERS, { variables: { userId } });
   const nhostFunction = useNhostFunction();
   const { isSubscribed } = useSubscription();
+  const userEmail = useUserEmail();
 
   useEffect(() => {
     const updateStatus = async () => {
@@ -65,6 +65,7 @@ export default function ManageTeamCard() {
     };
 
     updateStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const removeMember = async (email: string) => {
@@ -93,6 +94,7 @@ export default function ManageTeamCard() {
     if (error) {
       setIsLoading(false);
       setIsError(true);
+      setConfirmPayment(false);
       return;
     }
 
@@ -114,22 +116,15 @@ export default function ManageTeamCard() {
 
   const currencySign = status?.currency === 'eur' ? '€' : '$';
   const seatPrice = status?.billingPeriod === 'year' ? 240 : 20;
-
-  if (!isSubscribed || !status) {
-    return null;
-  }
+  const includedSeats = status?.includedSeats ?? 0;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Manage Team</CardTitle>
-        {status && (
-          <CardDescription>
-            Your subscription includes {status.includedSeats} free seats. Additional seats can be added for{' '}
-            {currencySign}
-            {seatPrice} per {status.billingPeriod}.
-          </CardDescription>
-        )}
+        <CardDescription className="text-black">
+          Your subscription includes {includedSeats} additional {includedSeats === 1 ? 'seat' : 'seats'}. Team members
+          will have access to the same pro features as you.
+        </CardDescription>
         {confirmPayment && (
           <AlertDialog open>
             <AlertDialogContent>
@@ -179,12 +174,20 @@ export default function ManageTeamCard() {
       </CardHeader>
 
       <div className="border-t">
+        <CardContent className="py-4 flex items-center justify-between border-b">
+          <div className="font-semibold">
+            {userEmail}{' '}
+            <span className="text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 border border-gray-300 rounded-md">
+              you
+            </span>
+          </div>
+        </CardContent>
         {data?.team_subscriptions?.map((member: TeamMember, i: number) => (
           <CardContent className="py-4 flex items-center justify-between border-b" key={member.email}>
             <div className="font-semibold">
               {member.email}{' '}
-              {i < (status?.includedSeats ?? 0) && (
-                <span className="text-muted-foreground ml-2 bg-muted px-2 py-0.5 border border-gray-300 rounded-md">
+              {i < includedSeats && (
+                <span className="text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 border border-gray-300 rounded-md">
                   included
                 </span>
               )}

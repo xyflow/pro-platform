@@ -1,7 +1,9 @@
+'use client';
+
 import * as React from 'react';
 import Link from 'next/link';
 import { Alert, AlertTitle, AlertDescription, Button } from '@xyflow/xy-ui';
-import { ErrorPayload } from '@nhost/nextjs';
+import { ErrorPayload, useSendVerificationEmail, useUserEmail } from '@nhost/nextjs';
 
 type AuthErrorProps = {
   error?: ErrorPayload<string>;
@@ -28,6 +30,27 @@ export function MagicLinkSuccessNotification() {
       variant="success"
       title="We have sent you a link"
       description="Please check your email to sign in."
+    />
+  );
+}
+
+// @todo fix handling email verification sending
+export function AuthEmailVerificationNotification() {
+  const { sendEmail } = useSendVerificationEmail();
+  const email = useUserEmail();
+
+  const handleBtnClick: React.MouseEventHandler = async (evt) => {
+    console.log(email);
+    evt.preventDefault();
+    const response = await sendEmail(email);
+    console.log(response);
+  };
+
+  return (
+    <AuthNotification
+      variant="default"
+      title="Your email is not verified"
+      description={<Button onClick={handleBtnClick}>Re-send verification mail</Button>}
     />
   );
 }

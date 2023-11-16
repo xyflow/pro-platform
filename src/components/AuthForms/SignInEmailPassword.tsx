@@ -5,13 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignInEmailPassword } from '@nhost/nextjs';
 
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
-import { AuthErrorNotification } from './AuthNotification';
+import { AuthErrorNotification, AuthEmailVerificationNotification } from './AuthNotification';
 
 function SignInEmailPassword() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [form, setForm] = useState<{ email: string; password: string }>({ email: '', password: '' });
-  const { signInEmailPassword, isLoading, isSuccess, isError, error } = useSignInEmailPassword();
+  const { signInEmailPassword, isLoading, isSuccess, needsEmailVerification, isError, error } =
+    useSignInEmailPassword();
 
   useEffect(() => {
     if (isSuccess) {
@@ -27,6 +28,7 @@ function SignInEmailPassword() {
   return (
     <form onSubmit={handleFormSubmit}>
       {isError && <AuthErrorNotification error={error} />}
+      {needsEmailVerification && <AuthEmailVerificationNotification />}
       <div className="flex flex-col">
         <div className="mb-2">
           <InputLabel htmlFor="email">Email</InputLabel>

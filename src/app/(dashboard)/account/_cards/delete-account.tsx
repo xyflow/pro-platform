@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter, Button } from '@xyflow/xy-ui';
 
-export default function () {
+export default function DeleteAccountCard() {
   return (
     <Card className="border-red-500">
       <CardHeader>

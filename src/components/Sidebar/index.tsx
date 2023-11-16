@@ -12,15 +12,14 @@ import SidebarItem from './SidebarItem';
 
 const Sidebar = () => {
   return (
-    <div className="relative">
+    <div className="relative shrink-0">
       <div className="lg:sticky lg:top-4 flex flex-wrap gap-2 lg:flex-col lg:pr-4">
-        <SidebarItem icon={<Squares2X2Icon />} href="/" label="Overview" />
+        <SidebarItem icon={<Squares2X2Icon />} href="/" label="Dashboard" />
         <SidebarItem icon={<RocketLaunchIcon />} href="/examples" label="Pro Examples" matchSubPaths />
-        <Subscribed>
+        <Subscribed requireUserSubscription>
           <SidebarItem icon={<UsersIcon />} href="/team" label="Team" />
         </Subscribed>
         <SidebarItem icon={<Cog8ToothIcon />} href="/account" label="Account" />
-        <SidebarItem icon={<CreditCardIcon />} href="/billing" label="Billing" />
         <NotSubscribed>
           <SidebarItem
             icon={<SparklesIcon />}

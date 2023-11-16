@@ -2,13 +2,11 @@
 
 import * as React from 'react';
 
-import { NhostClient, NhostProvider } from '@nhost/nextjs';
+import { NhostProvider } from '@nhost/nextjs';
 import { NhostApolloProvider } from '@nhost/react-apollo';
+import { getNhostClient } from '@/utils';
 
-export const nhost = new NhostClient({
-  subdomain: process.env.NEXT_PUBLIC_NHOST_SUBDOMAIN,
-  region: process.env.NEXT_PUBLIC_NHOST_REGION,
-});
+export const nhost = getNhostClient();
 
 type Props = {
   children: React.ReactNode;

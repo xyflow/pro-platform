@@ -30,7 +30,11 @@ export function NotSubscribed({ children }: { children: React.ReactNode }) {
 }
 
 export function PlanLabel() {
-  const { plan } = useSubscription();
+  const { plan, isTeamSubscribed, isUserSubscribed } = useSubscription();
 
-  return plan;
+  if (isUserSubscribed) {
+    return plan;
+  }
+
+  return isTeamSubscribed ? 'team' : plan;
 }
