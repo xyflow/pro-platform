@@ -3,14 +3,14 @@
 import useSubscription from '@/hooks/useSubscription';
 
 export function Subscribed({
-  requireUserSubscription = false,
+  requireAdminSubscription = false,
   children,
 }: {
   children: React.ReactNode;
-  requireUserSubscription?: boolean;
+  requireAdminSubscription?: boolean;
 }) {
-  const { isSubscribed, isUserSubscribed } = useSubscription();
-  const subscribed = requireUserSubscription ? isUserSubscribed : isSubscribed;
+  const { isSubscribed, isAdmin } = useSubscription();
+  const subscribed = requireAdminSubscription ? isAdmin : isSubscribed;
 
   if (!subscribed) {
     return null;
@@ -30,9 +30,9 @@ export function NotSubscribed({ children }: { children: React.ReactNode }) {
 }
 
 export function PlanLabel() {
-  const { plan, isTeamSubscribed, isUserSubscribed } = useSubscription();
+  const { plan, isTeamSubscribed, isAdmin } = useSubscription();
 
-  if (isUserSubscribed) {
+  if (isAdmin) {
     return plan;
   }
 

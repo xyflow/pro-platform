@@ -4,7 +4,9 @@ import { useState } from 'react';
 import { useSignUpEmailPassword } from '@nhost/nextjs';
 
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
-import { AuthErrorNotification, MagicLinkSuccessNotification } from './AuthNotification';
+import { redirect } from 'next/navigation';
+
+import { AuthErrorNotification } from './AuthNotification';
 
 function Signup() {
   const [email, setEmail] = useState<string>('');
@@ -17,10 +19,13 @@ function Signup() {
     await signUpEmailPassword(email, password);
   };
 
+  if (needsEmailVerification) {
+    redirect(`/email-verification?email=${email}`);
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       {isError && <AuthErrorNotification error={error} />}
-      {needsEmailVerification && <MagicLinkSuccessNotification />}
       <div className="mb-2">
         <InputLabel htmlFor="email">Email</InputLabel>
         <Input

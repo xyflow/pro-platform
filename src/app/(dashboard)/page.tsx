@@ -37,14 +37,14 @@ function OverviewPage() {
             description="You can invite your team members to your subscription. They will be able to access all pro features as well."
             plans={[SubscriptionPlan.STARTER, SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
             button={{ label: 'Invite Team', href: '/team' }}
-            requireUserSubscription
+            requireAdminSubscription
           />
           <SubscriptionFeature
             title="Onboarding Call"
             description="We are interested to learn more about your project and what you are building with React Flow. You can schedule a call with us so that we can find out how we can make React Flow even better in the future."
             plans={[SubscriptionPlan.STARTER, SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
             button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow' }}
-            requireUserSubscription
+            requireAdminSubscription
           />
           <SubscriptionFeature
             title="Email Support"

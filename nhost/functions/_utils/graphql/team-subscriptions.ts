@@ -5,19 +5,9 @@ import { getStripeSubscription } from '../stripe';
 import GraphQLClient from './client';
 
 const UPSERT_TEAM_SUBSCRIPTION = gql`
-  mutation UpsertTeamSubscription(
-    $createdById: uuid!
-    $email: citext!
-    $userId: uuid
-    $planId: String
-  ) {
+  mutation UpsertTeamSubscription($createdById: uuid!, $email: citext!, $userId: uuid, $planId: String) {
     insert_team_subscriptions_one(
-      object: {
-        created_by: $createdById
-        subscription_plan_id: $planId
-        user_id: $userId
-        email: $email
-      }
+      object: { created_by: $createdById, subscription_plan_id: $planId, user_id: $userId, email: $email }
       on_conflict: {
         constraint: team_subscriptions_email_key
         update_columns: [user_id, email, subscription_plan_id, created_by]
@@ -61,6 +51,25 @@ export async function upsertTeamSubscription({
   });
 }
 
+const GET_TEAM_SUBSCRIPTION = gql`
+  query GetSubscription($userId: uuid!) {
+    team_subscriptions(where: { user_id: { _eq: $userId } }) {
+      id
+      user_id
+      email
+      subscription_plan_id
+      created_by
+    }
+  }
+`;
+
+export async function getTeamSubscription(userId: string): Promise<TeamMember> {
+  const response = await GraphQLClient.request<{
+    team_subscriptions: TeamMember[];
+  }>(GET_TEAM_SUBSCRIPTION, { userId });
+  return response.team_subscriptions?.[0];
+}
+
 const GET_TEAM_MEMBERS = gql`
   query GetTeamMembers($createdById: uuid!) {
     team_subscriptions(where: { created_by: { _eq: $createdById } }) {
@@ -73,9 +82,7 @@ const GET_TEAM_MEMBERS = gql`
   }
 `;
 
-export async function getTeamMembers(
-  createdById: string
-): Promise<TeamMember[]> {
+export async function getTeamMembers(createdById: string): Promise<TeamMember[]> {
   const data = await GraphQLClient.request<{
     team_subscriptions: TeamMember[];
   }>(GET_TEAM_MEMBERS, {
@@ -87,14 +94,11 @@ export async function getTeamMembers(
 
 export async function getSeatPricing(userId: string) {
   const subscription = await getSubscription(userId);
-  const stripeSubscription = await getStripeSubscription(
-    subscription.stripe_customer_id
-  );
+  const stripeSubscription = await getStripeSubscription(subscription.stripe_customer_id);
 
   return {
     currency: stripeSubscription?.currency ?? 'usd',
-    billingPeriod:
-      stripeSubscription?.items?.data?.[0]?.plan?.interval ?? 'monthly',
+    billingPeriod: stripeSubscription?.items?.data?.[0]?.plan?.interval ?? 'monthly',
   };
 }
 
@@ -117,10 +121,7 @@ export async function getIncludedSeats(userId: string) {
 
 const UPDATE_TEAM_SUBSCRIPTION_PLAN = gql`
   mutation UpdateTeamSubscriptionPlan($createdById: uuid!, $planId: String!) {
-    update_team_subscriptions(
-      where: { created_by: { _eq: $createdById } }
-      _set: { subscription_plan_id: $planId }
-    ) {
+    update_team_subscriptions(where: { created_by: { _eq: $createdById } }, _set: { subscription_plan_id: $planId }) {
       affected_rows
     }
   }
@@ -149,14 +150,7 @@ export async function updateTeamSubscriptionPlan({
 
 const REMOVE_TEAM_MEMBER = gql`
   mutation RemoveTeamMember($createdById: uuid!, $email: citext!) {
-    delete_team_subscriptions(
-      where: {
-        _and: [
-          { email: { _eq: $email } }
-          { created_by: { _eq: $createdById } }
-        ]
-      }
-    ) {
+    delete_team_subscriptions(where: { _and: [{ email: { _eq: $email } }, { created_by: { _eq: $createdById } }] }) {
       affected_rows
     }
   }

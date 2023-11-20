@@ -7,6 +7,8 @@ import { useAuthenticationStatus } from '@nhost/nextjs';
 const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuthenticationStatus();
 
+  console.log(isAuthenticated);
+
   if (isAuthenticated) {
     redirect('/');
   }

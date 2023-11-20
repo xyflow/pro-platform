@@ -15,7 +15,7 @@ type SubscriptionFeatureProps = {
   description?: React.ReactNode;
   plans?: SubscriptionPlan[];
   button?: { label: string; href: string };
-  requireUserSubscription?: boolean;
+  requireAdminSubscription?: boolean;
 };
 
 function SubscriptionFeature({
@@ -23,13 +23,13 @@ function SubscriptionFeature({
   description,
   plans = [],
   button,
-  requireUserSubscription = false,
+  requireAdminSubscription = false,
 }: SubscriptionFeatureProps) {
-  const { plan, isUserSubscribed } = useSubscription();
-  const isActive = plans.includes(plan) && (requireUserSubscription ? isUserSubscribed : true);
+  const { plan, isAdmin, isTeamSubscribed } = useSubscription();
+  const isActive = plans.includes(plan) && (requireAdminSubscription ? isAdmin : true);
 
   return (
-    <Card className={cn('flex flex-col', { 'bg-muted': !isActive })}>
+    <Card className={cn('flex flex-col order-2', { 'bg-muted': !isActive, 'order-1': isActive })}>
       <CardHeader className={cn({ 'cursor-not-allowed': !isActive })}>
         <CardTitle className={cn({ 'text-muted-foreground': !isActive })}>{title}</CardTitle>
         {description && <CardDescription className="text-muted-foreground">{description}</CardDescription>}
@@ -45,6 +45,8 @@ function SubscriptionFeature({
               </Link>
             )}
           </>
+        ) : isTeamSubscribed ? (
+          <div className="text-muted-foreground text-sm">Please contact your team admin to upgrade.</div>
         ) : (
           <>
             <div className="flex flex-wrap items-center space-x-1.5">
@@ -52,7 +54,7 @@ function SubscriptionFeature({
                 Available on the <span className="font-bold">{plans[0]}</span> plan.
               </div>
             </div>
-            {isUserSubscribed ? (
+            {isAdmin ? (
               <div className="ml-auto">
                 <CustomerPortalButton className="text-react font-bold text-sm" variant="link">
                   Upgrade
