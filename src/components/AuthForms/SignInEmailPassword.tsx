@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSignInEmailPassword } from '@nhost/nextjs';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 import { AuthErrorNotification, AuthEmailVerificationNotification } from './AuthNotification';
@@ -25,10 +27,14 @@ function SignInEmailPassword() {
     signInEmailPassword(form.email, form.password);
   };
 
+  if (needsEmailVerification) {
+    redirect(`/email-verification?email=${form.email}`);
+  }
+
   return (
     <form onSubmit={handleFormSubmit}>
       {isError && <AuthErrorNotification error={error} />}
-      {needsEmailVerification && <AuthEmailVerificationNotification />}
+      {needsEmailVerification && <AuthEmailVerificationNotification email={form.email} />}
       <div className="flex flex-col">
         <div className="mb-2">
           <InputLabel htmlFor="email">Email</InputLabel>
@@ -54,6 +60,9 @@ function SignInEmailPassword() {
             required
             variant="square"
           />
+          <Link className="text-sm text-primary font-bold hover:underline block mt-1" href="/reset-password">
+            Forgot Password?
+          </Link>
         </div>
         <Button loading={isLoading} disabled={isLoading} size="lg" className="w-full" type="submit" variant="react">
           Sign in

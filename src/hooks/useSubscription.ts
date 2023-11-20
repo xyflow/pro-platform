@@ -6,7 +6,7 @@ import { SubscriptionPlan } from '@/types';
 export type SubscriptionStatus = {
   isSubscribed: boolean;
   isTeamSubscribed: boolean;
-  isUserSubscribed: boolean;
+  isAdmin: boolean;
   plan: SubscriptionPlan;
   userPlan: SubscriptionPlan;
   teamPlan: SubscriptionPlan;
@@ -30,7 +30,7 @@ export default function useSubscription(): SubscriptionStatus {
   return {
     isSubscribed: subscription.plan !== SubscriptionPlan.FREE || subscription.teamPlan !== SubscriptionPlan.FREE,
     isTeamSubscribed: subscription.teamPlan !== SubscriptionPlan.FREE,
-    isUserSubscribed:
+    isAdmin:
       subscription.plan !== SubscriptionPlan.FREE &&
       subscription.plan !== SubscriptionPlan.OSS &&
       subscription.plan !== SubscriptionPlan.STUDENT,

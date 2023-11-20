@@ -91,3 +91,7 @@ export async function getProExampleList(): GetProExamplesListReturn {
 
   return result;
 }
+
+export function clearCache() {
+  cache.flushAll();
+}

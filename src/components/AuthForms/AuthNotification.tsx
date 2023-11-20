@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Alert, AlertTitle, AlertDescription, Button } from '@xyflow/xy-ui';
-import { ErrorPayload, useSendVerificationEmail, useUserEmail } from '@nhost/nextjs';
+import { Alert, AlertTitle, AlertDescription, Button, cn } from '@xyflow/xy-ui';
+import { ErrorPayload, useSendVerificationEmail } from '@nhost/nextjs';
 
 type AuthErrorProps = {
   error?: ErrorPayload<string>;
@@ -13,13 +13,24 @@ type AuthNotificationProps = {
   variant?: 'error' | 'success' | 'default';
   title?: React.ReactNode;
   description?: React.ReactNode;
+  children?: React.ReactNode;
+  className?: string;
 };
 
-export function AuthNotification({ variant = 'default', title, description }: AuthNotificationProps) {
+export function AuthNotification({
+  variant = 'default',
+  title,
+  description,
+  children,
+  className,
+}: AuthNotificationProps) {
   return (
-    <Alert className="mb-4" variant={variant}>
-      {title && <AlertTitle>{title}</AlertTitle>}
-      {description && <AlertDescription>{description}</AlertDescription>}
+    <Alert className={cn('mb-4', className)} variant={variant}>
+      <div>
+        {title && <AlertTitle>{title}</AlertTitle>}
+        {description && <AlertDescription>{description}</AlertDescription>}
+      </div>
+      {children}
     </Alert>
   );
 }
@@ -35,9 +46,8 @@ export function MagicLinkSuccessNotification() {
 }
 
 // @todo fix handling email verification sending
-export function AuthEmailVerificationNotification() {
+export function AuthEmailVerificationNotification({ email }: { email: string }) {
   const { sendEmail } = useSendVerificationEmail();
-  const email = useUserEmail();
 
   const handleBtnClick: React.MouseEventHandler = async (evt) => {
     console.log(email);
