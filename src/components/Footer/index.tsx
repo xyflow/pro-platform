@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Text } from '@xyflow/xy-ui';
 
 const FooterHeading = (props: React.PropsWithChildren) => <div className="my-6 font-bold" {...props} />;
 
@@ -10,47 +11,102 @@ const FooterLink = ({
   <div>{isExternal ? <a href={href} {...rest} /> : <Link href={href} {...rest} />}</div>
 );
 
-export default function Footer() {
+const categories = [
+  {
+    title: 'React Flow Pro',
+    items: [
+      { route: '/', title: 'Dashboard' },
+      { route: '/signin', title: 'Sign In' },
+      { route: '/signup', title: 'Sign Up' },
+      { route: '/reset-password', title: 'Reset Password' },
+    ],
+  },
+  {
+    title: 'More Info',
+    items: [
+      { route: 'https://reactflow.dev/pro', title: 'Pricing' },
+      { route: 'https://reactflow.dev/pro/examples', title: 'Pro Examples' },
+      { route: 'https://reactflow.dev/pro/case-studies', title: 'Case Studies' },
+      { route: 'https://reactflow.dev/pro/enterprise', title: 'Enterprise' },
+    ],
+  },
+  {
+    title: 'xyflow',
+    items: [
+      { route: 'https://xyflow.com/contact', title: 'Contact Us' },
+      { route: 'https://xyflow.com/blog', title: 'Blog' },
+      { route: 'https://xyflow.com/about', title: 'About' },
+      { route: 'https://xyflow.com/open-source', title: 'Open Source' },
+    ],
+  },
+  {
+    title: 'Legal',
+    items: [
+      {
+        title: 'Terms of Use',
+        route: 'https://xyflow.com/terms-of-use',
+      },
+      {
+        title: 'Ethical Standards',
+        route: 'https://xyflow.com/ethical-standards',
+      },
+      {
+        title: 'Privacy Policy',
+        route: 'https://xyflow.com/privacy',
+      },
+      { title: 'Imprint', route: 'https://xyflow.com/imprint' },
+    ],
+  },
+];
+
+export default function Footer({
+  message = {
+    title: 'A project by the xyflow team',
+    text: 'We are building and maintaining open source software for node-based UIs since 2019.',
+  },
+}) {
   return (
-    <div className="min-h-300 border-t">
-      <div className="max-w-7xl px-4 pt-4 pb-10 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3">
-          <div>
-            <FooterHeading>React Flow Pro</FooterHeading>
-            <FooterLink href="/">Home</FooterLink>
-            <FooterLink href="/pricing">Pricing</FooterLink>
-            <FooterLink href="/pro-examples">Pro Examples</FooterLink>
-            <FooterLink href="/info">Info</FooterLink>
-            <FooterLink href="/signup">Sign up</FooterLink>
-            <FooterLink href="/login">Sign in</FooterLink>
-          </div>
-          <div>
-            <FooterHeading>Resources</FooterHeading>
-            <FooterLink isExternal href="https://reactflow.dev/docs">
-              Documentation
-            </FooterLink>
-            <FooterLink isExternal href="https://reactflow.dev/examples">
-              Examples
-            </FooterLink>
-            <FooterLink isExternal href="https://github.com/xyflow/xyflow">
-              Github
-            </FooterLink>
-            <FooterLink isExternal href="https://discord.gg/Bqt6xrs">
-              Discord
-            </FooterLink>
-          </div>
-          <div>
-            <FooterHeading>Company</FooterHeading>
-            <FooterLink href="/contact">Contact</FooterLink>
-            <FooterLink href="/terms">Terms of Use</FooterLink>
-            <FooterLink href="/privacy">Privacy Policy</FooterLink>
-            <FooterLink href="/about-us">About Us</FooterLink>
-          </div>
+    <footer className="bg-white border-t border-gray-200 print:bg-transparent py-12 lg:py-18">
+      <div className="mx-auto lg:flex text-black max-w-[90rem] pl-[max(env(safe-area-inset-left),1.5rem)] pr-[max(env(safe-area-inset-right),1.5rem)]">
+        <div className="lg:max-w-[300px] md:max-w-[600px] lg:mr-24 shrink-0">
+          {message && (
+            <>
+              <Text variant="light" className="mb-2">
+                {message.title}
+              </Text>
+              <div className="font-black text-slate-500 text-3xl tracking-tight leading-none mb-6 lg:mb-10">
+                {message.text}
+              </div>
+            </>
+          )}
         </div>
-        <div className="text-sm text-gray-500 text-center mt-10">
-          <a href="mailto:info@xyflow.com">info@xyflow.com</a> — Copyright © 2023 webkid GmbH. All rights reserved.
+        <div className="grow">
+          <div className="flex flex-col grow h-[100%]">
+            <div className="grid grid-cols-2 lg:grid-cols-4 grid-gap-4">
+              {categories.map((category) => (
+                <div key={category.title} className="mt-4 lg:mt-0">
+                  <Text variant="light" className="text-light mb-2">
+                    {category.title}
+                  </Text>
+                  {category.items.map((item) => (
+                    <Link href={item.route} className="text-slate-500 block" key={item.title}>
+                      {item.title}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            <Text variant="light" className="pt-6 text-sm mt-auto">
+              <a href="mailto:info@xyflow.com">info@xyflow.com</a> — Copyright © {new Date().getFullYear()}{' '}
+              <a href="https://webkid.io" target="_blank">
+                webkid GmbH
+              </a>
+              . All rights reserved.
+            </Text>
+          </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
