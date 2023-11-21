@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
-import { AuthErrorNotification, AuthEmailVerificationNotification } from './AuthNotification';
+import { AuthErrorNotification } from './AuthNotification';
 
 function SignInEmailPassword() {
   const searchParams = useSearchParams();
@@ -15,12 +15,6 @@ function SignInEmailPassword() {
   const [form, setForm] = useState<{ email: string; password: string }>({ email: '', password: '' });
   const { signInEmailPassword, isLoading, isSuccess, needsEmailVerification, isError, error } =
     useSignInEmailPassword();
-
-  useEffect(() => {
-    if (isSuccess) {
-      router.push(searchParams?.get('redirectTo') || '/');
-    }
-  }, [isSuccess, router, searchParams]);
 
   const handleFormSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
@@ -31,10 +25,13 @@ function SignInEmailPassword() {
     redirect(`/email-verification?email=${form.email}`);
   }
 
+  if (isSuccess) {
+    redirect(searchParams?.get('redirectTo') || '/');
+  }
+
   return (
     <form onSubmit={handleFormSubmit}>
       {isError && <AuthErrorNotification error={error} />}
-      {needsEmailVerification && <AuthEmailVerificationNotification email={form.email} />}
       <div className="flex flex-col">
         <div className="mb-2">
           <InputLabel htmlFor="email">Email</InputLabel>

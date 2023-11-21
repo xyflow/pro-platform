@@ -1,4 +1,4 @@
-import { ResetPassword, AuthFormWrapper } from '@/components/AuthForms';
+import { ResendVerificationLink, AuthFormWrapper } from '@/components/AuthForms';
 
 const authFormLinks = [
   { href: '/signin', label: 'Login' },
@@ -14,7 +14,7 @@ const ResendVerificationLinkPage = () => {
       showOAuth={false}
       showHero={false}
     >
-      <ResetPassword />
+      <ResendVerificationLink />
     </AuthFormWrapper>
   );
 };
