@@ -41,8 +41,8 @@ export async function getExampleConfig({ id, framework }: { id: string; framewor
 // @todo this is not necessary once we deploy at pro.reactflow.dev
 export function getBaseUrl() {
   if (isDevelopment() || isStaging()) {
-    return '';
+    return '/';
   }
 
-  return isProduction() && process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ? 'https://pro-beta.reactflow.dev' : '';
+  return isProduction() && process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ? 'https://pro-beta.reactflow.dev' : '/';
 }

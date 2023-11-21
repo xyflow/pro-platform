@@ -29,18 +29,18 @@ function SubscriptionFeature({
   const isActive = plans.includes(plan) && (requireAdminSubscription ? isAdmin : true);
 
   return (
-    <Card className={cn('flex flex-col order-2', { 'bg-muted': !isActive, 'order-1': isActive })}>
+    <Card className={cn('flex flex-col order-2 pt-2', { 'bg-muted': !isActive, 'order-1': isActive })}>
       <CardHeader className={cn({ 'cursor-not-allowed': !isActive })}>
         <CardTitle className={cn({ 'text-muted-foreground': !isActive })}>{title}</CardTitle>
-        {description && <CardDescription className="text-muted-foreground">{description}</CardDescription>}
+        {description && <CardDescription className="text-md pt-2 text-muted-foreground">{description}</CardDescription>}
       </CardHeader>
       <CardFooter className={cn('mt-auto bg-white')}>
         {isActive ? (
           <>
             {button && (
               <Link href={button.href}>
-                <Button variant="react">
-                  {button.label} <ArrowLongRightIcon className="ml-1 h-6 w-6" />
+                <Button className="text-md font-bold" variant="link">
+                  {button.label} <ArrowLongRightIcon className="ml-1 h-4 w-4" />
                 </Button>
               </Link>
             )}

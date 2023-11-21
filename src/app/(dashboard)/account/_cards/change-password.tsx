@@ -20,7 +20,7 @@ function ChangePasswordCard() {
     <Card>
       <CardHeader>
         <CardTitle>Change Password</CardTitle>
-        <CardDescription>Use this form to update or set a new password.</CardDescription>
+        {isSuccess && <CardDescription className="text-green-500">Your password has been updated.</CardDescription>}
       </CardHeader>
       <CardFooter className="bg-muted space-x-10">
         <form onSubmit={handleSubmit} className="flex justify-between w-full">

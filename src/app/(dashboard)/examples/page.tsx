@@ -7,7 +7,7 @@ export default function ProExamplesOverview() {
     <>
       <DashboardHeader
         title="Pro Examples"
-        description="Welcome to xyflow pro! With a subscription, you are ensuring the sustainable maintenance and development of our open-source libraries."
+        description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
       />
       <NotSubscribedNotification />
       <ExampleGrid />

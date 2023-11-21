@@ -34,34 +34,53 @@ function SignInEmailPassword() {
       {isError && <AuthErrorNotification error={error} />}
       <div className="flex flex-col">
         <div className="mb-2">
-          <InputLabel htmlFor="email">Email</InputLabel>
+          <InputLabel className="text-gray-800" htmlFor="email">
+            Email
+          </InputLabel>
           <Input
             id="email"
             type="email"
             value={form.email}
             onChange={(evt) => setForm({ ...form, email: evt.target.value })}
             autoComplete="on"
-            placeholder="Your Email"
+            placeholder="Email"
             required
             variant="square"
           />
         </div>
         <div className="mb-4">
-          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputLabel className="text-gray-800" htmlFor="password">
+            Password
+          </InputLabel>
           <Input
             id="password"
             type="password"
             value={form.password}
             onChange={(evt: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: evt.target.value })}
-            placeholder="Your Password"
+            placeholder="Password"
             required
             variant="square"
           />
-          <Link className="text-sm text-primary font-bold hover:underline block mt-1" href="/reset-password">
-            Forgot Password?
-          </Link>
+          <div className="text-light text-sm mt-2">
+            Having trouble signing in?{' '}
+            <Link href="/reset-password" className="text-primary hover:underline">
+              Reset your password
+            </Link>{' '}
+            or{' '}
+            <Link href="/signin/magic-link" className="text-primary hover:underline">
+              get a magic link
+            </Link>
+            .
+          </div>
         </div>
-        <Button loading={isLoading} disabled={isLoading} size="lg" className="w-full" type="submit" variant="react">
+        <Button
+          loading={isLoading}
+          disabled={isLoading}
+          size="lg"
+          className="w-full mt-2"
+          type="submit"
+          variant="react"
+        >
           Sign in
         </Button>
       </div>

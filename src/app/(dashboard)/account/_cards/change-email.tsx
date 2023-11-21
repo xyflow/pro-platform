@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useUserEmail, useChangeEmail } from '@nhost/nextjs';
-import { Card, CardHeader, CardDescription, CardTitle, CardFooter, Button, Input, InputLabel } from '@xyflow/xy-ui';
+import { Card, CardHeader, CardTitle, CardFooter, Button, Input, InputLabel } from '@xyflow/xy-ui';
 
 function ChangeEmailCard() {
   const email = useUserEmail();
@@ -18,7 +18,6 @@ function ChangeEmailCard() {
     <Card>
       <CardHeader>
         <CardTitle>Change Email</CardTitle>
-        <CardDescription>Use this form to update your email. We will send you a confirmation mail.</CardDescription>
       </CardHeader>
       <CardFooter className="bg-muted space-x-10">
         <form onSubmit={handleSubmit} className="flex justify-between w-full">

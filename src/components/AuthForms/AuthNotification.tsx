@@ -76,13 +76,17 @@ export function AuthErrorNotification({ error }: AuthErrorProps) {
   if (errorId === 'invalid-email-password') {
     return (
       <AuthNotification
-        title="Incorrect email or password"
+        title="We don't recognize that email or password"
         description={
           <>
-            Please try again or{' '}
-            <Button className="text-current font-bold !m-0 !p-0 h-auto" variant="link">
-              <Link href="/signin/magic-link">sign in without password</Link>
-            </Button>
+            Please try again,{' '}
+            <Link className="underline" href="/reset-password">
+              reset your password
+            </Link>
+            , or get a{' '}
+            <Link className="underline" href="/signin/magic-link">
+              magic link
+            </Link>
             .
           </>
         }
