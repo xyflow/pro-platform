@@ -73,8 +73,8 @@ function Signup() {
             </div>
           )}
           <div>
-            <div className="font-bold text-lg">Project Type</div>
-            <div className="flex items-center gap-x-1">
+            <div className="font-bold text-lg mb-2">Project Type</div>
+            <div className="flex items-center gap-x-2 text-md mb-2 text-gray-800">
               <input
                 type="radio"
                 id="oss"
@@ -82,10 +82,11 @@ function Signup() {
                 value="oss"
                 checked={projectType === 'oss'}
                 onChange={(evt) => changeProjectType(evt.target.value as 'oss')}
+                className="w-4 h-4"
               />
-              <InputLabel htmlFor="oss">non-commercial open source project</InputLabel>
+              <label htmlFor="oss">Non-commercial open source project</label>
             </div>
-            <div className="flex items-center gap-x-1">
+            <div className="flex items-center gap-x-2">
               <input
                 type="radio"
                 id="student"
@@ -93,8 +94,9 @@ function Signup() {
                 value="student"
                 checked={projectType === 'student'}
                 onChange={(evt) => changeProjectType(evt.target.value as 'student')}
+                className="w-4 h-4"
               />
-              <InputLabel htmlFor="student">educational project (university, students)</InputLabel>
+              <label htmlFor="student">Educational project (university, students)</label>
             </div>
           </div>
           {projectType === 'student' && (
@@ -102,7 +104,7 @@ function Signup() {
               <InputLabel htmlFor="email">Your University Email</InputLabel>
               <Input
                 variant="square"
-                placeholder="Your University Email..."
+                placeholder="Email"
                 required
                 id="email"
                 type="email"

@@ -7,7 +7,8 @@ function BillingCard() {
       <CardHeader>
         <CardTitle>Billing & Subscription</CardTitle>
         <CardDescription>
-          We use Stripe to manage your subscription. Please open the customer portal to get access to your billing{' '}
+          Open the Stripe customer portal to download your invoices, change your billing details and change or cancel
+          your subscription plan.
         </CardDescription>
       </CardHeader>
       <CardFooter className="bg-muted">

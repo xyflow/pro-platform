@@ -21,9 +21,11 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  CardTitle,
 } from '@xyflow/xy-ui';
 import useNhostFunction from '@/hooks/useNhostFunction';
 import useSubscription from '@/hooks/useSubscription';
+import { PlanLabel } from '@/components/SubscriptionStatus';
 
 const GET_TEAM_MEMBERS = gql`
   query GetTeamMembers($userId: uuid) {
@@ -117,22 +119,33 @@ export default function ManageTeamCard() {
   const currencySign = status?.currency === 'eur' ? '€' : '$';
   const seatPrice = status?.billingPeriod === 'year' ? 240 : 20;
   const includedSeats = status?.includedSeats ?? 0;
+  const remainingSeats = Math.max(0, includedSeats - data?.team_subscriptions?.length ?? 0);
 
   return (
     <Card>
       <CardHeader>
+        <CardTitle>Team Members</CardTitle>
         <CardDescription className="text-black">
-          Your subscription includes {includedSeats} additional {includedSeats === 1 ? 'seat' : 'seats'}. Team members
-          will have access to the same pro features as you.
+          You have {remainingSeats} remaining {remainingSeats === 1 ? 'seat' : 'seats'} included in your <PlanLabel />{' '}
+          plan.
+          {remainingSeats === 0 && <span> Additional seats will be charged based on your usage.</span>}
         </CardDescription>
         {confirmPayment && (
           <AlertDialog open>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Free seat limit reached</AlertDialogTitle>
+                <AlertDialogTitle>Add a new team member</AlertDialogTitle>
                 <AlertDialogDescription>
-                  Adding a new seat will charge {currencySign}
-                  {seatPrice} per {status.billingPeriod} with your next invoice. Please confirm to continue.
+                  <p>
+                    By clicking Confirm Payment, you will add one additional seat to your pro plan at the cost of{' '}
+                    {currencySign}20 per month.
+                  </p>{' '}
+                  <p className="mt-2">
+                    You will only pay for the months that you use the seat and the amount will be added to your next
+                    invoice.
+                  </p>
+                  {/* Adding a new seat will charge {currencySign} */}
+                  {/* {seatPrice} per {status.billingPeriod} with your next invoice. Please confirm to continue. */}
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -175,20 +188,15 @@ export default function ManageTeamCard() {
 
       <div className="border-t">
         <CardContent className="py-4 flex items-center justify-between border-b">
-          <div className="font-semibold">
-            {userEmail}{' '}
-            <span className="text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 border border-gray-300 rounded-md">
-              you
-            </span>
-          </div>
+          <div className="font-semibold">{userEmail}</div>
         </CardContent>
         {data?.team_subscriptions?.map((member: TeamMember, i: number) => (
           <CardContent className="py-4 flex items-center justify-between border-b" key={member.email}>
             <div className="font-semibold">
               {member.email}{' '}
-              {i < includedSeats && (
+              {status && i >= includedSeats && (
                 <span className="text-xs text-muted-foreground ml-2 bg-muted px-2 py-0.5 border border-gray-300 rounded-md">
-                  included
+                  extra seat
                 </span>
               )}
             </div>
@@ -201,7 +209,7 @@ export default function ManageTeamCard() {
       <CardFooter className="bg-muted space-x-10">
         <form onSubmit={onAdd} className="flex justify-between w-full">
           <div className="flex-1">
-            <InputLabel htmlFor="email">Add New Member</InputLabel>
+            <InputLabel htmlFor="email">Add Team Member</InputLabel>
             <Input
               variant="square"
               className="max-w-xs"
@@ -216,7 +224,7 @@ export default function ManageTeamCard() {
             {isError && <InputLabel className="text-red-600 mt-1">Something went wrong. Please try again.</InputLabel>}
           </div>
           <Button disabled={isLoading} className="shrink-0 ml-auto mt-auto" variant="react" type="submit">
-            {isLoading ? 'Please wait...' : `Add To Subscription`}
+            {isLoading ? 'Please wait...' : 'Add Team Member'}
           </Button>
         </form>
       </CardFooter>

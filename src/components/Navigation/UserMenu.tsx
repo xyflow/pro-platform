@@ -5,7 +5,7 @@ import { useUserEmail, useSignOut } from '@nhost/nextjs';
 import { Select, SelectContent, SelectSeparator, SelectLabel, SelectTrigger, SelectGroup } from '@xyflow/xy-ui';
 import { UserIcon } from '@heroicons/react/24/solid';
 import useStripeCustomerPortal from '@/hooks/useStripeCustomerPortal';
-import { PlanLabel } from '@/components/SubscriptionStatus';
+import { PlanLabel, Subscribed } from '@/components/SubscriptionStatus';
 
 export default function UserMenu() {
   const userEmail = useUserEmail();
@@ -35,10 +35,13 @@ export default function UserMenu() {
             <SelectLabel className="hover:bg-slate-100 px-2 py-1">Account</SelectLabel>
           </Link>
           <SelectSeparator />
-          <SelectLabel onClick={openCustomerPortal} className="hover:bg-slate-100 cursor-pointer px-2 py-1">
-            Billing
-          </SelectLabel>
-          <SelectSeparator />
+          <Subscribed requireAdminSubscription>
+            <SelectLabel onClick={openCustomerPortal} className="hover:bg-slate-100 cursor-pointer px-2 py-1">
+              Billing
+            </SelectLabel>
+
+            <SelectSeparator />
+          </Subscribed>
           <SelectLabel onClick={signOut} className="text-red-500 hover:bg-slate-100 cursor-pointer px-2 py-1">
             Logout
           </SelectLabel>

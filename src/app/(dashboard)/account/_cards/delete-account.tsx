@@ -10,7 +10,7 @@ export default function DeleteAccountCard() {
         </CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="bg-red-500 hover:bg-red-400">Delete Account</Button>
+        <Button className="bg-red-500 hover:bg-red-400 -mt-4 mb-2">Delete Account</Button>
       </CardFooter>
     </Card>
   );

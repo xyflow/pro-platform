@@ -6,7 +6,7 @@ export default function SubscribePage() {
     <>
       <DashboardHeader
         title="Subscribe"
-        description="Welcome to xyflow pro! With a subscription, you are ensuring the sustainable maintenance and development of our open-source libraries."
+        description="With a subscription, you are ensuring the sustainable maintenance and development of our open-source libraries."
       />
       <div>
         <PricingTable />

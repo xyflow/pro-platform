@@ -6,6 +6,7 @@ import { useSignInEmailPasswordless } from '@nhost/nextjs';
 
 import { MagicLinkSuccessNotification } from './AuthNotification';
 import { getBaseUrl } from '@/utils';
+import { redirect } from 'next/navigation';
 
 const SignInMagicLink = () => {
   const [email, setEmail] = useState<string>('');
@@ -20,6 +21,10 @@ const SignInMagicLink = () => {
     signInEmailPasswordless(email, { redirectTo: getBaseUrl() });
   };
 
+  if (isSuccess) {
+    redirect(`/email-verification?email=${email}`);
+  }
+
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col space-y-4 mb-2">
@@ -27,14 +32,16 @@ const SignInMagicLink = () => {
         {!isSuccess && (
           <>
             <div>
-              <InputLabel htmlFor="email">Email</InputLabel>
+              <InputLabel className="text-gray-800" htmlFor="email">
+                Email
+              </InputLabel>
               <Input
                 required
                 variant="square"
                 value={email}
                 onChange={onChange}
                 id="email"
-                placeholder="Your Email"
+                placeholder="Email"
                 type="email"
               />
             </div>

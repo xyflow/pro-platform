@@ -7,8 +7,8 @@ const SignUpEduPage = () => {
   return (
     <div className="max-w-2xl">
       <DashboardHeader
-        title="Access Pro Examples for non-commercial Projects"
-        description="We want to support educational and non-commercial open source projects by providing free access to our paid examples. To get access for your project, please fill out the form below."
+        title="Access Pro Examples for Non-Commercial Projects"
+        description="We support educational and non-commercial open source projects by providing free access to our pro examples. Fill out the form below to get access for your project."
       />
       <Card className="max-w-xl">
         <CardHeader>

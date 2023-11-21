@@ -32,7 +32,7 @@ function ResendVerificationLink() {
         <InputLabel htmlFor="email">Email</InputLabel>
         <Input
           variant="square"
-          placeholder="Your Email"
+          placeholder="Email"
           id="email"
           type="email"
           value={email}

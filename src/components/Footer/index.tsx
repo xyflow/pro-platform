@@ -71,7 +71,7 @@ export default function Footer({
         <div className="lg:max-w-[300px] md:max-w-[600px] lg:mr-24 shrink-0">
           {message && (
             <>
-              <Text variant="light" className="mb-2">
+              <Text variant="light" className="mb-2 text-gray-800">
                 {message.title}
               </Text>
               <div className="font-black text-slate-500 text-3xl tracking-tight leading-none mb-6 lg:mb-10">
@@ -85,7 +85,7 @@ export default function Footer({
             <div className="grid grid-cols-2 lg:grid-cols-4 grid-gap-4">
               {categories.map((category) => (
                 <div key={category.title} className="mt-4 lg:mt-0">
-                  <Text variant="light" className="text-light mb-2">
+                  <Text variant="light" className="text-light mb-2 text-gray-800 font-bold">
                     {category.title}
                   </Text>
                   {category.items.map((item) => (

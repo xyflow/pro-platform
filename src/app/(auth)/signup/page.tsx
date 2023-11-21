@@ -7,7 +7,7 @@ const SignUpPage = () => {
     <AuthFormWrapper
       links={authFormLinks}
       title="Sign Up"
-      description="Enter your email and a password to create an account."
+      description="Enter your email and password to create an account."
     >
       <SignUpEmailPassword />
     </AuthFormWrapper>

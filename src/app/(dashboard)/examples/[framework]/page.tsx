@@ -12,7 +12,7 @@ export default async function ProExamplesOverview({ params }: { params: { framew
             <span className="capitalize">{params.framework} </span>Pro Examples
           </>
         }
-        description="Welcome to xyflow pro! With a subscription, you are ensuring the sustainable maintenance and development of our open-source libraries."
+        description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
       />
       <NotSubscribedNotification />
       <ExampleGrid framework={params.framework} />

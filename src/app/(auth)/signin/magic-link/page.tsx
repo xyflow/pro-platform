@@ -6,8 +6,8 @@ const SignInEmailPasswordPage = () => {
   return (
     <AuthFormWrapper
       links={authFormLinks}
-      title="Sign In with Magic Link"
-      description="Enter your email to sign in or create an account."
+      title="Get a Magic Link"
+      description="We'll send you a link to sign in or create a new account."
     >
       <SignInMagicLink />
     </AuthFormWrapper>
