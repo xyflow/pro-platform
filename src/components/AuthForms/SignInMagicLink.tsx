@@ -5,6 +5,7 @@ import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 import { useSignInEmailPasswordless } from '@nhost/nextjs';
 
 import { MagicLinkSuccessNotification } from './AuthNotification';
+import { getBaseUrl } from '@/utils';
 
 const SignInMagicLink = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,7 +17,7 @@ const SignInMagicLink = () => {
 
   const onSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    signInEmailPasswordless(email);
+    signInEmailPasswordless(email, { redirectTo: getBaseUrl() });
   };
 
   return (

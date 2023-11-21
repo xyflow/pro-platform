@@ -2,8 +2,9 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Alert, AlertTitle, AlertDescription, Button, cn } from '@xyflow/xy-ui';
-import { ErrorPayload, useSendVerificationEmail } from '@nhost/nextjs';
+import { ErrorPayload } from '@nhost/nextjs';
 
 type AuthErrorProps = {
   error?: ErrorPayload<string>;
@@ -35,32 +36,36 @@ export function AuthNotification({
   );
 }
 
+export function ExpiredTokenNotification() {
+  const searchParams = useSearchParams();
+  const isExpiredTokenError = searchParams.get('error') === 'invalid-ticket';
+
+  if (!isExpiredTokenError) {
+    return null;
+  }
+
+  return (
+    <div className="px-4">
+      <AuthNotification
+        title="Your verification link has expired."
+        description="Please request a new verification link to confirm your email and sign in."
+        variant="error"
+        className="flex justify-between items-center"
+      >
+        <Link className="shrink-0" href="/email-verification/resend-link">
+          <Button variant="destructive">Request a new link</Button>
+        </Link>
+      </AuthNotification>
+    </div>
+  );
+}
+
 export function MagicLinkSuccessNotification() {
   return (
     <AuthNotification
       variant="success"
       title="We have sent you a link"
       description="Please check your email to sign in."
-    />
-  );
-}
-
-// @todo fix handling email verification sending
-export function AuthEmailVerificationNotification({ email }: { email: string }) {
-  const { sendEmail } = useSendVerificationEmail();
-
-  const handleBtnClick: React.MouseEventHandler = async (evt) => {
-    console.log(email);
-    evt.preventDefault();
-    const response = await sendEmail(email);
-    console.log(response);
-  };
-
-  return (
-    <AuthNotification
-      variant="default"
-      title="Your email is not verified"
-      description={<Button onClick={handleBtnClick}>Re-send verification mail</Button>}
     />
   );
 }

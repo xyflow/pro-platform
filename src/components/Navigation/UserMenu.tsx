@@ -17,7 +17,7 @@ export default function UserMenu() {
       <SelectTrigger>
         <UserIcon className="w-6 h-6 fill-gray-500" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent align="end">
         <SelectGroup>
           <SelectLabel className="text-sm font-normal max-w-[200px] px-2 py-1">
             You are signed in as <span className="font-bold">{userEmail}</span> and subscribed to the{' '}

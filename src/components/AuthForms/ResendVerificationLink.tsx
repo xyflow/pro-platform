@@ -6,15 +6,16 @@ import { useSendVerificationEmail } from '@nhost/nextjs';
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 
 import { AuthErrorNotification, AuthNotification } from './AuthNotification';
+import { getBaseUrl } from '@/utils';
 
-function ResetPassword() {
+function ResendVerificationLink() {
   const defaultEmail = useSearchParams()?.get('email');
   const [email, setEmail] = useState<string>(defaultEmail || '');
   const { sendEmail, isLoading, isSent, isError, error } = useSendVerificationEmail();
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    sendEmail(email);
+    sendEmail(email, { redirectTo: getBaseUrl() });
   };
 
   return (
@@ -45,4 +46,4 @@ function ResetPassword() {
   );
 }
 
-export default ResetPassword;
+export default ResendVerificationLink;
