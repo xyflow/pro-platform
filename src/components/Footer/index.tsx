@@ -67,7 +67,7 @@ export default function Footer({
 }) {
   return (
     <footer className="bg-white border-t border-gray-200 print:bg-transparent py-12 lg:py-18">
-      <div className="mx-auto lg:flex text-black max-w-[90rem] pl-[max(env(safe-area-inset-left),1.5rem)] pr-[max(env(safe-area-inset-right),1.5rem)]">
+      <div className="mx-auto lg:flex text-black max-w-7xl px-4">
         <div className="lg:max-w-[300px] md:max-w-[600px] lg:mr-24 shrink-0">
           {message && (
             <>

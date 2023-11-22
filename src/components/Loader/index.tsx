@@ -35,3 +35,11 @@ export function LogoLoader({ width = 100, height = 100 }) {
     </div>
   );
 }
+
+export function PageLoader() {
+  return (
+    <div className="h-[400px] flex items-center justify-center">
+      <Loader />
+    </div>
+  );
+}

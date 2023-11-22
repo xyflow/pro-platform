@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useSignInEmailPassword } from '@nhost/nextjs';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -11,7 +11,6 @@ import { AuthErrorNotification } from './AuthNotification';
 
 function SignInEmailPassword() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const [form, setForm] = useState<{ email: string; password: string }>({ email: '', password: '' });
   const { signInEmailPassword, isLoading, isSuccess, needsEmailVerification, isError, error } =
     useSignInEmailPassword();
