@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import NodeCache from 'node-cache';
+import { IS_DEVELOPMENT } from './constants';
 
 type GithubFile = { name: string; content: string; path: string };
 type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
@@ -7,7 +8,7 @@ type GetRepoContentReturn = Promise<GithubFile[]>;
 type GetRepoConfigReturn = Promise<{}>;
 type GetProExamplesListReturn = Promise<{}[]>;
 
-const stdTTL = process.env.NODE_ENV === 'production' ? 60 * 60 * 24 : 60;
+const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24;
 const cache = new NodeCache({ stdTTL });
 
 export async function getRepoContent(

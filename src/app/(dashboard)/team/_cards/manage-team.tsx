@@ -48,7 +48,7 @@ export default function ManageTeamCard() {
   const [confirmDeleteMember, setConfirmDeleteMember] = useState<string>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [memberEmail, setMemberEmail] = useState<string>('');
   const { data, refetch } = useAuthQuery(GET_TEAM_MEMBERS, { variables: { userId } });
   const nhostFunction = useNhostFunction();
@@ -71,12 +71,12 @@ export default function ManageTeamCard() {
   }, []);
 
   const removeMember = async (email: string) => {
-    setIsError(false);
+    setErrorMessage(null);
     setIsDeleteLoading(true);
     const { error } = await nhostFunction('team/remove', { email });
 
     if (error) {
-      setIsError(true);
+      setErrorMessage(typeof error.message === 'string' ? error.message : 'Something went wrong. Please contact us.');
     }
 
     await refetch();
@@ -86,7 +86,7 @@ export default function ManageTeamCard() {
 
   const addMember = async ({ paymentConfirmed }: { paymentConfirmed: boolean }) => {
     setIsLoading(true);
-    setIsError(false);
+    setErrorMessage(null);
 
     const { res, error } = await nhostFunction<{ needsPaymentConfirmation?: boolean }>('team/invite', {
       email: memberEmail,
@@ -95,7 +95,7 @@ export default function ManageTeamCard() {
 
     if (error) {
       setIsLoading(false);
-      setIsError(true);
+      setErrorMessage(typeof error.message === 'string' ? error.message : 'Something went wrong. Please contact us.');
       setConfirmPayment(false);
       return;
     }
@@ -120,6 +120,8 @@ export default function ManageTeamCard() {
   const seatPrice = status?.billingPeriod === 'year' ? 240 : 20;
   const includedSeats = status?.includedSeats ?? 0;
   const remainingSeats = Math.max(0, includedSeats - data?.team_subscriptions?.length ?? 0);
+
+  console.log(errorMessage);
 
   return (
     <Card>
@@ -218,10 +220,10 @@ export default function ManageTeamCard() {
               onChange={(evt) => setMemberEmail(evt.target.value)}
               required
               id="email"
-              placeholder="Enter Email..."
+              placeholder="Member Email"
               disabled={isLoading}
             />
-            {isError && <InputLabel className="text-red-600 mt-1">Something went wrong. Please try again.</InputLabel>}
+            {errorMessage && <InputLabel className="text-red-600 mt-1">{errorMessage}</InputLabel>}
           </div>
           <Button disabled={isLoading} className="shrink-0 ml-auto mt-auto" variant="react" type="submit">
             {isLoading ? 'Please wait...' : 'Add Team Member'}

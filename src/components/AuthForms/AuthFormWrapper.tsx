@@ -1,5 +1,3 @@
-'use client';
-
 import { ReactNode, Suspense } from 'react';
 
 import Link from 'next/link';
@@ -37,7 +35,7 @@ const AuthFormWrapper = ({
               Build Better Node-Based UIs with <span className="text-react">React Flow</span>
             </Heading>
             <Text size="lg">
-              By subscribing to React Flow Pro you are securing the maintanance and development of our open source
+              By subscribing to React Flow Pro you are securing the maintenance and development of our open source
               libraries.
             </Text>
           </div>

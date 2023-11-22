@@ -3,13 +3,13 @@ import { authPost } from '../_utils/middleware';
 import { getSubscription } from '../_utils/graphql/subscriptions';
 import { getIncludedSeats, upsertTeamSubscription, getTeamMembers } from '../_utils/graphql/team-subscriptions';
 import { createUser, getUserIdByEmail } from '../_utils/graphql/users';
-import { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
+import stripe, { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
 
 async function inviteTeamMember(req: Request, res: Response, { userId: createdById }: { userId: string }) {
   const { email, paymentConfirmed } = req.body;
 
   if (!email) {
-    return res.status(400).send({ message: 'Please provide a valid email address.' });
+    return res.status(400).send('Please provide a valid email address.');
   }
 
   // get the subscription from the creator to add the team member to the same plan
@@ -18,9 +18,9 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   // if the creator is not subscribed, don't add the team subscription
   // @todo check oss and students subscriptions
   if (!subscription || !subscription.subscription_plan_id || subscription.subscription_plan_id === 'free') {
-    return res.status(400).send({
-      message: 'You are not subscribed. To add team members, you need to create a subscription first.',
-    });
+    return res
+      .status(400)
+      .send('You are not subscribed. To add team members, you need to create a subscription first.');
   }
 
   const teamMembers = await getTeamMembers(createdById);
@@ -34,28 +34,34 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
     });
   }
 
+  if (teamMembers.find((member) => member.email === email)) {
+    return res.status(400).send('This email is already on your team.');
+  }
+
   // if the added user already exists, the user id is added to the team subscription
   let userId = await getUserIdByEmail(email);
 
   if (userId === createdById) {
-    return res.status(400).send({ message: 'You cannot add yourself to your team.' });
-  }
-
-  // create a user if the user doesn't exist yet
-  if (!userId) {
-    await createUser({ email });
-    userId = await getUserIdByEmail(email);
-
-    if (!userId) {
-      return res.status(400).send({ message: 'Something went wrong.' });
-    }
+    return res.status(400).send('You cannot add yourself to your team.');
   }
 
   if (paymentConfirmed) {
     const stripeSubscription = await getStripeSubscription(subscription.stripe_customer_id);
 
     if (!stripeSubscription) {
-      return res.status(400).send({ message: 'Something went wrong.' });
+      return res.status(400).send('Something went wrong.');
+    }
+  }
+
+  // create a user if the user doesn't exist yet
+  if (!userId) {
+    const cu = await createUser({ email });
+    console.log(cu);
+
+    userId = await getUserIdByEmail(email);
+
+    if (!userId) {
+      return res.status(400).send('Something went wrong.');
     }
   }
 
