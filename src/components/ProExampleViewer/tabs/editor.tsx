@@ -7,7 +7,7 @@ import {
   SandpackFiles,
 } from '@codesandbox/sandpack-react';
 
-const editorHeight = 550;
+const editorHeight = 650;
 const ignoreFiles = [
   '/package-lock.json',
   '/public/favicon.ico',

@@ -45,7 +45,12 @@ function ProExampleViewer({
             <div className="ml-auto flex gap-x-2">
               <VariantSelect exampleId={exampleId} variants={config.variants} />
               <Subscribed>
-                <DownloadButton files={files} fileName={`${exampleId}-pro-example`} />
+                <DownloadButton
+                  exampleId={exampleId}
+                  frameworkId={frameworkId}
+                  files={files}
+                  fileName={`${exampleId}-pro-example`}
+                />
               </Subscribed>
             </div>
           </>
