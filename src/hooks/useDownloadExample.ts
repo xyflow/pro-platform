@@ -14,12 +14,12 @@ function useDownloadExample({ exampleId, framework, ignoreFiles = [] }: UseDownl
   const callNhostFunction = useNhostFunction();
 
   const fetchExample = useCallback(async (): Promise<SandpackFiles> => {
-    const { res } = await callNhostFunction<GithubFile[]>('/pro-examples/download', {
+    const { res } = await callNhostFunction<{ timestamp: number; files: GithubFile[] }>('/pro-examples/download', {
       id: exampleId,
       framework,
     });
 
-    const sandpackFiles = res?.data?.reduce((acc, file) => {
+    const sandpackFiles = res?.data?.files?.reduce((acc, file) => {
       if (ignoreFiles.includes(file.path)) {
         return acc;
       }
@@ -31,6 +31,8 @@ function useDownloadExample({ exampleId, framework, ignoreFiles = [] }: UseDownl
         },
       };
     }, {});
+
+    console.log(res?.data?.timestamp);
 
     return sandpackFiles;
   }, [exampleId, framework, callNhostFunction, ignoreFiles]);

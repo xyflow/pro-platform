@@ -13,7 +13,3 @@ export async function generateStaticParams() {
 }
 
 export const dynamicParams = false;
-
-// @todo this needs to be configured correctly to fetch the pro examples from the server
-// currently, we can only cache this on nhost side because we only have client side auth
-export const fetchCache = 'only-no-store';
