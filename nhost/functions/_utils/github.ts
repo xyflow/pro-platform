@@ -5,8 +5,6 @@ import { IS_DEVELOPMENT } from './constants';
 type GithubFile = { name: string; content: string; path: string };
 type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
 type GetRepoContentReturn = Promise<GithubFile[]>;
-type GetRepoConfigReturn = Promise<{}>;
-type GetProExamplesListReturn = Promise<{}[]>;
 
 const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24;
 const cache = new NodeCache({ stdTTL });
@@ -45,52 +43,15 @@ export async function getRepoContent(
 }
 
 export async function getProExampleContent(exampleId: string): GetRepoContentReturn {
-  const cacheId = `${exampleId}--content`;
-
-  if (cache.has(cacheId)) {
-    return cache.get(cacheId) as GithubFile[];
+  if (cache.has(exampleId)) {
+    return cache.get(exampleId) as GithubFile[];
   }
 
   const content = await getRepoContent(`examples/${exampleId}`);
 
-  cache.set(cacheId, content);
+  cache.set(exampleId, content);
 
   return content;
-}
-
-export async function getProExampleConfig(exampleId: string): GetRepoConfigReturn {
-  const cacheId = `${exampleId}--config`;
-
-  if (cache.has(cacheId)) {
-    return cache.get(cacheId) as GithubFile;
-  }
-
-  const files = await getRepoContent(`examples/${exampleId}/config.json`, { recursive: false });
-  const config = JSON.parse(files[0].content);
-
-  cache.set(cacheId, config);
-
-  return config;
-}
-
-export async function getProExampleList(): GetProExamplesListReturn {
-  const cacheId = `__list`;
-
-  if (cache.has(cacheId)) {
-    return cache.get(cacheId) as [];
-  }
-
-  const exampleFolders = await getRepoContent('examples', { recursive: false });
-
-  const result = Promise.all(
-    exampleFolders.map(async (file) => {
-      return await getProExampleConfig(file.name);
-    })
-  );
-
-  cache.set(cacheId, result);
-
-  return result;
 }
 
 export function clearCache() {
