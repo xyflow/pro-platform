@@ -1,10 +1,9 @@
 import { NextRequest } from 'next/server';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath } from 'next/cache';
 
 // https://nextjs.org/docs/app/api-reference/functions/revalidateTag#route-handler
 async function handler(request: NextRequest) {
-  const tag = request.nextUrl.searchParams.get('tag');
-  revalidateTag(tag);
+  revalidatePath('/examples');
   return Response.json({ revalidated: true, now: Date.now() });
 }
 
