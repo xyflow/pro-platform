@@ -24,7 +24,7 @@ export function getNhostClient() {
 
 export async function getExampleList({ framework }: { framework?: Framework } = {}): Promise<ProExampleConfig[]> {
   const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/examples.json`, {
-    next: { tags: ['examples'] },
+    next: { revalidate: 0 },
   });
   const examples = await response.json();
   return examples
@@ -34,7 +34,7 @@ export async function getExampleList({ framework }: { framework?: Framework } = 
 
 export async function getExampleConfig({ id, framework }: { id: string; framework: Framework }) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${id}/config.json`, {
-    next: { tags: ['examples'] },
+    next: { revalidate: 0 },
   });
   const config = await response.json();
   return config;

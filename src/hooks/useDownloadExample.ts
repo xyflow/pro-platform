@@ -19,8 +19,6 @@ function useDownloadExample({ exampleId, framework, ignoreFiles = [] }: UseDownl
       framework,
     });
 
-    console.log(res);
-
     const sandpackFiles = res?.data?.files?.reduce((acc, file) => {
       if (ignoreFiles.includes(file.path)) {
         return acc;
@@ -33,8 +31,6 @@ function useDownloadExample({ exampleId, framework, ignoreFiles = [] }: UseDownl
         },
       };
     }, {});
-
-    console.log(res?.data?.timestamp);
 
     return sandpackFiles;
   }, [exampleId, framework, callNhostFunction, ignoreFiles]);

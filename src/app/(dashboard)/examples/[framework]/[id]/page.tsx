@@ -9,7 +9,6 @@ export default async function ProExamplePage({ params }: { params: { id: string;
 
 export async function generateStaticParams() {
   const examples = await getExampleList();
-  console.log(examples);
   return examples.map((example) => ({ id: example.id, framework: example.framework }));
 }
 
