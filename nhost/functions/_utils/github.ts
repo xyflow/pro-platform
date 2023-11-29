@@ -6,7 +6,8 @@ type GithubFile = { name: string; content: string; path: string };
 type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
 type GetRepoContentReturn = Promise<GithubFile[]>;
 
-const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24;
+// cache examples for one week in production
+const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24 * 7;
 const cache = new NodeCache({ stdTTL });
 
 export async function getRepoContent(
