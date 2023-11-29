@@ -19,3 +19,9 @@ export default async function ProExamplesOverview({ params }: { params: { framew
     </div>
   );
 }
+
+export async function generateStaticParams() {
+  return [{ framework: 'react' }];
+}
+
+export const dynamicParams = false;
