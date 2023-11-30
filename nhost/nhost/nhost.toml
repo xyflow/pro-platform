@@ -23,6 +23,14 @@ value = '{{ secrets.DISCORD_NOTIFICATIONS_WEBHOOK }}'
 name = 'GITHUB_ACCESS_TOKEN'
 value = '{{ secrets.GITHUB_ACCESS_TOKEN }}'
 
+[[global.environment]]
+name = 'UPSTASH_REDIS_URL'
+value = '{{ secrets.UPSTASH_REDIS_URL }}'
+
+[[global.environment]]
+name = 'UPSTASH_REDIS_TOKEN'
+value = '{{ secrets.UPSTASH_REDIS_TOKEN }}'
+
 [hasura]
 version = 'v2.25.1-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'

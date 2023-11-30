@@ -23,12 +23,12 @@ export default function PricingTableComponent() {
 
     setLoading(plan, true);
 
-    const response = await callNhostFunction<{ url: string }>('/stripe/create-checkout', {
+    const response = await callNhostFunction('/stripe/create-checkout', {
       plan,
       interval,
     });
 
-    if (response.res?.data?.url) {
+    if (response.url) {
       window.location.href = response.res.data.url;
       setTimeout(() => setLoading(plan, false), 500);
       return;

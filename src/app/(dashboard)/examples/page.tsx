@@ -14,7 +14,3 @@ export default function ProExamplesOverview() {
     </>
   );
 }
-
-// @todo this needs to be configured correctly to fetch the pro examples from the server
-// we could cache this and setup a webhook to rebuild the app when an example is updated or added
-export const fetchCache = 'only-no-store';
