@@ -24,7 +24,7 @@ import {
   CardTitle,
 } from '@xyflow/xy-ui';
 import useNhostFunction from '@/hooks/useNhostFunction';
-import useSubscription from '@/hooks/useSubscription';
+// import useSubscription from '@/hooks/useSubscription';
 import { PlanLabel } from '@/components/SubscriptionStatus';
 
 const GET_TEAM_MEMBERS = gql`
@@ -52,18 +52,17 @@ export default function ManageTeamCard() {
   const [memberEmail, setMemberEmail] = useState<string>('');
   const { data, refetch } = useAuthQuery(GET_TEAM_MEMBERS, { variables: { userId } });
   const nhostFunction = useNhostFunction();
-  const { isSubscribed } = useSubscription();
   const userEmail = useUserEmail();
 
   useEffect(() => {
     const updateStatus = async () => {
-      const status = await nhostFunction<TeamStatus>('team/status', {});
+      const status = await nhostFunction('/team/status', {});
 
-      if (!status || !status.res || !status.res.data) {
+      if (!status || status.error) {
         return;
       }
 
-      setStatus(status.res.data);
+      setStatus(status);
     };
 
     updateStatus();
@@ -73,7 +72,7 @@ export default function ManageTeamCard() {
   const removeMember = async (email: string) => {
     setErrorMessage(null);
     setIsDeleteLoading(true);
-    const { error } = await nhostFunction('team/remove', { email });
+    const { error } = await nhostFunction('/team/remove', { email });
 
     if (error) {
       setErrorMessage(typeof error.message === 'string' ? error.message : 'Something went wrong. Please contact us.');
@@ -88,19 +87,21 @@ export default function ManageTeamCard() {
     setIsLoading(true);
     setErrorMessage(null);
 
-    const { res, error } = await nhostFunction<{ needsPaymentConfirmation?: boolean }>('team/invite', {
+    const response = await nhostFunction('team/invite', {
       email: memberEmail,
       paymentConfirmed,
     });
 
-    if (error) {
+    if (!response || response.error) {
       setIsLoading(false);
-      setErrorMessage(typeof error.message === 'string' ? error.message : 'Something went wrong. Please contact us.');
+      setErrorMessage(
+        typeof response.message === 'string' ? response.message : 'Something went wrong. Please contact us.'
+      );
       setConfirmPayment(false);
       return;
     }
 
-    if (res.data?.needsPaymentConfirmation) {
+    if (response.needsPaymentConfirmation) {
       setConfirmPayment(true);
       setIsLoading(false);
       return;
@@ -117,11 +118,13 @@ export default function ManageTeamCard() {
   };
 
   const currencySign = status?.currency === 'eur' ? '€' : '$';
-  const seatPrice = status?.billingPeriod === 'year' ? 240 : 20;
+  // const seatPrice = status?.billingPeriod === 'year' ? 240 : 20;
   const includedSeats = status?.includedSeats ?? 0;
   const remainingSeats = Math.max(0, includedSeats - data?.team_subscriptions?.length ?? 0);
 
-  console.log(errorMessage);
+  if (!status) {
+    return null;
+  }
 
   return (
     <Card>

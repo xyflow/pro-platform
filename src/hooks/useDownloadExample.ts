@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { GithubFile } from '@/types';
 
 import useNhostFunction from './useNhostFunction';
 import { SandpackFiles } from '@codesandbox/sandpack-react/types';
@@ -14,12 +13,12 @@ function useDownloadExample({ exampleId, framework, ignoreFiles = [] }: UseDownl
   const callNhostFunction = useNhostFunction();
 
   const fetchExample = useCallback(async (): Promise<SandpackFiles> => {
-    const { res } = await callNhostFunction<{ timestamp: number; files: GithubFile[] }>('/pro-examples/download', {
+    const data = await callNhostFunction('/pro-examples/download', {
       id: exampleId,
       framework,
     });
 
-    const sandpackFiles = res?.data?.files?.reduce((acc, file) => {
+    const sandpackFiles = data.files?.reduce((acc, file) => {
       if (ignoreFiles.includes(file.path)) {
         return acc;
       }

@@ -18,13 +18,13 @@ export default function PricingPlan({ plan, interval = 'month', currency = 'usd'
   const subscribe = async () => {
     setLoading(true);
 
-    const response = await callNhostFunction<{ url: string }>('/stripe/create-checkout', {
+    const response = await callNhostFunction('/stripe/create-checkout', {
       plan,
       interval,
       currency,
     });
 
-    if (response.res?.data?.url) {
+    if (response.url) {
       window.location.href = response.res.data.url;
       setTimeout(() => setLoading(false), 500);
       return;
