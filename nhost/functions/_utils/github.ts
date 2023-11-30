@@ -1,19 +1,13 @@
-import fetch from 'node-fetch';
-import NodeCache from 'node-cache';
-import { IS_DEVELOPMENT } from './constants';
+import fetch from 'cross-fetch';
 
 type GithubFile = { name: string; content: string; path: string };
 type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
-type GetRepoContentReturn = Promise<GithubFile[]>;
-
-// cache examples for one week in production
-export const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24 * 7;
-export const cache = new NodeCache({ stdTTL });
+type GetRepoContentReturn = { files: GithubFile[] };
 
 export async function getRepoContent(
   path: string,
   { basePath = '', result = [], recursive = true, repo = 'xyflow/pro-example-apps' }: GetRepoContentOptions = {}
-): GetRepoContentReturn {
+): Promise<GetRepoContentReturn['files']> {
   const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
     method: 'GET',
     headers: {
@@ -43,19 +37,12 @@ export async function getRepoContent(
   return result;
 }
 
-export async function getProExampleContent(exampleId: string): GetRepoContentReturn {
-  if (cache.has(exampleId)) {
-    console.log('cache hit', exampleId);
-    return cache.get(exampleId) as GithubFile[];
-  }
-
-  const content = await getRepoContent(`examples/${exampleId}`);
-
-  cache.set(exampleId, content, stdTTL);
-
-  return content;
+export async function getProExampleContent(exampleId: string): Promise<GetRepoContentReturn> {
+  const files = await getRepoContent(`examples/${exampleId}`);
+  return { files };
 }
 
-export function clearCache() {
-  cache.flushAll();
+export async function getProExampleList(): Promise<string[]> {
+  const files = await getRepoContent('examples', { recursive: false });
+  return files.map((file) => file.name);
 }

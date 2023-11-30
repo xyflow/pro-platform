@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
-import crypto from 'crypto';
-
-import { clearCache } from '../_utils/github';
+import redis from '../_utils/redis';
 
 type NhostRequest = Request & {
   rawBody: string;
@@ -9,8 +7,8 @@ type NhostRequest = Request & {
 
 // this webhook is called once the pro examples repo is updated
 // it's used to clear the cache so that users download the latest version of the examples
-export default async function proExamplesVercelWebhook(req: NhostRequest, res: Response) {
-  if (req.method !== 'POST') {
+export default async function revalidateProExamples(req: NhostRequest, res: Response) {
+  if (req.method !== 'GET' && req.method !== 'POST') {
     return res.status(405).send({ message: 'Method not allowed.' });
   }
 
@@ -23,10 +21,7 @@ export default async function proExamplesVercelWebhook(req: NhostRequest, res: R
   //   });
   // }
 
-  clearCache();
-  return res.status(200).json({ status: 'ok' });
-}
+  const status = redis.flushall();
 
-function sha1(data: string, secret: string): string {
-  return crypto.createHmac('sha1', secret).update(data).digest('hex');
+  return res.status(200).json({ status });
 }
