@@ -7,8 +7,8 @@ type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursi
 type GetRepoContentReturn = Promise<GithubFile[]>;
 
 // cache examples for one week in production
-const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24 * 7;
-const cache = new NodeCache({ stdTTL });
+export const stdTTL = IS_DEVELOPMENT ? 60 : 60 * 60 * 24 * 7;
+export const cache = new NodeCache({ stdTTL });
 
 export async function getRepoContent(
   path: string,
@@ -45,12 +45,13 @@ export async function getRepoContent(
 
 export async function getProExampleContent(exampleId: string): GetRepoContentReturn {
   if (cache.has(exampleId)) {
+    console.log('cache hit', exampleId);
     return cache.get(exampleId) as GithubFile[];
   }
 
   const content = await getRepoContent(`examples/${exampleId}`);
 
-  cache.set(exampleId, content);
+  cache.set(exampleId, content, stdTTL);
 
   return content;
 }
