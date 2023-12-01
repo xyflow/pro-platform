@@ -87,7 +87,7 @@ export default function ManageTeamCard() {
     setIsLoading(true);
     setErrorMessage(null);
 
-    const response = await nhostFunction('team/invite', {
+    const response = await nhostFunction('/team/invite', {
       email: memberEmail,
       paymentConfirmed,
     });
