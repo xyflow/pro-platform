@@ -3,7 +3,7 @@ import { authPost } from '../_utils/middleware';
 import { getSubscription } from '../_utils/graphql/subscriptions';
 import { getIncludedSeats, upsertTeamSubscription, getTeamMembers } from '../_utils/graphql/team-subscriptions';
 import { createUser, getUserIdByEmail } from '../_utils/graphql/users';
-import stripe, { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
+import { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
 
 async function inviteTeamMember(req: Request, res: Response, { userId: createdById }: { userId: string }) {
   const { email, paymentConfirmed } = req.body;
@@ -16,8 +16,13 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   const subscription = await getSubscription(createdById);
 
   // if the creator is not subscribed, don't add the team subscription
-  // @todo check oss and students subscriptions
-  if (!subscription || !subscription.subscription_plan_id || subscription.subscription_plan_id === 'free') {
+  if (
+    !subscription ||
+    !subscription.subscription_plan_id ||
+    subscription.subscription_plan_id === 'free' ||
+    subscription.subscription_plan_id === 'oss' ||
+    subscription.subscription_plan_id === 'student'
+  ) {
     return res
       .status(400)
       .send('You are not subscribed. To add team members, you need to create a subscription first.');
@@ -26,7 +31,6 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   const teamMembers = await getTeamMembers(createdById);
   const includedSeats = await getIncludedSeats(createdById);
 
-  // @todo check if team members already contains the email
   if (teamMembers.length >= includedSeats && !paymentConfirmed) {
     return res.status(200).send({
       needsPaymentConfirmation: true,
