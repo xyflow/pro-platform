@@ -10,9 +10,7 @@ function TrackPageView() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    load('THHEIFCU', {
-      includedDomains: ['https://pro.reactflow.dev', 'https://pro-beta.reactflow.dev'],
-    });
+    load('PUYCLHSM');
   }, []);
 
   useEffect(() => {
