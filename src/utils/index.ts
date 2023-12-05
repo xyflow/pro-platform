@@ -39,12 +39,3 @@ export async function getExampleConfig({ id, framework }: { id: string; framewor
   const config = await response.json();
   return config;
 }
-
-// @todo this is not necessary once we deploy at pro.reactflow.dev
-export function getBaseUrl() {
-  if (isDevelopment() || isStaging()) {
-    return '/';
-  }
-
-  return isProduction() && process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' ? 'https://pro-beta.reactflow.dev' : '/';
-}

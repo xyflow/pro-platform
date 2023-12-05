@@ -6,7 +6,6 @@ import { useSendVerificationEmail } from '@nhost/nextjs';
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 
 import { AuthErrorNotification, AuthNotification } from './AuthNotification';
-import { getBaseUrl } from '@/utils';
 
 function ResendVerificationLink() {
   const defaultEmail = useSearchParams()?.get('email');
@@ -15,7 +14,7 @@ function ResendVerificationLink() {
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    sendEmail(email, { redirectTo: getBaseUrl() });
+    sendEmail(email);
   };
 
   return (

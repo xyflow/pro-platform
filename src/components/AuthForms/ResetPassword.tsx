@@ -5,7 +5,6 @@ import { useResetPassword } from '@nhost/nextjs';
 
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 import { AuthErrorNotification, AuthNotification } from './AuthNotification';
-import { getBaseUrl } from '@/utils';
 
 function ResetPassword() {
   const [email, setEmail] = useState<string>('');
@@ -13,7 +12,7 @@ function ResetPassword() {
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    resetPassword(email, { redirectTo: `${getBaseUrl()}/account` });
+    resetPassword(email, { redirectTo: '/account' });
   };
 
   return (
