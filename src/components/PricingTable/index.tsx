@@ -28,8 +28,8 @@ export default function PricingTableComponent() {
       interval,
     });
 
-    if (response.url) {
-      window.location.href = response.res.data.url;
+    if (!response.error && response.url) {
+      window.location.href = response.url;
       setTimeout(() => setLoading(plan, false), 500);
       return;
     }

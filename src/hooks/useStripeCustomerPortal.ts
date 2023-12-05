@@ -6,8 +6,8 @@ function useStripeCustomerPortal(): { openCustomerPortal: () => void } {
   const openCustomerPortal = async () => {
     const response = await callNhostFunction('/stripe/create-customer-portal', {});
 
-    if (response.url) {
-      window.location.href = response.res.data.url;
+    if (!response.error && response.url) {
+      window.location.href = response.url;
     }
   };
 
