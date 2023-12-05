@@ -1,0 +1,77 @@
+[
+  {
+    "source": "/subscribe",
+    "destination": "/dashboard",
+    "permanent": true
+  },
+  {
+    "source": "/billing",
+    "destination": "/account",
+    "permanent": true
+  },
+  {
+    "source": "/faq",
+    "destination": "https://reactflow.dev/pro",
+    "permanent": true
+  },
+  {
+    "source": "/info",
+    "destination": "https://reactflow.dev/pro",
+    "permanent": true
+  },
+  {
+    "source": "/plans",
+    "destination": "https://reactflow.dev/pro/pricing",
+    "permanent": true
+  },
+  {
+    "source": "/pricing",
+    "destination": "https://reactflow.dev/pro/pricing",
+    "permanent": true
+  },
+  {
+    "source": "/pro-examples",
+    "destination": "https://reactflow.dev/pro/examples",
+    "permanent": true
+  },
+  {
+    "source": "/enterprise",
+    "destination": "https://reactflow.dev/pro/enterprise",
+    "permanent": true
+  },
+  {
+    "source": "/contact",
+    "destination": "https://xyflow.com/contact",
+    "permanent": true
+  },
+  {
+    "source": "/about-us",
+    "destination": "https://xyflow.com/about",
+    "permanent": true
+  },
+  {
+    "source": "/terms",
+    "destination": "https://xyflow.com/terms-of-use",
+    "permanent": true
+  },
+  {
+    "source": "/privacy",
+    "destination": "https://xyflow.com/privacy",
+    "permanent": true
+  },
+  {
+    "source": "/ethical-standards",
+    "destination": "https://xyflow.com/ethical-standards",
+    "permanent": true
+  },
+  {
+    "source": "/login",
+    "destination": "/signin",
+    "permanent": true
+  },
+  {
+    "source": "/dashboard",
+    "destination": "/",
+    "permanent": true
+  }
+]

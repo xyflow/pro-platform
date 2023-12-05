@@ -1,10 +1,21 @@
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import DashboardHeader from '@/components/DashboardHeader';
 import NotSubscribedNotification from '@/components/Notification/not-subscribed';
 import ExampleGrid from '@/components/ExampleTeaser/grid';
 import { Framework } from '@/types';
+import { getExampleList } from '@/utils';
 
 export default async function ProExamplesOverview({ params }: { params: { framework: Framework } }) {
+  const examples = await getExampleList();
+
+  // this is used to redirect the legacy urls (pro.reactflow.dev/examples/auto-layout) to the new url structure
+  // e.g. pro.reactflow.dev/examples/react/auto-layout
+  const exampleById = examples.find((example) => example.id === params.framework);
+
+  if (exampleById) {
+    redirect(`/examples/${exampleById.framework}/${exampleById.id}`);
+  }
+
   if (!Object.values(Framework).includes(params.framework)) {
     notFound();
   }
