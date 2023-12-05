@@ -25,21 +25,17 @@ const stripeWebhookHandler = async (req: NhostRequest, res: Response) => {
   const sig = req.headers['stripe-signature'] as string;
 
   try {
-    const event = stripe.webhooks.constructEvent(
-      req.rawBody,
-      sig,
-      endpointSecret
-    );
+    const event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
 
     if (relevantEvents.has(event.type)) {
       const stripeEvent = event.data.object as Stripe.Subscription;
       await handleSubscriptionChange(stripeEvent);
     }
 
-    return res.status(200).send();
+    return res.status(200).send({ message: 'ok' });
   } catch (err) {
     console.log(err);
-    return res.status(400).send(`Webhook Error: ${err}`);
+    return res.status(400).send({ message: `Webhook Error: ${err}` });
   }
 };
 

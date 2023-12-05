@@ -9,7 +9,7 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   const { email, paymentConfirmed } = req.body;
 
   if (!email) {
-    return res.status(400).send('Please provide a valid email address.');
+    return res.status(400).send({ message: 'Please provide a valid email address.' });
   }
 
   // get the subscription from the creator to add the team member to the same plan
@@ -25,7 +25,7 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   ) {
     return res
       .status(400)
-      .send('You are not subscribed. To add team members, you need to create a subscription first.');
+      .send({ message: 'You are not subscribed. To add team members, you need to create a subscription first.' });
   }
 
   const teamMembers = await getTeamMembers(createdById);
@@ -39,21 +39,21 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   }
 
   if (teamMembers.find((member) => member.email === email)) {
-    return res.status(400).send('This email is already on your team.');
+    return res.status(400).send({ message: 'This email is already on your team.' });
   }
 
   // if the added user already exists, the user id is added to the team subscription
   let userId = await getUserIdByEmail(email);
 
   if (userId === createdById) {
-    return res.status(400).send('You cannot add yourself to your team.');
+    return res.status(400).send({ message: 'You cannot add yourself to your team.' });
   }
 
   if (paymentConfirmed) {
     const stripeSubscription = await getStripeSubscription(subscription.stripe_customer_id);
 
     if (!stripeSubscription) {
-      return res.status(400).send('Something went wrong.');
+      return res.status(400).send({ message: 'Something went wrong.' });
     }
   }
 
@@ -65,7 +65,7 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
     userId = await getUserIdByEmail(email);
 
     if (!userId) {
-      return res.status(400).send('Something went wrong.');
+      return res.status(400).send({ message: 'Something went wrong.' });
     }
   }
 
@@ -81,7 +81,7 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
     await updateSeatQuantity(createdById);
   }
 
-  return res.status(200).json({ message: 'Team member added successfully.' });
+  return res.status(200).send({ message: 'Team member added successfully.' });
 }
 
 export default authPost(inviteTeamMember);
