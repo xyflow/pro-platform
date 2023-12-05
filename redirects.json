@@ -1,7 +1,12 @@
 [
   {
-    "source": "/subscribe",
-    "destination": "/dashboard",
+    "source": "/login",
+    "destination": "/signin",
+    "permanent": true
+  },
+  {
+    "source": "/dashboard",
+    "destination": "/",
     "permanent": true
   },
   {
@@ -62,16 +67,6 @@
   {
     "source": "/ethical-standards",
     "destination": "https://xyflow.com/ethical-standards",
-    "permanent": true
-  },
-  {
-    "source": "/login",
-    "destination": "/signin",
-    "permanent": true
-  },
-  {
-    "source": "/dashboard",
-    "destination": "/",
     "permanent": true
   }
 ]
