@@ -26,6 +26,7 @@ import {
 import useNhostFunction from '@/hooks/useNhostFunction';
 // import useSubscription from '@/hooks/useSubscription';
 import { PlanLabel } from '@/components/SubscriptionStatus';
+import Loader from '@/components/Loader';
 
 const GET_TEAM_MEMBERS = gql`
   query GetTeamMembers($userId: uuid) {
@@ -123,7 +124,11 @@ export default function ManageTeamCard() {
   const remainingSeats = Math.max(0, includedSeats - data?.team_subscriptions?.length ?? 0);
 
   if (!status) {
-    return null;
+    return (
+      <div className="min-h-[300px] flex items-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   return (
@@ -146,8 +151,8 @@ export default function ManageTeamCard() {
                     {currencySign}20 per month.
                   </p>{' '}
                   <p className="mt-2">
-                    You will only pay for the months that you use the seat and the amount will be added to your next
-                    invoice.
+                    You will only pay for the time that the seat is listed in your team and the amount will be added to
+                    your next invoice.
                   </p>
                   {/* Adding a new seat will charge {currencySign} */}
                   {/* {seatPrice} per {status.billingPeriod} with your next invoice. Please confirm to continue. */}
