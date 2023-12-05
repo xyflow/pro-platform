@@ -23,11 +23,6 @@ We've been funding the development of React Flow and Svelte Flow through the Pro
 - [Why we refactored and open sourced the Pro Platform](https://xyflow.com/blog/react-flow-pro-platform-open-source)
 - [How we fund our open source libraries](https://xyflow.com/open-source)
 
-## Feedback and Contributing
-
-The Pro Platform was not initially developed to be plug-and-play for other developers. If you would like to use this platform as a starting point for your own open source project, we'd love to hear about it. Send us an email at info@xyflow.com
-<br/>
-
 ## Development
 
 These are the steps needed to setup and run the platform on your machine.
@@ -65,3 +60,7 @@ For being able to test the Stripe integration locally, you need to listen to Str
 ```sh
 pnpm run stripe-webhook
 ```
+
+## Feedback and Contributing
+
+The Pro Platform was not initially developed to be plug-and-play for other developers. If you would like to use this platform as a starting point for your own open source project, we'd love to hear about it. Send us an email at info@xyflow.com
