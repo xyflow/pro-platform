@@ -31,7 +31,7 @@ export default async function ProExamplesOverview({ params }: { params: { framew
         description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
       />
       <NotSubscribedNotification />
-      <ExampleGrid framework={params.framework} />
+      <ExampleGrid />
     </div>
   );
 }
