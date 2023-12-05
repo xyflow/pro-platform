@@ -3,15 +3,8 @@ import { Request, Response } from 'express';
 import { getUser } from '../_utils/graphql/users';
 import { updateWelcomeMailStatus } from '../_utils/graphql/subscriptions';
 import { sendDiscordNotification } from '../_utils/discord';
-import {
-  sendMailTemplate,
-  subscribeMailingList,
-  unsubscribeMailingList,
-} from '../_utils/mailjet';
-import {
-  MAILJET_PRO_MAILING_LIST_ID,
-  MAILJET_WELCOME_MAIL_TEMPLATE_IDS,
-} from '../_utils/constants';
+import { sendMailTemplate, subscribeMailingList, unsubscribeMailingList } from '../_utils/mailjet';
+import { MAILJET_PRO_MAILING_LIST_ID, MAILJET_WELCOME_MAIL_TEMPLATE_IDS } from '../_utils/constants';
 
 enum PaidSubscriptionPlan {
   Starter = 'starter',
@@ -25,16 +18,10 @@ enum FreeSubscriptionPlan {
 }
 
 async function sendWelcomeMail(email: string, plan: PaidSubscriptionPlan) {
-  const template =
-    MAILJET_WELCOME_MAIL_TEMPLATE_IDS[plan] ||
-    MAILJET_WELCOME_MAIL_TEMPLATE_IDS.default;
+  const template = MAILJET_WELCOME_MAIL_TEMPLATE_IDS[plan] || MAILJET_WELCOME_MAIL_TEMPLATE_IDS.default;
 
   if (email) {
-    return await sendMailTemplate(
-      email,
-      'Welcome to React Flow Pro!',
-      template
-    );
+    return await sendMailTemplate(email, 'Welcome to React Flow Pro!', template);
   }
   return true;
 }
@@ -60,27 +47,22 @@ async function sendSubscriptionNotification({
   return await sendDiscordNotification(message);
 }
 
-export default async function handleSubscriptionChange(
-  req: Request,
-  res: Response
-) {
+export default async function handleSubscriptionChange(req: Request, res: Response) {
   // Check header to make sure the request comes from Hasura
-  if (
-    req.headers['nhost-webhook-secret'] !== process.env.NHOST_WEBHOOK_SECRET
-  ) {
-    return res.status(400).send('Incorrect webhook secret');
+  if (req.headers['nhost-webhook-secret'] !== process.env.NHOST_WEBHOOK_SECRET) {
+    return res.status(400).send({ message: 'Incorrect webhook secret' });
   }
 
   const userId = req.body.event?.data?.new?.user_id;
 
   if (!userId) {
-    return res.status(400).json({ error: 'no user id.' });
+    return res.status(400).send({ message: 'no user id.' });
   }
 
   const { email } = (await getUser(userId)) ?? {};
 
   if (!email) {
-    return res.status(400).json({ error: `no email found for user ${userId}` });
+    return res.status(400).send({ message: `no email found for user ${userId}` });
   }
 
   const oldPlan = req.body.event?.data?.old?.subscription_plan_id;
@@ -90,8 +72,7 @@ export default async function handleSubscriptionChange(
 
   if (
     currentPlan !== oldPlan &&
-    (currentPlan === PaidSubscriptionPlan.Pro ||
-      currentPlan === PaidSubscriptionPlan.Starter) &&
+    (currentPlan === PaidSubscriptionPlan.Pro || currentPlan === PaidSubscriptionPlan.Starter) &&
     !sentWelcomeMail
   ) {
     // send welcome mail and signup for the pro subscriber newsletter
@@ -105,7 +86,7 @@ export default async function handleSubscriptionChange(
     } catch (error) {
       console.log(error);
       // @ts-ignore
-      return res.status(400).json({ error: error.toString() });
+      return res.status(400).send({ message: error.toString() });
     }
 
     return res.status(200).json({
@@ -114,10 +95,7 @@ export default async function handleSubscriptionChange(
     });
   }
 
-  if (
-    currentPlan !== oldPlan &&
-    (currentPlan === 'student' || currentPlan === 'oss')
-  ) {
+  if (currentPlan !== oldPlan && (currentPlan === 'student' || currentPlan === 'oss')) {
     await sendSubscriptionNotification({ email, plan: currentPlan });
   }
 
@@ -127,7 +105,7 @@ export default async function handleSubscriptionChange(
     } catch (error) {
       console.log(error);
       // @ts-ignore
-      return res.status(400).json({ error: error.toString() });
+      return res.status(400).send({ message: error.toString() });
     }
   }
 

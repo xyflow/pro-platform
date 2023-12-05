@@ -8,7 +8,6 @@ import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 import { redirect } from 'next/navigation';
 
 import { AuthErrorNotification } from './AuthNotification';
-import { getBaseUrl } from '@/utils';
 
 function Signup() {
   const [email, setEmail] = useState<string>('');
@@ -18,7 +17,7 @@ function Signup() {
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    await signUpEmailPassword(email, password, { redirectTo: getBaseUrl() });
+    await signUpEmailPassword(email, password);
   };
 
   if (needsEmailVerification) {

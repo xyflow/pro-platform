@@ -10,7 +10,7 @@ function TrackPageView() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    load('THHEIFCU');
+    load('PUYCLHSM');
   }, []);
 
   useEffect(() => {

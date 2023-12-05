@@ -3,6 +3,10 @@ import { Card, CardHeader } from '@xyflow/xy-ui';
 
 import SignUp from './signup';
 
+export const metadata = {
+  robots: 'noindex, nofollow',
+};
+
 const SignUpEduPage = () => {
   return (
     <div className="max-w-2xl">

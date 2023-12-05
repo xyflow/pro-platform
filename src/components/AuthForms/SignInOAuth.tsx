@@ -1,11 +1,10 @@
 'use client';
 
-import { getBaseUrl } from '@/utils';
 import { useProviderLink } from '@nhost/nextjs';
 import { Button } from '@xyflow/xy-ui';
 
 const SignInOAuth = () => {
-  const { github } = useProviderLink({ metadata: {}, redirectTo: getBaseUrl() });
+  const { github } = useProviderLink({ metadata: {} });
 
   return (
     <div>
