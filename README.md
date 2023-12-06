@@ -5,7 +5,7 @@
 ![GitHub License MIT](https://img.shields.io/github/license/wbkd/react-flow?color=%23ff0072)
 
 The React Flow Pro platform allows subscribers to access advanced code examples and direct contact to the xyflow team.<br/>
-Built with [Nextjs](https://nextjs.org/), [Nhost](https://nhost.io/) and [Stripe](https://stripe.com).
+Built with [Nextjs](https://nextjs.org/), [Nhost](https://nhost.io/), [Stripe](https://stripe.com) and [shadcn/ui](https://ui.shadcn.com/).
 
 </div>
 
