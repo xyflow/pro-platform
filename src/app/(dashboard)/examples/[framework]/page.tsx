@@ -37,5 +37,10 @@ export default async function ProExamplesOverview({ params }: { params: { framew
 }
 
 export async function generateStaticParams() {
-  return Object.values(Framework).map((framework) => ({ framework }));
+  return [];
+  // return Object.values(Framework).map((framework) => ({ framework }));
 }
+
+// https://github.com/leerob/on-demand-isr/blob/main/app/%5Bid%5D/page.tsx
+export const dynamic = 'force-static';
+export const dynamicParams = true;
