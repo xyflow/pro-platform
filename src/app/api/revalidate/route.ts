@@ -1,11 +1,23 @@
 import { NextRequest } from 'next/server';
-import { revalidateTag } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 // https://nextjs.org/docs/app/api-reference/functions/revalidateTag#route-handler
 async function handler(request: NextRequest) {
   const tag = request.nextUrl.searchParams.get('tag');
-  revalidateTag(tag);
-  return Response.json({ revalidated: true, now: Date.now() });
+
+  if (tag) {
+    revalidateTag(tag);
+    return Response.json({ revalidated: true, tag, timestamp: Date.now() });
+  }
+
+  const path = request.nextUrl.searchParams.get('path');
+
+  if (path) {
+    revalidatePath(path);
+    return Response.json({ revalidated: true, path, timestamp: Date.now() });
+  }
+
+  return Response.json({ revalidated: false, timestamp: Date.now() });
 }
 
 export const POST = handler;
