@@ -23,6 +23,3 @@ export async function generateStaticParams() {
   const examples = await getExampleList();
   return examples.map((example) => ({ id: example.id, framework: example.framework }));
 }
-
-export const dynamic = 'force-static';
-export const dynamicParams = true;
