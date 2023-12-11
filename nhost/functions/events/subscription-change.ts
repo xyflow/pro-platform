@@ -10,6 +10,7 @@ import { MAILJET_PRO_MAILING_LIST_ID, MAILJET_WELCOME_MAIL_TEMPLATE_IDS } from '
 enum PaidSubscriptionPlan {
   Starter = 'starter',
   Pro = 'pro',
+  Enterprise = 'enterprise',
 }
 
 enum FreeSubscriptionPlan {
@@ -73,7 +74,9 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
 
   if (
     currentPlan !== oldPlan &&
-    (currentPlan === PaidSubscriptionPlan.Pro || currentPlan === PaidSubscriptionPlan.Starter) &&
+    (currentPlan === PaidSubscriptionPlan.Pro ||
+      currentPlan === PaidSubscriptionPlan.Starter ||
+      currentPlan === PaidSubscriptionPlan.Enterprise) &&
     !sentWelcomeMail
   ) {
     // send welcome mail and signup for the pro subscriber newsletter

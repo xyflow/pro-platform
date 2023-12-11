@@ -44,7 +44,7 @@ function OverviewPage() {
             title="Email Support"
             description="Your direct wire to the React Flow team. We will point you in the right direction if you encounter problems using React Flow."
             plans={[SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Contact Support', href: 'mailto:support@reactflow.dev' }}
+            button={{ label: 'Contact Support', href: 'mailto:support@xyflow.com' }}
           />
           <SubscriptionFeature
             title="Video Support"
