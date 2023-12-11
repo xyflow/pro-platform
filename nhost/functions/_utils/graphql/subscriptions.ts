@@ -4,7 +4,6 @@ import { gql } from 'graphql-request';
 import GraphQLClient from './client';
 import { stripe, createStripeCustomer } from '../stripe';
 import { getUser, getUserIdByEmail } from './users';
-import { updateTeamSubscriptionPlan } from './team-subscriptions';
 
 // @todo is this on_conflict rule correct?
 const UPSERT_SUBSCRIPTION = gql`
@@ -134,8 +133,6 @@ export async function handleSubscriptionChange(stripeEvent: Stripe.Subscription)
         planId,
         stripeCustomerId: customerId,
       });
-
-      await updateTeamSubscriptionPlan({ createdById: userId, planId });
     }
 
     if (userId && (status === 'past_due' || status === 'canceled')) {
@@ -144,8 +141,6 @@ export async function handleSubscriptionChange(stripeEvent: Stripe.Subscription)
         stripeCustomerId: customerId,
         planId: 'free',
       });
-
-      await updateTeamSubscriptionPlan({ createdById: userId, planId: 'free' });
     }
   }
 }

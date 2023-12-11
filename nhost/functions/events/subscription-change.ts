@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { getUser } from '../_utils/graphql/users';
 import { updateWelcomeMailStatus } from '../_utils/graphql/subscriptions';
+import { updateTeamSubscriptionPlan } from '../_utils/graphql/team-subscriptions';
 import { sendDiscordNotification } from '../_utils/discord';
 import { sendMailTemplate, subscribeMailingList, unsubscribeMailingList } from '../_utils/mailjet';
 import { MAILJET_PRO_MAILING_LIST_ID, MAILJET_WELCOME_MAIL_TEMPLATE_IDS } from '../_utils/constants';
@@ -104,6 +105,15 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
       await unsubscribeMailingList(email, MAILJET_PRO_MAILING_LIST_ID);
     } catch (error) {
       console.log(error);
+      // @ts-ignore
+      return res.status(400).send({ message: error.toString() });
+    }
+  }
+
+  if (currentPlan !== oldPlan) {
+    try {
+      await updateTeamSubscriptionPlan({ createdById: userId, planId: currentPlan });
+    } catch (error) {
       // @ts-ignore
       return res.status(400).send({ message: error.toString() });
     }
