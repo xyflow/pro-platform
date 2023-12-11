@@ -4,6 +4,15 @@ import { getSubscription } from '../_utils/graphql/subscriptions';
 import { getIncludedSeats, upsertTeamSubscription, getTeamMembers } from '../_utils/graphql/team-subscriptions';
 import { createUser, getUserIdByEmail } from '../_utils/graphql/users';
 import { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
+import { sendMailTemplate } from '../_utils/mailjet';
+import { MAILJET_TEAM_INVITE_TEMPLATE_ID } from '../_utils/constants';
+
+async function sendTeamMemberInviteMail(email: string) {
+  if (email) {
+    return await sendMailTemplate(email, 'You have been invited to React Flow Pro!', MAILJET_TEAM_INVITE_TEMPLATE_ID);
+  }
+  return true;
+}
 
 async function inviteTeamMember(req: Request, res: Response, { userId: createdById }: { userId: string }) {
   const { email, paymentConfirmed } = req.body;
@@ -79,6 +88,12 @@ async function inviteTeamMember(req: Request, res: Response, { userId: createdBy
   // this check is used to only add a team member when the subscription update is successful
   if (paymentConfirmed) {
     await updateSeatQuantity(createdById);
+  }
+
+  try {
+    await sendTeamMemberInviteMail(email);
+  } catch (error) {
+    console.log(error);
   }
 
   return res.status(200).send({ message: 'Team member added successfully.' });
