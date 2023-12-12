@@ -38,7 +38,7 @@ export async function getRepoContent(
 }
 
 export async function getProExampleContent(exampleId: string): Promise<GetRepoContentReturn> {
-  const files = await getRepoContent(`examples/${exampleId}`);
+  const files = await getRepoContent(`examples/${exampleId}/app`);
   return { files };
 }
 
