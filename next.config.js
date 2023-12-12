@@ -9,6 +9,14 @@ const nextConfig = {
     // @todo remove this when ts errors in xy-ui are resolved
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'pro-examples.reactflow.dev',
+      },
+    ],
+  },
   async redirects() {
     return redirects;
   },
