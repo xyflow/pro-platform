@@ -35,10 +35,12 @@ export default function DownloadButton({
       }
 
       const content = typeof fileContent === 'string' ? fileContent : fileContent.code;
-      zip.file(fileName, content);
+
+      zip.file(fileName.replace(/^\//, ''), content);
     });
 
     const content = await zip.generateAsync({ type: 'blob' });
+
     saveAs(content, `${fileName}.zip`);
     setIsDownloading(false);
   };
