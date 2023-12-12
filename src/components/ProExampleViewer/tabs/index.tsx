@@ -9,7 +9,7 @@ import MarkdownTab from './markdown';
 import { SandpackFiles } from '@codesandbox/sandpack-react/types';
 import NotSubscribedNotification from '@/components/Notification/not-subscribed';
 import { Subscribed } from '@/components/SubscriptionStatus';
-import { LockClosedIcon } from '@heroicons/react/24/outline';
+import { BookOpenIcon, CodeBracketIcon, ComputerDesktopIcon, LockClosedIcon } from '@heroicons/react/24/outline';
 import useSubscription from '@/hooks/useSubscription';
 import Loader from '@/components/Loader';
 
@@ -25,8 +25,8 @@ const TabButton = (props) => {
 
   return (
     <Button variant="ghost" {...props} className={className}>
+      <div className="mr-2">{props.disabled ? <LockClosedIcon className="w-4 h-4 stroke-2" /> : props.icon}</div>
       {props.children}
-      {props.disabled && <LockClosedIcon className="w-4 h-4 stroke-2 ml-1" />}
     </Button>
   );
 };
@@ -61,13 +61,13 @@ export default function ProExampleViewerTabs({
       <Tabs defaultValue="preview">
         <TabsList className="flex gap-x-0 mb-4 border-b border-gray-200">
           <TabsTrigger asChild value="preview">
-            <TabButton>Preview</TabButton>
+            <TabButton icon={<ComputerDesktopIcon className="w-4 h-4 stroke-2" />}>Preview</TabButton>
           </TabsTrigger>
           <TabsTrigger asChild value="editor" disabled={!isSubscribed}>
-            <TabButton>Code</TabButton>
+            <TabButton icon={<CodeBracketIcon className="w-4 h-4 stroke-2" />}>Code</TabButton>
           </TabsTrigger>
-          <TabsTrigger asChild value="guide" disabled={!isSubscribed}>
-            <TabButton>Guide</TabButton>
+          <TabsTrigger asChild value="readme" disabled={!isSubscribed}>
+            <TabButton icon={<BookOpenIcon className="w-4 h-4 stroke-2" />}>Readme</TabButton>
           </TabsTrigger>
           {/* <TabsTrigger asChild value="installation">
             <TabButton>Installation</TabButton>
@@ -90,7 +90,7 @@ export default function ProExampleViewerTabs({
         </Subscribed>
 
         <Subscribed>
-          <TabContent value="guide" loading={!files}>
+          <TabContent value="readme" loading={!files}>
             <MarkdownTab markdown={readme} />
           </TabContent>
         </Subscribed>

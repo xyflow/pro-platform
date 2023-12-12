@@ -12,7 +12,13 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
   return (
     <Card className="flex flex-col">
       <div className="relative h-[200px]">
-        <Image objectFit="cover" alt="Example Teaser" fill src={`/img/examples/${example.id}.jpg`} />
+        <Image
+          alt="Example Teaser"
+          fill
+          src={`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${example.id}/thumbnail.jpg`}
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
       </div>
       <CardHeader className="flex-1">
         <CardTitle>{example.name ?? example.id}</CardTitle>
