@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLongRightIcon } from '@heroicons/react/20/solid';
-import { Card, CardTitle, CardHeader, CardDescription } from '@xyflow/xy-ui';
+import { Card, CardTitle, CardHeader, CardDescription, cn } from '@xyflow/xy-ui';
 import { type ProExampleConfig } from '@/types';
+import Pill from '@/components/Pill';
 
 export type ExampleTeaserProps = {
   example: ProExampleConfig;
@@ -21,10 +22,12 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
         />
       </div>
       <CardHeader className="flex-1">
-        <CardTitle>{example.name ?? example.id}</CardTitle>
+        <CardTitle className="flex items-center gap-x-1.5">
+          {example.name ?? example.id} {example.free && <Pill>free</Pill>}
+        </CardTitle>
         {example.description && <CardDescription>{example.description}</CardDescription>}
         <Link
-          className="!mt-auto font-bold items-center text-react hover:text-slate-800 flex pt-4 w-full"
+          className={cn('!mt-auto text-react font-bold items-center hover:text-slate-800 flex pt-4 w-full')}
           href={`/examples/${example.framework}/${example.id}`}
         >
           View Example

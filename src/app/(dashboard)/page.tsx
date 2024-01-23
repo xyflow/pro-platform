@@ -12,6 +12,7 @@ function OverviewPage() {
             title="Pro Examples"
             description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
             plans={[
+              SubscriptionPlan.FREE,
               SubscriptionPlan.STARTER,
               SubscriptionPlan.PRO,
               SubscriptionPlan.ENTERPRISE,

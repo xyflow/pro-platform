@@ -9,13 +9,7 @@ type NotificationProps = {
 // @todo maybe move this into ui package
 export default function Notification({ title, description, button, className, ...rest }: NotificationProps) {
   return (
-    <div
-      className={cn(
-        'bg-pink-50 text-react border-react p-5 border rounded-3xl flex justify-between items-center',
-        className
-      )}
-      {...rest}
-    >
+    <div className={cn('bg-pink-50 text-react p-5 rounded-3xl flex justify-between items-center', className)} {...rest}>
       <div>
         {title && <div className="font-black">{title}</div>}
         {description && <div>{description}</div>}

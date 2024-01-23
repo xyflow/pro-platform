@@ -1,5 +1,8 @@
 {
   "name": "@xyflow/pro-platform",
+  "description": "The subscriber platform for React Flow Pro",
+  "homepage": "https://pro.reactflow.dev",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
