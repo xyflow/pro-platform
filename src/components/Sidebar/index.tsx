@@ -5,7 +5,7 @@ import SidebarItem from './SidebarItem';
 
 const Sidebar = () => {
   return (
-    <div className="sticky top-0 shrink-0">
+    <div className="shrink-0">
       <div className="lg:sticky lg:top-4 flex flex-wrap gap-2 lg:flex-col lg:pr-4">
         <SidebarItem icon={<Squares2X2Icon />} href="/" label="Dashboard" />
         <SidebarItem icon={<RocketLaunchIcon />} href="/examples" label="Pro Examples" matchSubPaths />

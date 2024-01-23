@@ -10,8 +10,6 @@ export type ExampleTeaserProps = {
 };
 
 export default function ExampleTeaser({ example }: ExampleTeaserProps) {
-  const isLocked = false;
-
   return (
     <Card className="flex flex-col">
       <div className="relative h-[200px]">
@@ -19,17 +17,15 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
           alt="Example Teaser"
           fill
           src={`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${example.id}/thumbnail.jpg`}
-          className={cn('object-cover', { 'opacity-50': isLocked })}
+          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
       <CardHeader className="flex-1">
-        <CardTitle className={cn('flex items-center gap-x-1.5', { 'text-gray-400': isLocked })}>
+        <CardTitle className="flex items-center gap-x-1.5">
           {example.name ?? example.id} {example.free && <Pill>free</Pill>}
         </CardTitle>
-        {example.description && (
-          <CardDescription className={cn({ 'text-gray-400': isLocked })}>{example.description}</CardDescription>
-        )}
+        {example.description && <CardDescription>{example.description}</CardDescription>}
         <Link
           className={cn('!mt-auto text-react font-bold items-center hover:text-slate-800 flex pt-4 w-full')}
           href={`/examples/${example.framework}/${example.id}`}
