@@ -8,9 +8,7 @@ import EditorTab from './editor';
 import MarkdownTab from './markdown';
 import { SandpackFiles } from '@codesandbox/sandpack-react/types';
 import NotSubscribedNotification from '@/components/Notification/not-subscribed';
-import { Subscribed } from '@/components/SubscriptionStatus';
 import { BookOpenIcon, CodeBracketIcon, ComputerDesktopIcon, LockClosedIcon } from '@heroicons/react/24/outline';
-import useSubscription from '@/hooks/useSubscription';
 import Loader from '@/components/Loader';
 
 const TabButton = (props) => {
@@ -47,14 +45,15 @@ export default function ProExampleViewerTabs({
   exampleId,
   frameworkId,
   files,
+  isUnlocked,
 }: {
   exampleId: string;
   frameworkId: Framework;
   files: null | SandpackFiles;
+  isUnlocked: boolean;
 }) {
   // @ts-ignore
   const readme = files?.['/README.mdx']?.code || files?.['/README.md']?.code;
-  const { isSubscribed } = useSubscription();
 
   return (
     <>
@@ -63,10 +62,10 @@ export default function ProExampleViewerTabs({
           <TabsTrigger asChild value="preview">
             <TabButton icon={<ComputerDesktopIcon className="w-4 h-4 stroke-2" />}>Preview</TabButton>
           </TabsTrigger>
-          <TabsTrigger asChild value="editor" disabled={!isSubscribed}>
+          <TabsTrigger asChild value="editor" disabled={!isUnlocked}>
             <TabButton icon={<CodeBracketIcon className="w-4 h-4 stroke-2" />}>Code</TabButton>
           </TabsTrigger>
-          <TabsTrigger asChild value="readme" disabled={!isSubscribed}>
+          <TabsTrigger asChild value="readme" disabled={!isUnlocked}>
             <TabButton icon={<BookOpenIcon className="w-4 h-4 stroke-2" />}>Readme</TabButton>
           </TabsTrigger>
           {/* <TabsTrigger asChild value="installation">
@@ -77,23 +76,25 @@ export default function ProExampleViewerTabs({
           </TabsTrigger> */}
         </TabsList>
 
-        <NotSubscribedNotification />
+        {!isUnlocked && (
+          <NotSubscribedNotification description="Please subscribe to download this and all other pro examples" />
+        )}
 
         <TabContent value="preview">
           <PreviewTab exampleId={exampleId} frameworkId={frameworkId} />
         </TabContent>
 
-        <Subscribed>
+        {isUnlocked && (
           <TabContent value="editor" loading={!files}>
             <EditorTab files={files} />
           </TabContent>
-        </Subscribed>
+        )}
 
-        <Subscribed>
+        {isUnlocked && (
           <TabContent value="readme" loading={!files}>
             <MarkdownTab markdown={readme} />
           </TabContent>
-        </Subscribed>
+        )}
 
         {/* <TabsContent value="installation">
           <MarkdownTab markdown={`# installation`} />

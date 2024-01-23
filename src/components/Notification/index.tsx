@@ -6,12 +6,16 @@ type NotificationProps = {
   button?: { label: string; href: string };
 } & React.HTMLAttributes<HTMLDivElement>;
 
+const blue = 'bg-blue-50 text-blue-500 border-none';
+const blueBtn = 'bg-blue-500 hover:bg-blue-600';
+
 // @todo maybe move this into ui package
 export default function Notification({ title, description, button, className, ...rest }: NotificationProps) {
   return (
     <div
       className={cn(
-        'bg-pink-50 text-react border-react p-5 border rounded-3xl flex justify-between items-center',
+        'bg-pink-50 text-react p-5 rounded-3xl flex justify-between items-center',
+        // blue,
         className
       )}
       {...rest}

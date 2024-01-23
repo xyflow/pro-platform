@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClientProviders>
           <div className="bg-white">
             <Navigation />
-            <div className="p-4 relative min-h-[calc(100vh-200px)] overflow-hidden">{children}</div>
+            <div className="p-4 relative min-h-[calc(100vh-200px)]">{children}</div>
             <Footer />
           </div>
         </ClientProviders>
