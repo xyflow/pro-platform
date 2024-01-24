@@ -5,19 +5,21 @@ import { revalidatePath, revalidateTag } from 'next/cache';
 async function handler(request: NextRequest) {
   const tag = request.nextUrl.searchParams.get('tag');
 
+  let revalidated = false;
+
   if (tag) {
     revalidateTag(tag);
-    return Response.json({ revalidated: true, tag, timestamp: Date.now() });
+    revalidated = true;
   }
 
   const path = request.nextUrl.searchParams.get('path');
 
   if (path) {
     revalidatePath(path);
-    return Response.json({ revalidated: true, path, timestamp: Date.now() });
+    revalidated = true;
   }
 
-  return Response.json({ revalidated: false, timestamp: Date.now() });
+  return Response.json({ revalidated, tag, path, timestamp: Date.now() });
 }
 
 export const POST = handler;
