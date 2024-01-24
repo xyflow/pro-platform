@@ -1,15 +1,21 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLongRightIcon } from '@heroicons/react/20/solid';
 import { Card, CardTitle, CardHeader, CardDescription, cn } from '@xyflow/xy-ui';
 import { type ProExampleConfig } from '@/types';
 import Pill from '@/components/Pill';
+import useSubscription from '@/hooks/useSubscription';
 
 export type ExampleTeaserProps = {
   example: ProExampleConfig;
 };
 
 export default function ExampleTeaser({ example }: ExampleTeaserProps) {
+  const { isSubscribed } = useSubscription();
+  const showFreeLabel = example.free && !isSubscribed;
+
   return (
     <Card className="flex flex-col">
       <div className="relative h-[200px]">
@@ -23,7 +29,7 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
       </div>
       <CardHeader className="flex-1">
         <CardTitle className="flex items-center gap-x-1.5">
-          {example.name ?? example.id} {example.free && <Pill>free</Pill>}
+          {example.name ?? example.id} {showFreeLabel && <Pill>free</Pill>}
         </CardTitle>
         {example.description && <CardDescription>{example.description}</CardDescription>}
         <Link
