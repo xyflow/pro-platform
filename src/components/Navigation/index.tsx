@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { LogoLabel } from '@xyflow/xy-ui';
 import NavMenu from './NavMenu';
 

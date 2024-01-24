@@ -4,6 +4,7 @@ import { gql } from 'graphql-request';
 import GraphQLClient from './client';
 import { stripe, createStripeCustomer } from '../stripe';
 import { getUser, getUserIdByEmail } from './users';
+import { getTeamSubscription } from './team-subscriptions';
 
 // @todo is this on_conflict rule correct?
 const UPSERT_SUBSCRIPTION = gql`
@@ -66,6 +67,22 @@ export async function getSubscription(userId: string): Promise<Subscription> {
     user_subscriptions: Subscription[];
   }>(GET_SUBSCRIPTION, { userId });
   return response.user_subscriptions?.[0];
+}
+
+export async function isSubscribed(userId: string) {
+  const subscription = await getSubscription(userId);
+
+  if (subscription && subscription.subscription_plan_id !== 'free') {
+    return true;
+  }
+
+  const teamSubscription = await getTeamSubscription(userId);
+
+  if (teamSubscription && teamSubscription.subscription_plan_id !== 'free') {
+    return true;
+  }
+
+  return false;
 }
 
 export async function getOrCreateCustomer(userId: string) {

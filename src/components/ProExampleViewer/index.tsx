@@ -6,7 +6,7 @@ import { type SandpackFiles } from '@codesandbox/sandpack-react';
 import { Framework, ProExampleConfig } from '@/types';
 import DashboardHeader from '@/components/DashboardHeader';
 import useDownloadExample from '@/hooks/useDownloadExample';
-import { Subscribed } from '@/components/SubscriptionStatus';
+import useSubscription from '@/hooks/useSubscription';
 
 import DownloadButton from './download-button';
 import OverviewButton from './overview-button';
@@ -24,6 +24,8 @@ function ProExampleViewer({
 }) {
   const [files, setFiles] = useState<SandpackFiles>(null);
   const downloadExample = useDownloadExample({ exampleId, framework: frameworkId });
+  const { isSubscribed } = useSubscription();
+  const isUnlocked = isSubscribed || config.free;
 
   useEffect(() => {
     const loadFiles = async () => {
@@ -44,14 +46,14 @@ function ProExampleViewer({
             <div>{config.name}</div>
             <div className="ml-auto flex gap-x-2">
               <VariantSelect exampleId={exampleId} variants={config.variants} />
-              <Subscribed>
+              {isUnlocked && (
                 <DownloadButton
                   exampleId={exampleId}
                   frameworkId={frameworkId}
                   files={files}
                   fileName={`${exampleId}-pro-example`}
                 />
-              </Subscribed>
+              )}
             </div>
           </>
         }
@@ -59,7 +61,7 @@ function ProExampleViewer({
         descriptionClassName="max-w-4xl"
         className="my-4"
       />
-      <Tabs files={files} exampleId={exampleId} frameworkId={frameworkId} />
+      <Tabs isUnlocked={isUnlocked} files={files} exampleId={exampleId} frameworkId={frameworkId} />
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import fetch from 'cross-fetch';
+import redis from './redis';
 
+type ProExampleConfig = { id: string; free?: boolean; name: string };
 type GithubFile = { name: string; content: string; path: string };
 type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
-type GetRepoContentReturn = { files: GithubFile[] };
+type GetRepoContentReturn = { files: GithubFile[]; config: ProExampleConfig };
 
 export async function getRepoContent(
   path: string,
@@ -38,11 +40,17 @@ export async function getRepoContent(
 }
 
 export async function getProExampleContent(exampleId: string): Promise<GetRepoContentReturn> {
-  const files = await getRepoContent(`examples/${exampleId}/app`);
-  return { files };
-}
+  const data = await redis.json.get(exampleId, '$');
 
-export async function getProExampleList(): Promise<string[]> {
-  const files = await getRepoContent('examples', { recursive: false });
-  return files.map((file) => file.name);
+  if (data && data[0]) {
+    return data[0];
+  }
+
+  const configArr = await getRepoContent(`examples/${exampleId}/config.json`, { recursive: false });
+  const config = JSON.parse(configArr[0].content);
+  const files = await getRepoContent(`examples/${exampleId}/app`);
+
+  await redis.json.set(exampleId, '$', { files, config });
+
+  return { config, files };
 }
