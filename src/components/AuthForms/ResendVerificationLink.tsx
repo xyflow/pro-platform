@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { useSendVerificationEmail } from '@nhost/nextjs';
+import { useSignInEmailPasswordless } from '@nhost/nextjs';
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 
 import { AuthErrorNotification, AuthNotification } from './AuthNotification';
@@ -10,17 +10,17 @@ import { AuthErrorNotification, AuthNotification } from './AuthNotification';
 function ResendVerificationLink() {
   const defaultEmail = useSearchParams()?.get('email');
   const [email, setEmail] = useState<string>(defaultEmail || '');
-  const { sendEmail, isLoading, isSent, isError, error } = useSendVerificationEmail();
+  const { signInEmailPasswordless, isSuccess, isLoading, isError, error } = useSignInEmailPasswordless();
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    sendEmail(email);
+    signInEmailPasswordless(email);
   };
 
   return (
     <form onSubmit={handleSubmit}>
       {isError && <AuthErrorNotification error={error} />}
-      {isSent && (
+      {isSuccess && (
         <AuthNotification
           variant="success"
           title="We have sent you a link"

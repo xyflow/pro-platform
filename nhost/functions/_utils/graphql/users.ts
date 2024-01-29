@@ -56,3 +56,29 @@ export async function getUser(id: string): Promise<User | null> {
 
   return response.user;
 }
+
+const DELETE_USER_DATA = gql`
+  mutation DeleteUserData($id: uuid!) {
+    delete_team_subscriptions(where: { created_by: { _eq: $id } }) {
+      affected_rows
+    }
+    delete_user_subscriptions(where: { user_id: { _eq: $id } }) {
+      affected_rows
+    }
+    deleteUser(id: $id) {
+      id
+    }
+  }
+`;
+
+export async function deleteUser(id: string): Promise<boolean> {
+  const response = await GraphQLClient.request<{
+    delete_team_subscriptions: { affected_rows: number };
+    delete_user_subscriptions: { affected_rows: number };
+    deleteUser: { id: string };
+  }>(DELETE_USER_DATA, {
+    id,
+  });
+
+  return response.deleteUser.id === id;
+}
