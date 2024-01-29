@@ -6,7 +6,7 @@ import { Card, CardHeader, CardDescription, CardTitle, CardFooter, Button, Input
 
 function ChangePasswordCard() {
   const [isLoading, setIsLoading] = useState(false);
-  const { changePassword, isSuccess } = useChangePassword();
+  const { changePassword, isSuccess, isError, error } = useChangePassword();
   const [newPassword, setNewPassword] = useState<string>('');
 
   const handleSubmit = async (evt: React.SyntheticEvent) => {
@@ -20,10 +20,13 @@ function ChangePasswordCard() {
     <Card>
       <CardHeader>
         <CardTitle>Change Password</CardTitle>
-        {isSuccess && <CardDescription className="text-green-500">Your password has been updated.</CardDescription>}
+        {isSuccess && <CardDescription className="text-green-600">Your password has been updated.</CardDescription>}
+        {isError && (
+          <CardDescription className="text-red-500">{error ? error.message : 'Something went wrong.'}</CardDescription>
+        )}
       </CardHeader>
-      <CardFooter className="bg-muted space-x-10">
-        <form onSubmit={handleSubmit} className="flex justify-between w-full">
+      <CardFooter className="bg-muted">
+        <form onSubmit={handleSubmit} className="flex space-x-2 justify-between w-full">
           <div className="flex-1">
             <InputLabel htmlFor="password">New Password</InputLabel>
             <Input

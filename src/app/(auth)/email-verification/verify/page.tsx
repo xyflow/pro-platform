@@ -1,8 +1,6 @@
 'use client';
 
-// import { Link, Heading } from '@xyflow/xy-ui';
 import { redirect, useSearchParams } from 'next/navigation';
-// import { useEffect } from 'react';
 import { useNhostClient } from '@nhost/nextjs';
 
 export default function VerifyEmailPage() {
@@ -17,5 +15,5 @@ export default function VerifyEmailPage() {
     redirect(`${nhostClient.auth.url}/verify?ticket=${ticket}&type=${type}&redirectTo=${redirectTo}`);
   }
 
-  redirect('/');
+  redirect('/?error=invalid-ticket');
 }
