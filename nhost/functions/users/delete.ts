@@ -24,7 +24,7 @@ async function deleteUserHandler(req: Request, res: Response, { userId }: { user
     console.log(err);
   }
 
-  const success = deleteUser(userId);
+  const success = await deleteUser(userId);
 
   return res.status(200).send({ success });
 }
