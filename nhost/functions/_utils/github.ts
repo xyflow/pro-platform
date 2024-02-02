@@ -1,16 +1,29 @@
 import fetch from 'cross-fetch';
 import redis from './redis';
+import { IS_DEVELOPMENT, IS_STAGING } from './constants';
 
 type ProExampleConfig = { id: string; free?: boolean; name: string };
 type GithubFile = { name: string; content: string; path: string };
-type GetRepoContentOptions = { basePath?: string; result?: GithubFile[]; recursive?: boolean; repo?: string };
+type GetRepoContentOptions = {
+  basePath?: string;
+  result?: GithubFile[];
+  recursive?: boolean;
+  repo?: string;
+  ref?: 'main' | 'staging';
+};
 type GetRepoContentReturn = { files: GithubFile[]; config: ProExampleConfig };
 
 export async function getRepoContent(
   path: string,
-  { basePath = '', result = [], recursive = true, repo = 'xyflow/pro-example-apps' }: GetRepoContentOptions = {}
+  {
+    basePath = '',
+    result = [],
+    recursive = true,
+    repo = 'xyflow/pro-example-apps',
+    ref = 'main',
+  }: GetRepoContentOptions = {}
 ): Promise<GetRepoContentReturn['files']> {
-  const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+  const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${ref}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
@@ -46,9 +59,10 @@ export async function getProExampleContent(exampleId: string): Promise<GetRepoCo
     return data[0];
   }
 
-  const configArr = await getRepoContent(`examples/${exampleId}/config.json`, { recursive: false });
+  const ref = IS_DEVELOPMENT || IS_STAGING ? 'staging' : 'main';
+  const configArr = await getRepoContent(`examples/${exampleId}/config.json`, { recursive: false, ref });
   const config = JSON.parse(configArr[0].content);
-  const files = await getRepoContent(`examples/${exampleId}/app`);
+  const files = await getRepoContent(`examples/${exampleId}/app`, { ref });
 
   await redis.json.set(exampleId, '$', { files, config });
 

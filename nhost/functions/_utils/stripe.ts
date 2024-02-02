@@ -47,6 +47,7 @@ export async function createStripeCustomer({ email, userId }: { email?: string; 
     email,
     metadata: {
       userId,
+      userEmail: email ?? '',
     },
   });
 
