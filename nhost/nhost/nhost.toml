@@ -20,10 +20,6 @@ name = 'DISCORD_NOTIFICATIONS_WEBHOOK'
 value = '{{ secrets.DISCORD_NOTIFICATIONS_WEBHOOK }}'
 
 [[global.environment]]
-name = 'GITHUB_ACCESS_TOKEN'
-value = '{{ secrets.GITHUB_ACCESS_TOKEN }}'
-
-[[global.environment]]
 name = 'UPSTASH_REDIS_URL'
 value = '{{ secrets.UPSTASH_REDIS_URL }}'
 
@@ -63,7 +59,7 @@ version = '0.19.1'
 
 [auth.redirections]
 clientUrl = 'http://localhost:3000'
-allowedUrls = ['http://localhost:3000', 'https://*.vercel.app', 'https://*.netlify.app', 'https://pro.reactflow.dev', 'https://pro-beta.reactflow.dev']
+allowedUrls = ['http://localhost:3000', 'https://*.vercel.app', 'https://*.netlify.app', 'https://pro.reactflow.dev']
 
 [auth.signUp]
 enabled = true

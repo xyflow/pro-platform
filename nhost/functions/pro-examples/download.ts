@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { getProExampleContent } from '../_utils/github';
 import { isSubscribed } from '../_utils/graphql/subscriptions';
 import { authPost } from '../_utils/middleware';
+import { redis } from '../_utils/redis';
 
 async function downloadProExample(req: Request, res: Response, { userId }: { userId: string }) {
   const { id, framework } = req.body;
@@ -10,7 +10,13 @@ async function downloadProExample(req: Request, res: Response, { userId }: { use
     return res.status(500).send({ message: 'Bad request.' });
   }
 
-  const { config, files } = await getProExampleContent(id);
+  const data = await redis.json.get(id, '$');
+
+  if (!data || !data[0]) {
+    return res.status(500).send({ message: 'Example does not exist.' });
+  }
+
+  const { config, files } = data[0];
 
   // either it's a free example or the user must be subscribed to access it
   const hasAccess = config.free || (await isSubscribed(userId));
