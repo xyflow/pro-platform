@@ -39,22 +39,34 @@ const markdownComponents = {
   // can style the table with tailwind properly...
   table: ({ children, ...props }) => {
     const [
-      { props: thead },
+      {
+        props: { children: theadChildren, ...thead },
+      },
       {
         props: { children: tbodyChildren, ...tbody },
       },
     ] = children;
 
     return (
-      <table className="w-full" {...props}>
-        <thead className="text-left border-b border-slate-100" {...thead} />
+      <table className="mt-4" {...props}>
+        <thead className="text-left border-b border-slate-100" {...thead}>
+          <tr>
+            {theadChildren.props.children.map((th, index) => {
+              return (
+                <th className="p-2" key={index}>
+                  {th.props.children}
+                </th>
+              );
+            })}
+          </tr>
+        </thead>
         <tbody {...tbody.props}>
           {tbodyChildren.map((tr, index) => {
             return (
               <tr className="border-b border-slate-100" key={index}>
                 {tr.props.children.map((td, index) => {
                   return (
-                    <td className="py-2" key={index}>
+                    <td className="p-2" key={index}>
                       {td.props.children}
                     </td>
                   );
