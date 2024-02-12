@@ -27,6 +27,11 @@ value = '{{ secrets.UPSTASH_REDIS_URL }}'
 name = 'UPSTASH_REDIS_TOKEN'
 value = '{{ secrets.UPSTASH_REDIS_TOKEN }}'
 
+[[global.environment]]
+name = 'NODE_ENV'
+value = '{{ secrets.NODE_ENV }}'
+
+
 [hasura]
 version = 'v2.25.1-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
