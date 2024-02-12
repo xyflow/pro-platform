@@ -1,0 +1,17 @@
+.node {
+  font-size: 21px;
+  border: none;
+  background-color: #0041d0;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.node:global.selectable.selected {
+  box-shadow: none;
+}
+
+.node :global .react-flow__handle {
+  display: none;
+}

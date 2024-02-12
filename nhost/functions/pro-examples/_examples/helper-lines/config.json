@@ -1,0 +1,8 @@
+{
+  "id": "helper-lines",
+  "name": "Helper Lines",
+  "description": "Snap nodes along the same axis with helper lines.",
+  "tags": ["UI & UX"],
+  "published": true,
+  "free": true
+}
