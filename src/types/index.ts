@@ -28,6 +28,9 @@ export type ProExampleConfig = {
   framework: string;
   hidden?: boolean;
   variants?: ProExampleVariant[];
+  thumbnail?: string;
+  preview: string;
+  local?: boolean;
   free?: boolean;
 };
 
