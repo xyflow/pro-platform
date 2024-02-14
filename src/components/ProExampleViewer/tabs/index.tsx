@@ -42,13 +42,11 @@ const TabContent = (props: { value: string; loading?: boolean; children: React.R
 };
 
 export default function ProExampleViewerTabs({
-  exampleId,
-  frameworkId,
+  previewUrl,
   files,
   isUnlocked,
 }: {
-  exampleId: string;
-  frameworkId: Framework;
+  previewUrl: string;
   files: null | SandpackFiles;
   isUnlocked: boolean;
 }) {
@@ -81,7 +79,7 @@ export default function ProExampleViewerTabs({
         )}
 
         <TabContent value="preview">
-          <PreviewTab exampleId={exampleId} frameworkId={frameworkId} />
+          <PreviewTab src={previewUrl} />
         </TabContent>
 
         {isUnlocked && (

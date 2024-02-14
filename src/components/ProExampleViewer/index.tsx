@@ -61,7 +61,7 @@ function ProExampleViewer({
         descriptionClassName="max-w-4xl"
         className="my-4"
       />
-      <Tabs isUnlocked={isUnlocked} files={files} exampleId={exampleId} frameworkId={frameworkId} />
+      <Tabs isUnlocked={isUnlocked} files={files} previewUrl={config.preview} />
     </div>
   );
 }
