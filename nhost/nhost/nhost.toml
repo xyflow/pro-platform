@@ -31,6 +31,17 @@ value = '{{ secrets.UPSTASH_REDIS_TOKEN }}'
 name = 'NODE_ENV'
 value = '{{ secrets.NODE_ENV }}'
 
+[[global.environment]]
+name = 'PRO_PLATFORM_URL'
+value = 'https://pro.reactflow.dev'
+
+[[global.environment]]
+name = 'PUBLIC_PRO_EXAMPLES_URL'
+value = 'https://pro-examples.reactflow.dev'
+
+[[global.environment]]
+name = 'LOCAL_PRO_EXAMPLES_URL'
+value = '{{ secrets.LOCAL_PRO_EXAMPLES_URL }}'
 
 [hasura]
 version = 'v2.25.1-ce'
