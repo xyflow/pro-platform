@@ -1,4 +1,6 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from 'express';
+import type { ProExample } from '../_utils/types';
+
 import { isSubscribed } from '../_utils/graphql/subscriptions';
 import { authPost } from '../_utils/middleware';
 import { redis } from '../_utils/redis';
@@ -12,14 +14,20 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 async function downloadProExample(req: Request, res: Response, { userId }: { userId: string }) {
   const { id, framework } = req.body;
 
-  if (process.env.NODE_ENV === 'development') {
-    return downloadLocalProExample(req, res);
-  }
-
   if (!id || !framework || !userId) {
     return res.status(500).send({ message: 'Bad request.' });
   }
 
+  if (process.env.NODE_ENV === 'development' && hasLocalProExample(id)) {
+    return downloadLocalProExample(id, res);
+  } else {
+    return downloadRedisProExample(id, userId, res);
+  }
+}
+
+export default authPost(downloadProExample);
+
+async function downloadRedisProExample(id: string, userId: string, res: Response) {
   const data = await redis.json.get(id, '$');
 
   if (!data || !data[0]) {
@@ -38,22 +46,17 @@ async function downloadProExample(req: Request, res: Response, { userId }: { use
   return res.status(200).json({ timestamp: Date.now(), files });
 }
 
-export default authPost(downloadProExample);
+function hasLocalProExample(id: string) {
+  return existsSync(join(__dirname, './_examples', id));
+}
 
-type ProExampleContent = {
-  timestamp: number;
-  files: { path: string; content: string }[];
-};
-
-async function downloadLocalProExample(req: Request, res: Response) {
-  const { id } = req.body;
-
+async function downloadLocalProExample(id: string, res: Response) {
   if (!existsSync(join(__dirname, './_examples', id))) {
     return res.status(500).send({ message: 'Example does not exist.' });
   }
 
   try {
-    const payload = { timestamp: Date.now(), files: [] } as ProExampleContent;
+    const payload = { timestamp: Date.now(), files: [] } as ProExample;
     const src = join(__dirname, './_examples', id, 'app');
 
     for (const file of await readdir(src, { withFileTypes: true, recursive: true })) {
