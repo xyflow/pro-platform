@@ -22,14 +22,16 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
         <Image
           alt="Example Teaser"
           fill
-          src={`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${example.id}/thumbnail.jpg`}
+          src={example.thumbnail ?? 'https://fakeimg.pl/600x400'}
           className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       </div>
       <CardHeader className="flex-1">
         <CardTitle className="flex items-center gap-x-1.5">
-          {example.name ?? example.id} {showFreeLabel && <Pill>free</Pill>}
+          {example.name ?? example.id}
+          {showFreeLabel && <Pill>free</Pill>}
+          {example.local && <Pill>local</Pill>}
         </CardTitle>
         {example.description && <CardDescription>{example.description}</CardDescription>}
         <Link
