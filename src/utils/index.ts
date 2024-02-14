@@ -23,19 +23,21 @@ export function getNhostClient() {
 }
 
 export async function getExampleList({ framework }: { framework?: Framework } = {}): Promise<ProExampleConfig[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/examples.json`, {
-    next: { tags: ['examples'] },
-  });
-  const examples = await response.json();
-  return examples
-    .filter((example) => (framework ? example.framework === framework : true))
-    .map((example) => ({ ...example, framework: 'react' }));
+  const nhost = getNhostClient();
+  const examples = await nhost.functions.call<ProExampleConfig[]>('/pro-examples/all', { framework });
+
+  return examples.res.data;
 }
 
-export async function getExampleConfig({ id, framework }: { id: string; framework: Framework }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${id}/config.json`, {
-    next: { tags: ['examples'] },
-  });
-  const config = await response.json();
-  return config;
+export async function getExampleConfig({
+  id,
+  framework,
+}: {
+  id: string;
+  framework: Framework;
+}): Promise<ProExampleConfig> {
+  const nhost = getNhostClient();
+  const example = await nhost.functions.call<ProExampleConfig>('/pro-examples/config', { id });
+
+  return example.res.data;
 }
