@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { redis } from '../_utils/redis';
 import { existsSync } from 'node:fs';
+import { IS_DEVELOPMENT } from '../_utils/constants';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -21,7 +22,7 @@ async function getProExampleConfig(req: Request, res: Response) {
     return res.status(500).send({ message: 'Bad request.' });
   }
 
-  if (process.env.NODE_ENV === 'development' && hasLocalProExample(id)) {
+  if (IS_DEVELOPMENT && hasLocalProExample(id)) {
     return getLocalProExampleConfig(id, res);
   } else {
     return getRedisProExampleConfig(id, res);

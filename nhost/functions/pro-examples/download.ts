@@ -8,6 +8,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { join, relative } from 'node:path';
 import { existsSync } from 'node:fs';
+import { IS_DEVELOPMENT } from '../_utils/constants';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -18,7 +19,7 @@ async function downloadProExample(req: Request, res: Response, { userId }: { use
     return res.status(500).send({ message: 'Bad request.' });
   }
 
-  if (process.env.NODE_ENV === 'development' && hasLocalProExample(id)) {
+  if (IS_DEVELOPMENT && hasLocalProExample(id)) {
     return downloadLocalProExample(id, res);
   } else {
     return downloadRedisProExample(id, userId, res);

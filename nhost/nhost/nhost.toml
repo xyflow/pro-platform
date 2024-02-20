@@ -28,10 +28,6 @@ name = 'UPSTASH_REDIS_TOKEN'
 value = '{{ secrets.UPSTASH_REDIS_TOKEN }}'
 
 [[global.environment]]
-name = 'NODE_ENV'
-value = '{{ secrets.NODE_ENV }}'
-
-[[global.environment]]
 name = 'PRO_PLATFORM_URL'
 value = 'https://pro.reactflow.dev'
 

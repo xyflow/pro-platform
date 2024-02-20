@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 import { readFile, readdir } from 'node:fs/promises';
 import { redis } from '../_utils/redis';
+import { IS_DEVELOPMENT } from '../_utils/constants';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -18,7 +19,7 @@ async function getAllProExamples(req: Request, res: Response) {
   const { framework = 'react', includeHidden = false } = req.body as GetAllProExamplesOptions;
   const examplesById = await getRedisProExamples(framework, includeHidden);
 
-  if (process.env.NODE_ENV === 'development') {
+  if (IS_DEVELOPMENT) {
     await getLocalProExamples(framework, includeHidden, examplesById);
   }
 
