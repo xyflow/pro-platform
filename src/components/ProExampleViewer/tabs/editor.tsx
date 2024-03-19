@@ -20,11 +20,16 @@ const ignoreFiles = [
   '/tsconfig.node.json',
 ];
 
+const theme = {
+  ...aquaBlue,
+  colors: { ...aquaBlue.colors, accent: 'hsl(var(--primary))' },
+};
+
 function ProExampleCodeEditor({ files }: { files: SandpackFiles }) {
   const visibleFiles = files ? Object.keys(files).filter((file) => !ignoreFiles.includes(file)) : [];
 
   return (
-    <SandpackProvider options={{ visibleFiles, activeFile: 'src/App.tsx' }} files={files} theme={aquaBlue}>
+    <SandpackProvider options={{ visibleFiles, activeFile: 'src/App.tsx' }} files={files} theme={theme}>
       <SandpackLayout>
         <SandpackFileExplorer style={{ height: editorHeight }} autoHiddenFiles />
         <SandpackCodeEditor wrapContent style={{ height: editorHeight }} showLineNumbers showTabs={false} />
