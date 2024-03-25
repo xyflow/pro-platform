@@ -3,10 +3,11 @@ import stripe, { getLineItem } from '../_utils/stripe';
 import { authPost } from '../_utils/middleware';
 import { getOrCreateCustomer } from '../_utils/graphql/subscriptions';
 
-const createStripeCheckoutSession = async (req: Request, res: Response, { userId }: { userId: string }) => {
+const createStripeCheckoutSession = async (req: Request, res: Response) => {
+  const userId = res.locals.userId;
   const { plan, interval = 'month' } = req.body;
 
-  if (!plan) {
+  if (!plan || !userId) {
     return res.status(405).send({ message: 'Bad request.' });
   }
 

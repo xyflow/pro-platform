@@ -5,25 +5,17 @@ const mailjet = new Mailjet({
   apiSecret: process.env.MAILJET_APIKEY_PRIVATE,
 });
 
-export async function subscribeMailingList(
-  email: string,
-  listId: number,
-  properties = {},
-) {
+export async function subscribeMailingList(email: string, listId: number, properties = {}) {
   if (!email || !listId) {
     return false;
   }
 
   try {
-    const response = await mailjet
-      .post('contactslist', { version: 'v3' })
-      .id(listId)
-      .action('managecontact')
-      .request({
-        Email: email,
-        Action: 'addforce',
-        Properties: properties,
-      });
+    const response = await mailjet.post('contactslist', { version: 'v3' }).id(listId).action('managecontact').request({
+      Email: email,
+      Action: 'addforce',
+      Properties: properties,
+    });
 
     return response.response.status === 200;
   } catch (err) {
@@ -37,14 +29,10 @@ export async function unsubscribeMailingList(email: string, listId: number) {
     return false;
   }
   try {
-    const response = await mailjet
-      .post('contactslist', { version: 'v3' })
-      .id(listId)
-      .action('managecontact')
-      .request({
-        Email: email,
-        Action: 'unsub',
-      });
+    const response = await mailjet.post('contactslist', { version: 'v3' }).id(listId).action('managecontact').request({
+      Email: email,
+      Action: 'unsub',
+    });
 
     return response.response.status === 200;
   } catch (err) {
@@ -53,12 +41,7 @@ export async function unsubscribeMailingList(email: string, listId: number) {
   }
 }
 
-export async function sendMailTemplate(
-  email: string,
-  subject: string,
-  templateId: number,
-  variables = {},
-) {
+export async function sendMailTemplate(email: string, subject: string, templateId: number, variables = {}) {
   if (!email || !subject || !templateId) {
     return false;
   }
@@ -96,11 +79,13 @@ export async function sendMail({
   subject,
   content,
   replyTo,
+  attachments = undefined,
 }: {
   to: string;
   subject: string;
   content: string;
   replyTo: string;
+  attachments?: { ContentType: string; Filename: string; Base64Content: string }[];
 }) {
   if (!to || !subject || !content || !replyTo) {
     return false;
@@ -124,6 +109,7 @@ export async function sendMail({
           },
           Subject: subject,
           TextPart: content,
+          Attachments: attachments,
         },
       ],
     });
