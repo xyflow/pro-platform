@@ -1,31 +1,31 @@
 import { Request, Response } from 'express';
 import { sendMail } from '../_utils/mailjet';
 import { getLineItem, stripe } from '../_utils/stripe';
+import { cors, post } from '../_utils/middleware';
 
-function getContent(body: Record<string, string>): string {
+function stringifyContent(body: Record<string, string>): string {
   return Object.entries(body)
     .map(([key, value]) => `${key}:\n${value}`)
     .join('\n\n');
 }
 
+async function getQuoteBase64(id: string): Promise<string> {
+  const pdfStream = await stripe.quotes.pdf(id);
+
+  return new Promise((resolve, reject) => {
+    const chunks: any = [];
+    pdfStream.on('data', (chunk) => chunks.push(chunk));
+    pdfStream.on('end', () => {
+      const result = Buffer.concat(chunks);
+      console.log(result.toString('base64'));
+      resolve(result.toString('base64'));
+    });
+  });
+}
+
+// @todo type request body here
 const createQuote = async (req: Request, res: Response) => {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).send({ message: 'Method Not Allowed' });
-  }
-
-  const { email, plan, name } = req.body;
+  const { plan, email, name, website, same_end_user, end_user_name, end_user_website, message } = req.body;
 
   if (!email || !plan || !name) {
     return res.status(405).send({ message: 'Bad Request.' });
@@ -45,24 +45,24 @@ const createQuote = async (req: Request, res: Response) => {
     return res.status(405).send({ message: 'Bad Request.' });
   }
 
-  const quotePdf = await stripe.quotes.pdf(quote.id);
+  const quoteBase64 = await getQuoteBase64(finalizedQuote.id);
+  const content = stringifyContent({ plan, email, website });
 
-  console.log(quotePdf);
+  const success = await sendMail({
+    to: 'christopher@xyflow.com',
+    subject: 'Your React Flow Pro Quote Request',
+    content,
+    replyTo: req.body.email,
+    attachments: [
+      { ContentType: 'application/pdf', Filename: `${finalizedQuote.number}.pdf`, Base64Content: quoteBase64 },
+    ],
+  });
 
-  // const content = getContent(req.body);
+  if (!success) {
+    return res.status(500).json({ message: 'something went wrong.' });
+  }
 
-  // const success = await sendMail({
-  //   to: 'info@xyflow.com',
-  //   subject: 'Your React Flow Pro Quote Request',
-  //   content,
-  //   replyTo: req.body.email,
-  // });
-
-  // if (!success) {
-  //   return res.status(500).json({ message: 'something went wrong.' });
-  // }
-
-  return res.status(200).json({ message: 'ok', quote });
+  return res.status(200).json({ message: 'ok' });
 };
 
-export default createQuote;
+export default cors(post(createQuote));

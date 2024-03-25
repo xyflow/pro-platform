@@ -4,7 +4,9 @@ import { deleteUser } from '../_utils/graphql/users';
 import stripe, { getStripeSubscription } from '../_utils/stripe';
 import { getSubscription } from '../_utils/graphql/subscriptions';
 
-async function deleteUserHandler(req: Request, res: Response, { userId }: { userId: string }) {
+async function deleteUserHandler(req: Request, res: Response) {
+  const userId = res.locals.userId;
+
   if (!userId) {
     return res.status(405).send({ message: 'Bad request.' });
   }
