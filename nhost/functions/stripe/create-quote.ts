@@ -5,7 +5,8 @@ import { cors, post } from '../_utils/middleware';
 
 function stringifyContent(body: Record<string, string>): string {
   return Object.entries(body)
-    .map(([key, value]) => `${key}:\n${value}`)
+    .filter(([_, value]) => !!value)
+    .map(([key, value]) => `${key}: ${value}`)
     .join('\n\n');
 }
 
@@ -25,7 +26,7 @@ async function getQuoteBase64(id: string): Promise<string> {
 
 // @todo type request body here
 const createQuote = async (req: Request, res: Response) => {
-  const { plan, email, name, website, same_end_user, end_user_name, end_user_website, message } = req.body;
+  const { plan, email, name } = req.body;
 
   if (!email || !plan || !name) {
     return res.status(405).send({ message: 'Bad Request.' });
@@ -46,10 +47,10 @@ const createQuote = async (req: Request, res: Response) => {
   }
 
   const quoteBase64 = await getQuoteBase64(finalizedQuote.id);
-  const content = stringifyContent({ plan, email, website });
+  const content = stringifyContent(req.body);
 
   const success = await sendMail({
-    to: 'christopher@xyflow.com',
+    to: 'info@xyflow.com',
     subject: 'Your React Flow Pro Quote Request',
     content,
     replyTo: req.body.email,
