@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { getUserIdFromAuthToken } from './jwt';
-import { IS_DEVELOPMENT, IS_STAGING } from './constants';
 
 export const post = (fn: any) => async (req: Request, res: Response) => {
   res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
@@ -29,12 +28,7 @@ export const auth = (fn: any) => async (req: Request, res: Response) => {
 };
 
 export const cors = (fn: any) => async (req: Request, res: Response) => {
-  const allowOrigin = IS_DEVELOPMENT
-    ? '*'
-    : IS_STAGING
-    ? '*.vercel.app'
-    : '*.reactflow.dev *.xyflow.com *.svelteflow.dev';
-  res.setHeader('Access-Control-Allow-Origin', allowOrigin);
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
