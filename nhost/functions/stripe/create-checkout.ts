@@ -7,7 +7,7 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
   const userId = res.locals.userId;
   const { plan, interval = 'month' } = req.body;
 
-  if (!plan) {
+  if (!plan || !userId) {
     return res.status(405).send({ message: 'Bad request.' });
   }
 
