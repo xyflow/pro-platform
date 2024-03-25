@@ -1,14 +1,9 @@
 import { Request, Response } from 'express';
 import { getUserIdFromAuthToken } from './jwt';
+import { IS_DEVELOPMENT, IS_STAGING } from './constants';
 
-export const authPost = (fn: any) => async (req: Request, res: Response) => {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
+export const post = (fn: any) => async (req: Request, res: Response) => {
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -18,16 +13,36 @@ export const authPost = (fn: any) => async (req: Request, res: Response) => {
     return res.status(405).send({ message: 'Method not allowed.' });
   }
 
+  return await fn(req, res);
+};
+
+export const auth = (fn: any) => async (req: Request, res: Response) => {
   const userId = getUserIdFromAuthToken(req.headers.authorization);
 
   if (!userId) {
     return res.status(401).send({ message: 'Unauthorized.' });
   }
 
-  try {
-    return await fn(req, res, { userId });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send({ message: 'Internal server error.' });
-  }
+  res.locals.userId = userId;
+
+  return await fn(req, res);
 };
+
+export const cors = (fn: any) => async (req: Request, res: Response) => {
+  const allowOrigin = IS_DEVELOPMENT
+    ? '*'
+    : IS_STAGING
+    ? '*.vercel.app'
+    : '*.reactflow.dev *.xyflow.com *.svelteflow.dev';
+  res.setHeader('Access-Control-Allow-Origin', allowOrigin);
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  return await fn(req, res);
+};
+
+export const authPost = (fn: any) => cors(auth(post(fn)));

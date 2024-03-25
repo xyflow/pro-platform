@@ -14,10 +14,11 @@ async function sendTeamMemberInviteMail(email: string) {
   return true;
 }
 
-async function inviteTeamMember(req: Request, res: Response, { userId: createdById }: { userId: string }) {
+async function inviteTeamMember(req: Request, res: Response) {
+  const createdById = res.locals.userId;
   const { email, paymentConfirmed } = req.body;
 
-  if (!email) {
+  if (!email || !createdById) {
     return res.status(400).send({ message: 'Please provide a valid email address.' });
   }
 

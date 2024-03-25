@@ -3,7 +3,8 @@ import { isSubscribed } from '../_utils/graphql/subscriptions';
 import { authPost } from '../_utils/middleware';
 import { redis } from '../_utils/redis';
 
-async function downloadProExample(req: Request, res: Response, { userId }: { userId: string }) {
+async function downloadProExample(req: Request, res: Response) {
+  const userId = res.locals.userId;
   const { id, framework } = req.body;
 
   if (!id || !framework || !userId) {
