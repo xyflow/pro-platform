@@ -18,7 +18,6 @@ async function getQuoteBase64(id: string): Promise<string> {
     pdfStream.on('data', (chunk) => chunks.push(chunk));
     pdfStream.on('end', () => {
       const result = Buffer.concat(chunks);
-      console.log(result.toString('base64'));
       resolve(result.toString('base64'));
     });
   });
@@ -53,7 +52,7 @@ const createQuote = async (req: Request, res: Response) => {
     to: 'info@xyflow.com',
     subject: 'Your React Flow Pro Quote Request',
     content,
-    replyTo: req.body.email,
+    replyTo: email,
     attachments: [
       { ContentType: 'application/pdf', Filename: `${finalizedQuote.number}.pdf`, Base64Content: quoteBase64 },
     ],
