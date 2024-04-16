@@ -1,4 +1,11 @@
-import { Squares2X2Icon, RocketLaunchIcon, UsersIcon, Cog8ToothIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import {
+  Squares2X2Icon,
+  RocketLaunchIcon,
+  UsersIcon,
+  Cog8ToothIcon,
+  SparklesIcon,
+  ChatBubbleLeftRightIcon,
+} from '@heroicons/react/24/outline';
 
 import { NotSubscribed, Subscribed } from '@/components/SubscriptionStatus';
 import SidebarItem from './SidebarItem';
@@ -12,6 +19,7 @@ const Sidebar = () => {
         <Subscribed requireAdminSubscription>
           <SidebarItem icon={<UsersIcon />} href="/team" label="Team" />
         </Subscribed>
+        <SidebarItem icon={<ChatBubbleLeftRightIcon />} href="/support" label="Support" />
         <SidebarItem icon={<Cog8ToothIcon />} href="/account" label="Account" />
         <NotSubscribed>
           <SidebarItem
