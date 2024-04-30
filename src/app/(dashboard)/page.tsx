@@ -21,12 +21,14 @@ function OverviewPage() {
             ]}
             button={{ label: 'Browse Examples', href: '/examples' }}
           />
+
           <SubscriptionFeature
             title="Prioritized Github Issues"
             description="Your Github issues will be looked at first by our team. Drop us a message at info@xyflow.com with a link to your issue after creating it."
             plans={[SubscriptionPlan.STARTER, SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
             button={{ label: 'Open Issue', href: 'https://github.com/xyflow/xyflow/issues/new/choose' }}
           />
+
           <SubscriptionFeature
             title="Invite Your Team"
             description="Invite your team members to grant them access to the Pro examples."
@@ -34,6 +36,7 @@ function OverviewPage() {
             button={{ label: 'Invite Team', href: '/team' }}
             requireAdminSubscription
           />
+
           <SubscriptionFeature
             title="Onboarding Call"
             description="Schedule a call with us to share what you're building with React Flow and how we can make the library even better."
@@ -41,17 +44,12 @@ function OverviewPage() {
             button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow' }}
             requireAdminSubscription
           />
+
           <SubscriptionFeature
-            title="Email Support"
+            title="Individual Support"
             description="Your direct wire to the React Flow team. We will point you in the right direction if you encounter problems using React Flow."
             plans={[SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Contact Support', href: 'mailto:support@xyflow.com' }}
-          />
-          <SubscriptionFeature
-            title="Video Support"
-            description="Your direct wire to the React Flow team. We will point you in the right direction if you encounter problems using React Flow."
-            plans={[SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Schedule Support Call', href: 'https://cal.com/team/react-flow' }}
+            button={{ label: 'Get Support', href: '/support' }}
           />
         </div>
       </div>
