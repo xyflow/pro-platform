@@ -14,12 +14,11 @@ const SupportPage = () => {
         <div className="text-xl font-black mb-2">How to quickly get support for your problem</div>
         <ul className="list-disc leading-7 pl-4">
           <li>
-            The best way to contact us is via email. This channel is only available for Professional and Enterprise
-            subscribers.
+            The best way to contact us is via email. If you’re a Professional or Enterprise subscriber, click the link
+            below to use that email address.
           </li>
           <li>
-            If possible, please include a codesandbox that we can access and that reproduces your issue. You can use our
-            codesandbox starters:{' '}
+            Include a codesandbox that we can access which reproduces your issue. You can use our codesandbox starters:{' '}
             <Link className="text-primary" href="https://new.reactflow.dev/js">
               Javascript
             </Link>
@@ -33,14 +32,14 @@ const SupportPage = () => {
             <Link className="text-primary" href="https://github.com/xyflow/xyflow/issues/new">
               open an issue on github
             </Link>
-            . Subscribers can prioritize issues by sending us a mail with the link to{' '}
+            . Subscribers can prioritize issues by sending us an mail with the link to{' '}
             <Link className="text-primary" href="mailto:info@xyflow.com">
               info@xyflow.com
             </Link>
           </li>
           <li>
-            Please write the email from the account that you are subscribed with or reference it so that we can check
-            your subscription status.
+            Email us using the account you’re currently logged into, or reference it so we can check your subscription
+            status
           </li>
         </ul>
       </div>
@@ -48,7 +47,7 @@ const SupportPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
           <SubscriptionFeature
             title="Discord"
-            description="Free for all support from the community. Please use the email support if you are a Professional or Enterprise subscriber."
+            description="Ask and answer questions in our active community of React Flow developers"
             plans={[
               SubscriptionPlan.FREE,
               SubscriptionPlan.STARTER,
@@ -61,7 +60,7 @@ const SupportPage = () => {
           />
           <SubscriptionFeature
             title="Email"
-            description="Subscribers to the Professional and Enterprise plan have one hour of individual support included."
+            description="The Professional and Enterprise plans include one hour of 1:1 support per month"
             plans={[SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
             button={{ label: 'Contact Support', href: 'mailto:support@xyflow.com' }}
           />

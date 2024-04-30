@@ -16,10 +16,10 @@ const Sidebar = () => {
       <div className="lg:sticky lg:top-4 flex flex-wrap gap-2 lg:flex-col lg:pr-4">
         <SidebarItem icon={<Squares2X2Icon />} href="/" label="Dashboard" />
         <SidebarItem icon={<RocketLaunchIcon />} href="/examples" label="Pro Examples" matchSubPaths />
+        <SidebarItem icon={<ChatBubbleLeftRightIcon />} href="/support" label="Support" />
         <Subscribed requireAdminSubscription>
           <SidebarItem icon={<UsersIcon />} href="/team" label="Team" />
         </Subscribed>
-        <SidebarItem icon={<ChatBubbleLeftRightIcon />} href="/support" label="Support" />
         <SidebarItem icon={<Cog8ToothIcon />} href="/account" label="Account" />
         <NotSubscribed>
           <SidebarItem
