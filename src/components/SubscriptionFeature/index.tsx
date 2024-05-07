@@ -14,7 +14,7 @@ type SubscriptionFeatureProps = {
   title: React.ReactNode;
   description?: React.ReactNode;
   plans?: SubscriptionPlan[];
-  button?: { label: string; href: string };
+  button?: { label: string; href?: string; action?: () => unknown };
   requireAdminSubscription?: boolean;
 };
 
@@ -36,15 +36,7 @@ function SubscriptionFeature({
       </CardHeader>
       <CardFooter className={cn('mt-auto bg-white')}>
         {isActive ? (
-          <>
-            {button && (
-              <Link href={button.href}>
-                <Button className="text-md font-bold" variant="link">
-                  {button.label} <ArrowLongRightIcon className="ml-1 h-4 w-4" />
-                </Button>
-              </Link>
-            )}
-          </>
+          <>{button && <ActionButton {...button} />}</>
         ) : isTeamSubscribed ? (
           <div className="text-muted-foreground text-sm">Please contact your team admin to upgrade.</div>
         ) : (
@@ -71,6 +63,24 @@ function SubscriptionFeature({
         )}
       </CardFooter>
     </Card>
+  );
+}
+
+function ActionButton({ href, label, action = () => {} }: SubscriptionFeatureProps['button']) {
+  if (href) {
+    return (
+      <Link href={href}>
+        <Button className="text-md font-bold" variant="link">
+          {label} <ArrowLongRightIcon className="ml-1 h-4 w-4" />
+        </Button>
+      </Link>
+    );
+  }
+
+  return (
+    <Button onClick={action} className="text-md font-bold" variant="link">
+      {label} <ArrowLongRightIcon className="ml-1 h-4 w-4" />
+    </Button>
   );
 }
 
