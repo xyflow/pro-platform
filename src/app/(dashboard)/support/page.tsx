@@ -10,9 +10,9 @@ const SupportPage = () => {
         title="Support"
         description="The xyflow team is based in Europe and offers individual support for subscribers to the Professional and Enterprise plans. You can expect a response from us within 48 hours during working days."
       />
-      <div className="text-muted-foreground max-w-2xl">
+      <div className="max-w-2xl">
         <div className="text-xl font-black mb-2">How to quickly get support for your problem</div>
-        <ul className="list-disc leading-7 pl-4">
+        <ul className="list-disc text-light mb-8 leading-7 pl-4">
           <li>
             The best way to contact us is via email. If you’re a Professional or Enterprise subscriber, click the link
             below to use that email address.

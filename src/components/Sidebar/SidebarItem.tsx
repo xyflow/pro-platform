@@ -23,7 +23,7 @@ const SidebarItem = ({
   const isActive = matchSubPaths ? pathname.startsWith(href) : pathname === href;
 
   const btnClassName = cn(
-    'shrink-0 bg-gray-100 lg:bg-transparent gap-1 text-muted-foreground justify-start',
+    'shrink-0 bg-gray-100 lg:bg-transparent gap-1 text-black justify-start',
     {
       '!bg-pink-100 !text-primary': isActive,
       'pl-4': !!icon,
