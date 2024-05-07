@@ -8,7 +8,7 @@ const SupportPage = () => {
     <div>
       <DashboardHeader
         title="Support"
-        description="The xyflow team is based in Europe and offers individual support for subscribers to the Professional and Enterprise plans. You can expect an answer from us within 24 hours during working days."
+        description="The xyflow team is based in Europe and offers individual support for subscribers to the Professional and Enterprise plans. You can expect a response from us within 48 hours during working days."
       />
       <div className="text-muted-foreground max-w-2xl">
         <div className="text-xl font-black mb-2">How to quickly get support for your problem</div>
@@ -46,7 +46,19 @@ const SupportPage = () => {
       <div className="flex-1 space-y-7 mt-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
           <SubscriptionFeature
-            title="Discord"
+            title="Support Email"
+            description="The Professional and Enterprise plans include one hour of 1:1 support per month"
+            plans={[SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
+            button={{ label: 'Contact Support', href: 'mailto:support@xyflow.com' }}
+          />
+          <SubscriptionFeature
+            title="Video Call"
+            description="Enterprise subscribers can schedule a video call with our team to get 1:1 support."
+            plans={[SubscriptionPlan.ENTERPRISE]}
+            button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow' }}
+          />
+          <SubscriptionFeature
+            title="Discord Community"
             description="Ask and answer questions in our active community of React Flow developers"
             plans={[
               SubscriptionPlan.FREE,
@@ -57,18 +69,6 @@ const SupportPage = () => {
               SubscriptionPlan.OSS,
             ]}
             button={{ label: 'Launch Discord', href: 'https://discord.gg/RVmnytFmGW' }}
-          />
-          <SubscriptionFeature
-            title="Email"
-            description="The Professional and Enterprise plans include one hour of 1:1 support per month"
-            plans={[SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Contact Support', href: 'mailto:support@xyflow.com' }}
-          />
-          <SubscriptionFeature
-            title="Video Call"
-            description="Enterprise subscribers can schedule a video call with our team to get 1:1 support."
-            plans={[SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow' }}
           />
         </div>
       </div>
