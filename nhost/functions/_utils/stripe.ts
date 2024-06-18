@@ -1,19 +1,30 @@
 import Stripe from 'stripe';
 import { getOrCreateCustomer } from './graphql/subscriptions';
 import { getIncludedSeats, getTeamMembers } from './graphql/team-subscriptions';
+import { redis } from './redis';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? '', {
   apiVersion: '2022-11-15',
 });
 
-export const getPrices = async () => {
+export const getPricesFromStripeApi = async () => {
   const { data } = await stripe.prices.list({
     active: true,
-    expand: ['data.product'],
+    expand: ['data.currency_options'],
     limit: 100,
   });
 
   return data;
+};
+
+export const getPrices = async () => {
+  const prices = await redis.json.get('stripe.prices', '$');
+
+  if (prices && prices[0]) {
+    return prices[0].prices as Stripe.Price[];
+  }
+
+  return await getPricesFromStripeApi();
 };
 
 type GetLineItemParams = {
@@ -25,12 +36,8 @@ type GetLineItemParams = {
 export const getLineItem = async ({ plan, quantity = 1, interval = 'month' }: GetLineItemParams) => {
   const prices = await getPrices();
 
-  const priceId = prices.find(
-    (price) =>
-      (plan === 'seats'
-        ? (price.product as Stripe.Product).metadata.seats
-        : (price.product as Stripe.Product).metadata.plan === plan) && price.recurring?.interval === interval
-  )?.id;
+  const lookupKey = `${plan}_${interval}ly`;
+  const priceId = prices.find((price) => price.lookup_key === lookupKey)?.id;
 
   if (!priceId) {
     return null;
@@ -126,6 +133,14 @@ export async function updateSeatQuantity(userId: string): Promise<boolean> {
     console.log(error);
     return false;
   }
+}
+
+export async function handlePricingChange() {
+  const prices = await getPricesFromStripeApi();
+
+  await redis.json.set('stripe.prices', '$', { prices });
+
+  return prices;
 }
 
 export default stripe;
