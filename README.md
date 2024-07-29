@@ -61,6 +61,10 @@ For being able to test the Stripe integration locally, you need to listen to Str
 pnpm run stripe-webhook
 ```
 
+#### Pro Examples
+
+If a newly published pro example does not appear in the list you might need to call https://pro.reactflow.dev/api/revalidate?path=/examples&tag=examples manually.
+
 ## Feedback and Contributing
 
 The Pro Platform was not initially developed to be plug-and-play for other developers. If you would like to use this platform as a starting point for your own open source project, we'd love to hear about it. Send us an email at info@xyflow.com
