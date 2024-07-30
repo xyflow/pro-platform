@@ -43,7 +43,7 @@ This will start a webserver at [http://localhost:3000](http://localhost:3000) wh
 
 #### Nhost Backend
 
-The database, user management and authentication is built with [Nhost](https://nhost.io/). To run the backend locally, you need to have [the Nhost cli](https://docs.nhost.io/cli) installed. The backend is located in the `/nhost` directory.
+The database, user management and authentication is built with [Nhost](https://nhost.io/). To run the backend locally, you need to have [the Nhost cli](https://docs.nhost.io/development/cli/getting-started) installed. The backend is located in the `/nhost` directory.
 
 ```sh
 cd nhost
