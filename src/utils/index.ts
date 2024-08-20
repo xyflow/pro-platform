@@ -1,5 +1,5 @@
 import { NhostClient } from '@nhost/nhost-js';
-import { Environment, Framework, ProExampleConfig } from '@/types';
+import { Environment, Framework, ProExampleConfig, Currency } from '@/types';
 
 export function isProduction() {
   return process.env.NODE_ENV === Environment.PRODUCTION;
@@ -38,4 +38,15 @@ export async function getExampleConfig({ id, framework }: { id: string; framewor
   });
   const config = await response.json();
   return config;
+}
+
+export function getCurrencySign(currency: Currency) {
+  switch (currency) {
+    case Currency.EUR:
+      return '€';
+    case Currency.INR:
+      return '₹';
+    default:
+      return '$';
+  }
 }

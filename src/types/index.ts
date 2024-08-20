@@ -16,6 +16,12 @@ export enum Framework {
   REACT = 'react',
 }
 
+export enum Currency {
+  USD = 'usd',
+  EUR = 'eur',
+  INR = 'inr',
+}
+
 export type ProExampleVariant = {
   id: string;
   label: string;
