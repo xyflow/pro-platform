@@ -27,6 +27,8 @@ import useNhostFunction from '@/hooks/useNhostFunction';
 // import useSubscription from '@/hooks/useSubscription';
 import { PlanLabel } from '@/components/SubscriptionStatus';
 import Loader from '@/components/Loader';
+import { Currency } from '@/types';
+import { getCurrencySign } from '@/utils';
 
 const GET_TEAM_MEMBERS = gql`
   query GetTeamMembers($userId: uuid) {
@@ -40,7 +42,7 @@ type TeamMember = {
   email: string;
 };
 
-type TeamStatus = { includedSeats: number; currency: 'usd' | 'eur'; billingPeriod: 'month' | 'year' };
+type TeamStatus = { includedSeats: number; currency: Currency; billingPeriod: 'month' | 'year' };
 
 export default function ManageTeamCard() {
   const userId = useUserId();
@@ -118,8 +120,8 @@ export default function ManageTeamCard() {
     await addMember({ paymentConfirmed: false });
   };
 
-  const currencySign = status?.currency === 'eur' ? '€' : '$';
-  // const seatPrice = status?.billingPeriod === 'year' ? 240 : 20;
+  const currencySign = getCurrencySign(status?.currency);
+  const monthlySeatPrice = status?.currency === Currency.INR ? 2000 : 20;
   const includedSeats = status?.includedSeats ?? 0;
   const remainingSeats = Math.max(0, includedSeats - data?.team_subscriptions?.length ?? 0);
 
@@ -148,7 +150,8 @@ export default function ManageTeamCard() {
                 <AlertDialogDescription>
                   <p>
                     By clicking Confirm Payment, you will add one additional seat to your pro plan at the cost of{' '}
-                    {currencySign}20 per month.
+                    {currencySign}
+                    {monthlySeatPrice} per month.
                   </p>{' '}
                   <p className="mt-2">
                     You will only pay for the time that the seat is listed in your team and the amount will be added to
