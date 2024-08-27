@@ -41,7 +41,7 @@ function OverviewPage() {
             title="Onboarding Call"
             description="Schedule a call with us to share what you're building with React Flow and how we can make the library even better."
             plans={[SubscriptionPlan.STARTER, SubscriptionPlan.PRO, SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow' }}
+            button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow/onboarding-call' }}
             requireAdminSubscription
           />
 
