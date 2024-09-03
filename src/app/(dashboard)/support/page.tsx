@@ -55,7 +55,7 @@ const SupportPage = () => {
             title="Video Call"
             description="Enterprise subscribers can schedule a video call with our team to get 1:1 support."
             plans={[SubscriptionPlan.ENTERPRISE]}
-            button={{ label: 'Schedule Call', href: 'https://cal.com/team/react-flow' }}
+            button={{ label: 'Schedule Call', href: 'https://cal.com/team/xyflow/enterprise-support' }}
           />
           <SubscriptionFeature
             title="Discord Community"
