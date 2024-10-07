@@ -43,7 +43,7 @@ This will start a webserver at [http://localhost:3000](http://localhost:3000) wh
 
 #### Nhost Backend
 
-The database, user management and authentication is built with [Nhost](https://nhost.io/). To run the backend locally, you need to have [the Nhost cli](https://docs.nhost.io/cli) installed. The backend is located in the `/nhost` directory.
+The database, user management and authentication is built with [Nhost](https://nhost.io/). To run the backend locally, you need to have [the Nhost cli](https://docs.nhost.io/development/cli/getting-started) installed. The backend is located in the `/nhost` directory.
 
 ```sh
 cd nhost
@@ -60,6 +60,10 @@ For being able to test the Stripe integration locally, you need to listen to Str
 ```sh
 pnpm run stripe-webhook
 ```
+
+#### Pro Examples
+
+If a newly published pro example does not appear in the list you might need to call https://pro.reactflow.dev/api/revalidate?path=/examples&tag=examples manually.
 
 ## Feedback and Contributing
 

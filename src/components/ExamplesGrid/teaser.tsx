@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLongRightIcon } from '@heroicons/react/20/solid';
-import { Card, CardTitle, CardHeader, CardDescription, cn } from '@xyflow/xy-ui';
+import { Card, CardTitle, CardHeader, CardDescription } from '@xyflow/xy-ui';
 import { type ProExampleConfig } from '@/types';
 import Pill from '@/components/Pill';
 import useSubscription from '@/hooks/useSubscription';
