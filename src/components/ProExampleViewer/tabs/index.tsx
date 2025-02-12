@@ -46,14 +46,19 @@ export default function ProExampleViewerTabs({
   frameworkId,
   files,
   isUnlocked,
+  isTemplate,
+  previewUrl,
 }: {
   exampleId: string;
   frameworkId: Framework;
   files: null | SandpackFiles;
   isUnlocked: boolean;
+  isTemplate?: boolean;
+  previewUrl?: string;
 }) {
   // @ts-ignore
   const readme = files?.['/README.mdx']?.code || files?.['/README.md']?.code;
+  const iframePreviewUrl = previewUrl ?? `${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${exampleId}`;
 
   return (
     <>
@@ -77,11 +82,11 @@ export default function ProExampleViewerTabs({
         </TabsList>
 
         {!isUnlocked && (
-          <NotSubscribedNotification description="Please subscribe to download this and all other pro examples" />
+          <NotSubscribedNotification description="Please subscribe to unlock all pro examples and templates." />
         )}
 
         <TabContent value="preview">
-          <PreviewTab exampleId={exampleId} frameworkId={frameworkId} />
+          <PreviewTab iframePreviewUrl={iframePreviewUrl} />
         </TabContent>
 
         {isUnlocked && (

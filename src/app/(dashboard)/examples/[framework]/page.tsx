@@ -6,7 +6,7 @@ import { Framework } from '@/types';
 import { getExampleList } from '@/utils';
 
 export default async function ProExamplesOverview({ params }: { params: { framework: Framework } }) {
-  const examples = await getExampleList();
+  const examples = (await getExampleList()).filter((example) => example.type !== 'template');
 
   // this is used to redirect the legacy urls (pro.reactflow.dev/examples/auto-layout) to the new url structure
   // e.g. pro.reactflow.dev/examples/react/auto-layout
@@ -30,7 +30,7 @@ export default async function ProExamplesOverview({ params }: { params: { framew
         }
         description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
       />
-      <NotSubscribedNotification description="Please subscribe to unlock all pro examples" />
+      <NotSubscribedNotification description="Please subscribe to unlock all pro examples and templates." />
       <ExamplesGrid examples={examples} />
     </div>
   );
