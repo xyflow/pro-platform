@@ -3,17 +3,18 @@ import ExamplesGrid from '@/components/ExamplesGrid';
 import NotSubscribedNotification from '@/components/Notification/not-subscribed';
 import { getExampleList } from '@/utils';
 
-export default async function ProExamplesOverview() {
-  const examples = (await getExampleList()).filter((example) => example.type !== 'template');
+export default async function TemplatesOverview() {
+  const examples = await getExampleList();
+  const templates = examples.filter((example) => example.type === 'template');
 
   return (
     <>
       <DashboardHeader
-        title="Pro Examples"
-        description="A continuously growing collection of advanced React Flow examples. During your subscription you can access the source code of all Pro examples."
+        title="Pro Templates"
+        description="These templates are built based on React Flow components and can be used as a starting point for building your own apps."
       />
       <NotSubscribedNotification description="Please subscribe to unlock all pro examples and templates." />
-      <ExamplesGrid examples={examples} />
+      <ExamplesGrid examples={templates} />
     </>
   );
 }

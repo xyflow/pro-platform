@@ -26,6 +26,7 @@ function ProExampleViewer({
   const downloadExample = useDownloadExample({ exampleId, framework: frameworkId });
   const { isSubscribed } = useSubscription();
   const isUnlocked = isSubscribed || config.free;
+  const isTemplate = config.type === 'template';
 
   useEffect(() => {
     const loadFiles = async () => {
@@ -39,7 +40,10 @@ function ProExampleViewer({
 
   return (
     <div>
-      <OverviewButton />
+      <OverviewButton
+        label={isTemplate ? 'All Templates' : 'All Examples'}
+        link={isTemplate ? '/templates' : '/examples'}
+      />
       <DashboardHeader
         title={
           <>
@@ -61,7 +65,14 @@ function ProExampleViewer({
         descriptionClassName="max-w-4xl"
         className="my-4"
       />
-      <Tabs isUnlocked={isUnlocked} files={files} exampleId={exampleId} frameworkId={frameworkId} />
+      <Tabs
+        isUnlocked={isUnlocked}
+        files={files}
+        exampleId={exampleId}
+        frameworkId={frameworkId}
+        isTemplate={isTemplate}
+        previewUrl={config.previewUrl}
+      />
     </div>
   );
 }

@@ -35,6 +35,8 @@ export type ProExampleConfig = {
   hidden?: boolean;
   variants?: ProExampleVariant[];
   free?: boolean;
+  type?: 'template' | 'example';
+  previewUrl?: string;
 };
 
 export type GithubFile = { name: string; content: string; path: string };

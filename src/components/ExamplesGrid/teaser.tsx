@@ -15,9 +15,14 @@ export type ExampleTeaserProps = {
 export default function ExampleTeaser({ example }: ExampleTeaserProps) {
   const { isSubscribed } = useSubscription();
   const showFreeLabel = example.free && !isSubscribed;
+  const isTemplate = example.type === 'template';
+
+  const link = isTemplate ? `/templates/${example.id}` : `/examples/${example.framework}/${example.id}`;
+
+  const linkLabel = isTemplate ? 'View Template' : 'View Example';
 
   return (
-    <Link href={`/examples/${example.framework}/${example.id}`}>
+    <Link href={link}>
       <Card className="flex flex-col">
         <div className="relative h-[200px]">
           <Image
@@ -35,7 +40,7 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
           {example.description && <CardDescription>{example.description}</CardDescription>}
 
           <div className="!mt-auto text-react font-bold items-center hover:text-slate-800 flex pt-4 w-full">
-            View Example
+            {linkLabel}
             <ArrowLongRightIcon className="ml-1 h-6 w-6" />
           </div>
         </CardHeader>
