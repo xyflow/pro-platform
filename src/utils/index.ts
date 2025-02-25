@@ -32,7 +32,7 @@ export async function getExampleList({ framework }: { framework?: Framework } = 
     .map((example) => ({ ...example, framework: 'react' }));
 }
 
-export async function getExampleConfig({ id, framework }: { id: string; framework: Framework }) {
+export async function getExampleConfig({ id, framework }: { id: string; framework?: Framework }) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${id}/config.json`, {
     next: { tags: ['examples'] },
   });
