@@ -3,7 +3,7 @@ import { Select, SelectTrigger, SelectContent, SelectGroup, SelectLabel } from '
 import { ProExampleVariant } from '@/types';
 
 function VariantSelect({ variants, exampleId }: { exampleId: string; variants?: ProExampleVariant[] }) {
-  if (!variants) {
+  if (!variants || !variants.length) {
     return null;
   }
 

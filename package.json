@@ -19,7 +19,7 @@
     "@nhost/nhost-js": "^2.2.13",
     "@nhost/react": "^2.0.28",
     "@nhost/react-apollo": "^5.0.32",
-    "@xyflow/xy-ui": "^0.0.11",
+    "@xyflow/xy-ui": "^0.0.12",
     "fathom-client": "^3.5.0",
     "file-saver": "^2.0.5",
     "graphql": "^16.6.0",
