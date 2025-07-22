@@ -26,6 +26,8 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
     return res.status(405).send({ message: 'Stripe customer id not found.' });
   }
 
+  const origin = req.headers.origin || 'https://pro.reactflow.dev';
+
   const session = await stripe.checkout.sessions.create({
     customer: stripeCustomerId,
     line_items: [lineItem],
@@ -40,8 +42,8 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
     },
     allow_promotion_codes: true,
     billing_address_collection: 'required',
-    success_url: `${req.headers.origin}?payment_success=true&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${req.headers.origin}/subscribe?payment_cancelled=true`,
+    success_url: `${origin}?payment_success=true&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${origin}/subscribe?payment_cancelled=true`,
   });
 
   return res.json(session);
