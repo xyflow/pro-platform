@@ -55,7 +55,7 @@ httpPoolSize = 100
 version = 20
 
 [auth]
-version = '0.19.1'
+version = '0.42.4'
 
 [auth.redirections]
 clientUrl = 'http://localhost:3000'
@@ -169,6 +169,7 @@ issuer = 'nhost'
 [postgres]
 version = '14.5-20221009-1'
 
+[postgres.resources]
 [postgres.resources.storage]
 capacity = 10
 
