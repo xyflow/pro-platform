@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 textAlign: 'center',
               }}
             >
-              We're currently experiencing technical difficulties with some account features – our team is working to
+              We are currently experiencing technical difficulties with some account features – our team is working to
               resolve this as quickly as possible.
             </div>
 
