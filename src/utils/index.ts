@@ -1,4 +1,4 @@
-import { NhostClient } from '@nhost/nhost-js';
+import { NhostClient } from '@nhost/nextjs';
 import { Environment, Framework, ProExampleConfig, Currency } from '@/types';
 
 export function isProduction() {
