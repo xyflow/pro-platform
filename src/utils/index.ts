@@ -1,4 +1,3 @@
-import { NhostClient } from '@nhost/nhost-js';
 import { Environment, Framework, ProExampleConfig, Currency } from '@/types';
 
 export function isProduction() {
@@ -11,15 +10,6 @@ export function isDevelopment() {
 
 export function isStaging() {
   return process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview';
-}
-
-export function getNhostClient() {
-  const nhost = new NhostClient({
-    subdomain: process.env.NEXT_PUBLIC_NHOST_SUBDOMAIN,
-    region: process.env.NEXT_PUBLIC_NHOST_REGION,
-  });
-
-  return nhost;
 }
 
 export async function getExampleList({ framework }: { framework?: Framework } = {}): Promise<ProExampleConfig[]> {
