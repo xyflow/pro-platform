@@ -1,4 +1,4 @@
-import { NhostClient } from '@nhost/nextjs';
+import { NhostClient } from '@nhost/nhost-js';
 
 export function getNhostClient() {
   const nhost = new NhostClient({
