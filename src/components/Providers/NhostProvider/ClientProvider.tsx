@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { NhostProvider } from '@nhost/nextjs';
 import { NhostApolloProvider } from '@nhost/react-apollo';
-import { getNhostClient } from '@/utils';
+import { getNhostClient } from '@/utils/nhost';
 
 export const nhost = getNhostClient();
 
