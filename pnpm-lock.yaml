@@ -4,13 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  graphql: 16.8.2
+
 importers:
 
   .:
     dependencies:
       '@apollo/client':
         specifier: ^3.7.15
-        version: 3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@codesandbox/sandpack-react':
         specifier: ^2.6.7
         version: 2.20.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -25,13 +28,13 @@ importers:
         version: 2.3.1(@types/react@18.3.26)(next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nhost/nhost-js':
         specifier: ^3.2.8
-        version: 3.3.1(graphql@16.12.0)
+        version: 3.3.1(graphql@16.8.2)
       '@nhost/react':
         specifier: ^3.11.2
-        version: 3.11.2(@types/react@18.3.26)(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 3.11.2(@types/react@18.3.26)(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@nhost/react-apollo':
         specifier: ^18.0.2
-        version: 18.0.2(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.12.0))(@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 18.0.2(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.8.2))(@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@xyflow/xy-ui':
         specifier: ^0.0.12
         version: 0.0.12(@types/react-dom@18.3.7(@types/react@18.3.26))(@types/react@18.3.26)(next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -42,8 +45,8 @@ importers:
         specifier: ^2.0.5
         version: 2.0.5
       graphql:
-        specifier: ^16.6.0
-        version: 16.12.0
+        specifier: 16.8.2
+        version: 16.8.2
       jszip:
         specifier: ^3.10.1
         version: 3.10.1
@@ -115,7 +118,7 @@ packages:
   '@apollo/client@3.14.0':
     resolution: {integrity: sha512-0YQKKRIxiMlIou+SekQqdCo0ZTHxOcES+K8vKB53cIDpwABNR0P0yRzPgsbgcj3zRJniD93S/ontsnZsCLZrxQ==}
     peerDependencies:
-      graphql: ^15.0.0 || ^16.0.0
+      graphql: 16.8.2
       graphql-ws: ^5.5.5 || ^6.0.3
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || >=19.0.0-rc
@@ -221,7 +224,7 @@ packages:
   '@graphql-typed-document-node/core@3.2.0':
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
     peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+      graphql: 16.8.2
 
   '@heroicons/react@2.2.0':
     resolution: {integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==}
@@ -354,11 +357,13 @@ packages:
 
   '@nhost/graphql-js@0.3.0':
     resolution: {integrity: sha512-CVYq6wx0VbaYdpUBmfNO/6mZatHB5+YBCqFjWyxhpN1nzHCHEO6rgdL7j0qk31OFE6XAX0z7AQZSXg1Pn63GUw==}
+    deprecated: '⚠ DEPRECATED: This package is deprecated in favor of @nhost/nhost-js@^4.0.0. The new SDK is auto-generated from OpenAPI specs, provides better consistency, and works isomorphically across all JavaScript environments. This package will receive security patches and bug fixes until March 31st but no new features. Migrate to @nhost/nhost-js for future compatibility. Learn more: https://nhost.io/blog/introducing-new-javascript-sdk'
     peerDependencies:
-      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql: 16.8.2
 
   '@nhost/hasura-auth-js@2.12.0':
     resolution: {integrity: sha512-yOugrb9VCJr7Br/aSmv3iSN0rHvSBmynWppD1jiWuGqGVE0Fe/nwmYzJka1+5xDEdjtJvqaLnINEd84FI+pXSQ==}
+    deprecated: '⚠ DEPRECATED: This package is deprecated in favor of @nhost/nhost-js@^4.0.0. The new SDK is auto-generated from OpenAPI specs, provides better consistency, and works isomorphically across all JavaScript environments. This package will receive security patches and bug fixes until March 31st but no new features. Migrate to @nhost/nhost-js for future compatibility. Learn more: https://nhost.io/blog/introducing-new-javascript-sdk'
 
   '@nhost/hasura-storage-js@2.9.0':
     resolution: {integrity: sha512-FCeQpiqxH9JAAMwsS5kEv0OwyN8WhSD65XYM3P8CAeOqbun8yreQno7/wovFsGPVZqMgFDJ0VG9RhR1MFsPqdA==}
@@ -376,7 +381,7 @@ packages:
     resolution: {integrity: sha512-AzOUalIQr0BS2psgEqxI+AMbNjSKB5RUOGzZX82U7YVcbJ9YvYf6a25EmtnJpItmN7H/h22Vxu8AbXqdtsGVkQ==}
     deprecated: '⚠ DEPRECATED: This version is deprecated in favor of @nhost/nhost-js@^4.0.0. The new SDK is auto-generated from OpenAPI specs, provides better consistency, and works isomorphically across all JavaScript environments. This package will receive security patches and bug fixes until March 31st but no new features. Migrate to @nhost/nhost-js for future compatibility. Learn more: https://nhost.io/blog/introducing-new-javascript-sdk'
     peerDependencies:
-      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql: 16.8.2
 
   '@nhost/react-apollo@18.0.2':
     resolution: {integrity: sha512-BcTw6WTxlPqMeUF/Y3UTOiuAIaY+DMRm9Os4K+jj1JtMhqlDSodk33WUXqQkyyuVZGAklCrYDcUc2o9afhFPsw==}
@@ -384,7 +389,7 @@ packages:
     peerDependencies:
       '@apollo/client': ^3.7.10
       '@nhost/react': 3.11.2
-      graphql: ^16.0.0
+      graphql: 16.8.2
       react: ^17.0.0 || ^18.0.0
       react-dom: ^17.0.0 || ^18.0.0
 
@@ -2106,20 +2111,16 @@ packages:
     resolution: {integrity: sha512-FdSNcu2QQcWnM2VNvSCCDCVS5PpPqpzgFT8+GXzqJuoDd0CBncxCY278u4mhRO7tMgo2JjgJA5aZ+nWSQ/Z+xg==}
     engines: {node: '>=10'}
     peerDependencies:
-      graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+      graphql: 16.8.2
 
   graphql-ws@5.16.2:
     resolution: {integrity: sha512-E1uccsZxt/96jH/OwmLPuXMACILs76pKF2i3W861LpKBCYtGIyPQGtWLuBLkND4ox1KHns70e83PS4te50nvPQ==}
     engines: {node: '>=10'}
     peerDependencies:
-      graphql: '>=0.11 <=16'
+      graphql: 16.8.2
 
-  graphql@16.12.0:
-    resolution: {integrity: sha512-DKKrynuQRne0PNpEbzuEdHlYOMksHSUI8Zc9Unei5gTsMNA2/vMpoMz/yKba50pejK56qj98qM0SjYxAKi13gQ==}
-    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
-
-  graphql@16.8.1:
-    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
+  graphql@16.8.2:
+    resolution: {integrity: sha512-cvVIBILwuoSyD54U4cF/UXDh5yAobhNV/tPygI4lZhgOIJQE/WLWC4waBRb4I6bDVYb3OVx3lfHbaQOEoUD5sg==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   has-bigints@1.1.0:
@@ -3848,14 +3849,14 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.12.0)
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.2)
       '@wry/caches': 1.0.1
       '@wry/equality': 0.5.7
       '@wry/trie': 0.5.0
-      graphql: 16.12.0
-      graphql-tag: 2.12.6(graphql@16.12.0)
+      graphql: 16.8.2
+      graphql-tag: 2.12.6(graphql@16.8.2)
       hoist-non-react-statics: 3.3.2
       optimism: 0.18.1
       prop-types: 15.8.1
@@ -3865,7 +3866,7 @@ snapshots:
       tslib: 2.8.1
       zen-observable-ts: 1.2.5
     optionalDependencies:
-      graphql-ws: 5.16.2(graphql@16.12.0)
+      graphql-ws: 5.16.2(graphql@16.8.2)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     transitivePeerDependencies:
@@ -4039,13 +4040,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
-  '@graphql-typed-document-node/core@3.2.0(graphql@16.12.0)':
+  '@graphql-typed-document-node/core@3.2.0(graphql@16.8.2)':
     dependencies:
-      graphql: 16.12.0
-
-  '@graphql-typed-document-node/core@3.2.0(graphql@16.8.1)':
-    dependencies:
-      graphql: 16.8.1
+      graphql: 16.8.2
 
   '@heroicons/react@2.2.0(react@18.3.1)':
     dependencies:
@@ -4161,29 +4158,19 @@ snapshots:
   '@next/swc-win32-x64-msvc@14.2.33':
     optional: true
 
-  '@nhost/apollo@9.0.1(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.12.0))':
+  '@nhost/apollo@9.0.1(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.8.2))':
     dependencies:
-      '@apollo/client': 3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nhost/nhost-js': 3.3.1(graphql@16.12.0)
-      graphql: 16.8.1
-      graphql-ws: 5.16.2(graphql@16.8.1)
+      '@apollo/client': 3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@nhost/nhost-js': 3.3.1(graphql@16.8.2)
+      graphql: 16.8.2
+      graphql-ws: 5.16.2(graphql@16.8.2)
       jwt-decode: 4.0.0
 
-  '@nhost/graphql-js@0.3.0(graphql@16.12.0)':
+  '@nhost/graphql-js@0.3.0(graphql@16.8.2)':
     dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.12.0)
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.2)
       base-64: 1.0.0
-      graphql: 16.12.0
-      isomorphic-unfetch: 3.1.0
-      jwt-decode: 4.0.0
-    transitivePeerDependencies:
-      - encoding
-
-  '@nhost/graphql-js@0.3.0(graphql@16.8.1)':
-    dependencies:
-      '@graphql-typed-document-node/core': 3.2.0(graphql@16.8.1)
-      base-64: 1.0.0
-      graphql: 16.8.1
+      graphql: 16.8.2
       isomorphic-unfetch: 3.1.0
       jwt-decode: 4.0.0
     transitivePeerDependencies:
@@ -4201,13 +4188,13 @@ snapshots:
 
   '@nhost/hasura-storage-js@2.9.0':
     dependencies:
-      graphql: 16.8.1
+      graphql: 16.8.2
       xstate: 4.38.3
 
   '@nhost/nextjs@2.3.1(@types/react@18.3.26)(next@14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@nhost/react': 3.11.2(@types/react@18.3.26)(graphql@16.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      graphql: 16.8.1
+      '@nhost/react': 3.11.2(@types/react@18.3.26)(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      graphql: 16.8.2
       isomorphic-unfetch: 3.1.0
       js-cookie: 3.0.5
       next: 14.2.33(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -4219,54 +4206,30 @@ snapshots:
       - '@xstate/fsm'
       - encoding
 
-  '@nhost/nhost-js@3.3.1(graphql@16.12.0)':
+  '@nhost/nhost-js@3.3.1(graphql@16.8.2)':
     dependencies:
-      '@nhost/graphql-js': 0.3.0(graphql@16.12.0)
+      '@nhost/graphql-js': 0.3.0(graphql@16.8.2)
       '@nhost/hasura-auth-js': 2.12.0
       '@nhost/hasura-storage-js': 2.9.0
-      graphql: 16.12.0
+      graphql: 16.8.2
       isomorphic-unfetch: 3.1.0
     transitivePeerDependencies:
       - encoding
 
-  '@nhost/nhost-js@3.3.1(graphql@16.8.1)':
+  '@nhost/react-apollo@18.0.2(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.8.2))(@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@nhost/graphql-js': 0.3.0(graphql@16.8.1)
-      '@nhost/hasura-auth-js': 2.12.0
-      '@nhost/hasura-storage-js': 2.9.0
-      graphql: 16.8.1
-      isomorphic-unfetch: 3.1.0
-    transitivePeerDependencies:
-      - encoding
-
-  '@nhost/react-apollo@18.0.2(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.12.0))(@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@apollo/client': 3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@nhost/apollo': 9.0.1(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.12.0))(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.12.0))
-      '@nhost/react': 3.11.2(@types/react@18.3.26)(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      graphql: 16.12.0
+      '@apollo/client': 3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@nhost/apollo': 9.0.1(@apollo/client@3.14.0(@types/react@18.3.26)(graphql-ws@5.16.2(graphql@16.8.2))(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@nhost/nhost-js@3.3.1(graphql@16.8.2))
+      '@nhost/react': 3.11.2(@types/react@18.3.26)(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      graphql: 16.8.2
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     transitivePeerDependencies:
       - '@nhost/nhost-js'
 
-  '@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@nhost/nhost-js': 3.3.1(graphql@16.12.0)
-      '@xstate/react': 3.2.2(@types/react@18.3.26)(react@18.3.1)(xstate@4.38.3)
-      jwt-decode: 4.0.0
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      xstate: 4.38.3
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@xstate/fsm'
-      - encoding
-      - graphql
-
-  '@nhost/react@3.11.2(@types/react@18.3.26)(graphql@16.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@nhost/nhost-js': 3.3.1(graphql@16.8.1)
+      '@nhost/nhost-js': 3.3.1(graphql@16.8.2)
       '@xstate/react': 3.2.2(@types/react@18.3.26)(react@18.3.1)(xstate@4.38.3)
       jwt-decode: 4.0.0
       react: 18.3.1
@@ -6231,23 +6194,16 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql-tag@2.12.6(graphql@16.12.0):
+  graphql-tag@2.12.6(graphql@16.8.2):
     dependencies:
-      graphql: 16.12.0
+      graphql: 16.8.2
       tslib: 2.8.1
 
-  graphql-ws@5.16.2(graphql@16.12.0):
+  graphql-ws@5.16.2(graphql@16.8.2):
     dependencies:
-      graphql: 16.12.0
-    optional: true
+      graphql: 16.8.2
 
-  graphql-ws@5.16.2(graphql@16.8.1):
-    dependencies:
-      graphql: 16.8.1
-
-  graphql@16.12.0: {}
-
-  graphql@16.8.1: {}
+  graphql@16.8.2: {}
 
   has-bigints@1.1.0: {}
 
