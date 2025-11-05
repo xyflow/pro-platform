@@ -55,7 +55,7 @@ httpPoolSize = 100
 version = 20
 
 [auth]
-version = '0.42.4'
+version = '0.43.0-beta2'
 
 [auth.redirections]
 clientUrl = 'http://localhost:3000'
