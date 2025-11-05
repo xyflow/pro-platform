@@ -21,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="bg-white">
         <ClientProviders>
           <div className="bg-white">
-            {/* <div
+            <div
               style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             >
               We are currently experiencing technical difficulties with some account features – our team is working to
               resolve this as quickly as possible.
-            </div> */}
+            </div>
 
             <Navigation />
             <div className="p-4 relative min-h-[calc(100vh-200px)]">{children}</div>
