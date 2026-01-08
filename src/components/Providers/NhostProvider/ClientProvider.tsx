@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import { NhostProvider } from '@nhost/nextjs';
 import { NhostApolloProvider } from '@nhost/react-apollo';
-import { getNhostClient } from '@/utils/nhost';
+import { createNhostClientClient } from '@/utils/nhost';
 
-export const nhost = getNhostClient();
+export const nhost = createNhostClientClient();
 
 type Props = {
   children: React.ReactNode;

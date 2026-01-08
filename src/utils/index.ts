@@ -13,7 +13,7 @@ export function isStaging() {
 }
 
 export async function getExampleList({ framework }: { framework?: Framework } = {}): Promise<ProExampleConfig[]> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/examples.json`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/react/apps.json`, {
     next: { tags: ['examples'] },
   });
   const examples = await response.json();
@@ -22,8 +22,8 @@ export async function getExampleList({ framework }: { framework?: Framework } = 
     .map((example) => ({ ...example, framework: 'react' }));
 }
 
-export async function getExampleConfig({ id, framework }: { id: string; framework?: Framework }) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${id}/config.json`, {
+export async function getExampleConfig({ id, framework = Framework.REACT }: { id: string; framework?: Framework }) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${framework}/${id}/config.json`, {
     next: { tags: ['examples'] },
   });
   const config = await response.json();
