@@ -11,7 +11,8 @@ async function downloadProExample(req: Request, res: Response) {
     return res.status(500).send({ message: 'Bad request.' });
   }
 
-  const data = await redis.json.get(id, '$');
+  const redisKey = `@${framework}flow-pro/${id}`;
+  const data = await redis.json.get(redisKey, '$');
 
   if (!data || !data[0]) {
     return res.status(500).send({ message: 'Example does not exist.' });

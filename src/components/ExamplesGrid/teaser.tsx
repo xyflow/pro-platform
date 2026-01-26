@@ -18,7 +18,6 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
   const isTemplate = example.type === 'template';
 
   const link = isTemplate ? `/templates/${example.id}` : `/examples/${example.framework}/${example.id}`;
-
   const linkLabel = isTemplate ? 'View Template' : 'View Example';
 
   return (
@@ -28,7 +27,7 @@ export default function ExampleTeaser({ example }: ExampleTeaserProps) {
           <Image
             alt="Example Teaser"
             fill
-            src={`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${example.id}/thumbnail.jpg`}
+            src={`${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${example.framework}/${example.id}/thumbnail.jpg`}
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />

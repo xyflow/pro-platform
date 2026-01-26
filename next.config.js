@@ -15,8 +15,13 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.reactflow.dev',
       },
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+      },
     ],
   },
+
   async redirects() {
     return redirects;
   },

@@ -43,7 +43,7 @@ const TabContent = (props: { value: string; loading?: boolean; children: React.R
 
 export default function ProExampleViewerTabs({
   exampleId,
-  frameworkId,
+  frameworkId = Framework.REACT,
   files,
   isUnlocked,
   isTemplate,
@@ -58,7 +58,7 @@ export default function ProExampleViewerTabs({
 }) {
   // @ts-ignore
   const readme = files?.['/README.mdx']?.code || files?.['/README.md']?.code;
-  const iframePreviewUrl = previewUrl ?? `${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${exampleId}`;
+  const iframePreviewUrl = previewUrl ?? `${process.env.NEXT_PUBLIC_PRO_EXAMPLES_URL}/${frameworkId}/${exampleId}`;
 
   return (
     <>
