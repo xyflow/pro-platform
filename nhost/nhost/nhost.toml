@@ -94,7 +94,7 @@ expiresIn = 2592000
 enabled = false
 
 [auth.method.emailPasswordless]
-enabled = true
+enabled = false
 
 [auth.method.emailPassword]
 hibpEnabled = false
@@ -173,15 +173,15 @@ version = '14.5-20221009-1'
 [postgres.resources.storage]
 capacity = 10
 
-[provider]
-[provider.smtp]
-user = 'noreply@reactflow.dev'
-password = '{{ secrets.SMTP_PASSWORD }}'
-sender = 'noreply@reactflow.dev'
-host = 'smtp-moklick.alwaysdata.net'
-port = 465
-secure = true
-method = 'LOGIN'
+# [provider]
+# [provider.smtp]
+# user = 'noreply@reactflow.dev'
+# password = '{{ secrets.SMTP_PASSWORD }}'
+# sender = 'noreply@reactflow.dev'
+# host = 'smtp-moklick.alwaysdata.net'
+# port = 465
+# secure = true
+# method = 'LOGIN'
 
 [storage]
 version = '0.3.0'
