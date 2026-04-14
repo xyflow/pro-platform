@@ -64,6 +64,9 @@ allowedUrls = ['http://localhost:3000', 'https://*.vercel.app', 'https://*.netli
 [auth.signUp]
 enabled = true
 
+[auth.signUp.turnstile]
+secretKey = '{{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}'
+
 [auth.user]
 [auth.user.roles]
 default = 'user'
@@ -94,7 +97,7 @@ expiresIn = 2592000
 enabled = false
 
 [auth.method.emailPasswordless]
-enabled = false
+enabled = true
 
 [auth.method.emailPassword]
 hibpEnabled = false
