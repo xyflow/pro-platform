@@ -22,6 +22,7 @@ export default function PricingPlan({ plan, interval = 'month', currency = 'usd'
       plan,
       interval,
       currency,
+      framework: 'react',
     });
 
     if (response.url) {

@@ -55,7 +55,7 @@ httpPoolSize = 100
 version = 20
 
 [auth]
-version = '0.43.0'
+version = '0.47.0'
 
 [auth.redirections]
 clientUrl = 'http://localhost:3000'
@@ -63,6 +63,9 @@ allowedUrls = ['http://localhost:3000', 'https://*.vercel.app', 'https://*.netli
 
 [auth.signUp]
 enabled = true
+
+[auth.signUp.turnstile]
+secretKey = '{{ secrets.CLOUDFLARE_TURNSTILE_SECRET_KEY }}'
 
 [auth.user]
 [auth.user.roles]
@@ -94,7 +97,7 @@ expiresIn = 2592000
 enabled = false
 
 [auth.method.emailPasswordless]
-enabled = false
+enabled = true
 
 [auth.method.emailPassword]
 hibpEnabled = false

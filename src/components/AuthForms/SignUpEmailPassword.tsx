@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useSignUpEmailPassword } from '@nhost/nextjs';
 import Link from 'next/link';
 
@@ -8,6 +8,7 @@ import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 import { redirect } from 'next/navigation';
 
 import { AuthErrorNotification } from './AuthNotification';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
 function Signup() {
   const [email, setEmail] = useState<string>('');
@@ -15,9 +16,20 @@ function Signup() {
   const { signUpEmailPassword, isLoading, isError, needsEmailVerification, isSuccess, error } =
     useSignUpEmailPassword();
 
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
+
   const handleSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    await signUpEmailPassword(email, password);
+
+    const turnstileResponse = turnstileRef.current?.getResponse();
+
+    await signUpEmailPassword(email, password, undefined, {
+      headers: {
+        'x-cf-turnstile-response': turnstileResponse,
+      },
+    });
+
+    turnstileRef.current?.reset();
   };
 
   if (needsEmailVerification) {
@@ -60,6 +72,15 @@ function Signup() {
           placeholder="Password"
           required
         />
+        <Turnstile
+          ref={turnstileRef}
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+          className="mt-4"
+          options={{
+            theme: 'light',
+            size: 'flexible',
+          }}
+        />
         <div className="text-light text-sm mt-2">
           By signing up, you agree to our{' '}
           <Link href="https://www.xyflow.com/terms-of-use" className="text-primary hover:underline">
@@ -79,7 +100,6 @@ function Signup() {
         disabled={isLoading || needsEmailVerification}
         loading={isLoading}
         type="submit"
-        variant="react"
       >
         Sign Up
       </Button>

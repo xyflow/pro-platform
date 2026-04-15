@@ -72,14 +72,7 @@ function SignInEmailPassword() {
             .
           </div>
         </div>
-        <Button
-          loading={isLoading}
-          disabled={isLoading}
-          size="lg"
-          className="w-full mt-2"
-          type="submit"
-          variant="react"
-        >
+        <Button loading={isLoading} disabled={isLoading} size="lg" className="w-full mt-2" type="submit">
           Sign in
         </Button>
       </div>

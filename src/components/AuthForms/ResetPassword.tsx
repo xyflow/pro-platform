@@ -1,46 +1,102 @@
 'use client';
 
-import { useState } from 'react';
-import { useResetPassword } from '@nhost/nextjs';
-
+import { useState, useRef } from 'react';
 import { Button, Input, InputLabel } from '@xyflow/xy-ui';
-import { AuthErrorNotification, AuthNotification } from './AuthNotification';
+import { useNhostClient } from '@nhost/nextjs';
+import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
-function ResetPassword() {
-  const [email, setEmail] = useState<string>('');
-  const { resetPassword, isLoading, isSent, isError, error } = useResetPassword();
+import { useRouter, useSearchParams } from 'next/navigation';
 
-  const handleSubmit = async (evt: React.SyntheticEvent) => {
+import { AuthErrorNotification } from './AuthNotification';
+
+const ResetPassword = () => {
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
+  const defaultEmail = useSearchParams()?.get('email');
+  const [email, setEmail] = useState<string>(defaultEmail || '');
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const nhostClient = useNhostClient();
+  const router = useRouter();
+
+  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(evt.target.value);
+    setIsError(false);
+  };
+
+  const onSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
-    resetPassword(email, { redirectTo: '/account' });
+
+    setLoading(true);
+    setIsError(false);
+
+    const baseUrl = nhostClient.auth.url;
+    const turnstileResponse = turnstileRef.current?.getResponse();
+
+    const url = `${baseUrl}/user/password/reset`;
+
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-cf-turnstile-response': turnstileResponse,
+      },
+      body: JSON.stringify({ email, options: { redirectTo: `${window.location.origin}/account` } }),
+    });
+
+    if (res.ok) {
+      router.push(`/email-verification?email=${email}`);
+    } else {
+      setLoading(false);
+      return setIsError(true);
+    }
+
+    return setLoading(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {isError && <AuthErrorNotification error={error} />}
-      {isSent && (
-        <AuthNotification
-          variant="success"
-          title="We have sent you a link"
-          description="Please check your email to reset your password."
+    <form onSubmit={onSubmit}>
+      {isError && (
+        <AuthErrorNotification
+          error={{
+            error: 'reset-password-fail',
+            message: 'Failed to send reset password email. Please try again.',
+            status: 400,
+          }}
         />
       )}
-      <div className="mb-4">
-        <InputLabel htmlFor="email">Email</InputLabel>
-        <Input
-          variant="square"
-          placeholder="Your Email"
-          id="email"
-          type="email"
-          value={email}
-          onChange={(evt) => setEmail(evt.target.value)}
-        />
+      <div className="flex flex-col space-y-4 mb-2">
+        <>
+          <div>
+            <InputLabel className="text-gray-800" htmlFor="email">
+              Email
+            </InputLabel>
+            <Input
+              required
+              variant="square"
+              value={email}
+              onChange={onChange}
+              id="email"
+              placeholder="Email"
+              type="email"
+            />
+            <Turnstile
+              ref={turnstileRef}
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+              className="mt-4"
+              options={{
+                theme: 'light',
+                size: 'flexible',
+              }}
+            />
+          </div>
+
+          <Button disabled={isLoading} loading={isLoading} size="lg" className="w-full shrink-0" type="submit">
+            Send Reset Password Link
+          </Button>
+        </>
       </div>
-      <Button disabled={isLoading} loading={isLoading} size="lg" className="w-full" type="submit" variant="react">
-        Send Reset Link
-      </Button>
     </form>
   );
-}
+};
 
 export default ResetPassword;
