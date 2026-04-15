@@ -1,4 +1,4 @@
-import { ResendVerificationLink, AuthFormWrapper } from '@/components/AuthForms';
+import { SignInMagicLink, AuthFormWrapper } from '@/components/AuthForms';
 
 const ResendVerificationLinkPage = () => {
   return (
@@ -8,7 +8,7 @@ const ResendVerificationLinkPage = () => {
       showOAuth={false}
       showHero={false}
     >
-      <ResendVerificationLink />
+      <SignInMagicLink />
     </AuthFormWrapper>
   );
 };

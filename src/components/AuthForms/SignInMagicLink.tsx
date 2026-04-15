@@ -5,28 +5,35 @@ import { Button, Input, InputLabel } from '@xyflow/xy-ui';
 import { useNhostClient } from '@nhost/nextjs';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import { AuthErrorNotification } from './AuthNotification';
 
 const SignInMagicLink = () => {
   const turnstileRef = useRef<TurnstileInstance | null>(null);
-  const [email, setEmail] = useState<string>('');
+  const defaultEmail = useSearchParams()?.get('email');
+  const [email, setEmail] = useState<string>(defaultEmail || '');
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
   const nhostClient = useNhostClient();
   const router = useRouter();
 
   const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(evt.target.value);
+    setIsError(false);
   };
 
   const onSubmit = async (evt: React.SyntheticEvent) => {
     evt.preventDefault();
 
     setLoading(true);
+    setIsError(false);
 
     const baseUrl = nhostClient.auth.url;
     const turnstileResponse = turnstileRef.current?.getResponse();
 
     const url = `${baseUrl}/signin/passwordless/email`;
+
     const res = await fetch(url, {
       method: 'POST',
       headers: {
@@ -38,13 +45,21 @@ const SignInMagicLink = () => {
 
     if (res.ok) {
       router.push(`/email-verification?email=${email}`);
+    } else {
+      setLoading(false);
+      return setIsError(true);
     }
 
-    setLoading(false);
+    return setLoading(false);
   };
 
   return (
     <form onSubmit={onSubmit}>
+      {isError && (
+        <AuthErrorNotification
+          error={{ error: 'passwordless-fail', message: 'Failed to send magic link. Please try again.', status: 400 }}
+        />
+      )}
       <div className="flex flex-col space-y-4 mb-2">
         <>
           <div>
@@ -72,7 +87,7 @@ const SignInMagicLink = () => {
           </div>
 
           <Button disabled={isLoading} loading={isLoading} size="lg" className="w-full shrink-0" type="submit">
-            Send secure link
+            Send Verification Link
           </Button>
         </>
       </div>
