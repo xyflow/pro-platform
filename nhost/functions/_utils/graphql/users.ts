@@ -8,14 +8,14 @@ export const nhost = new NhostClient({
   region: process.env.NHOST_REGION,
 });
 
-export async function createUser({ email }: { email: string }) {
-  if (!email) {
-    return false;
+const CREATE_USER = gql`
+  mutation InsertUser($email: citext!) {
+    insertUser(object: { email: $email, locale: "en" }) {
+      id
+      email
+    }
   }
-
-  // use signIn instead of signUp because we don't want to set a password (we use magic link)
-  return await nhost.auth.signIn({ email });
-}
+`;
 
 type User = {
   email: string;
@@ -25,6 +25,14 @@ type User = {
 type GetUserByMailResponse = {
   users: User[];
 };
+
+export async function createUser({ email }: { email: string }) {
+  if (!email) {
+    return false;
+  }
+
+  return await GraphQLClient.request<GetUserByMailResponse>(CREATE_USER, { email });
+}
 
 const GET_USER_BY_MAIL = gql`
   query GetUserByMail($email: citext!) {
