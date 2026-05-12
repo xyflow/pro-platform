@@ -15,7 +15,14 @@ const subscriptionChangeEvents = new Set([
   'customer.subscription.deleted',
 ]);
 
-const pricingChangeEvents = new Set(['price.created', 'price.deleted', 'price.updated']);
+const pricingChangeEvents = new Set([
+  'price.created',
+  'price.deleted',
+  'price.updated',
+  'product.created',
+  'product.deleted',
+  'product.updated',
+]);
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
 
