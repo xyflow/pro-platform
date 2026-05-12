@@ -5,7 +5,7 @@ import { getOrCreateCustomer } from '../_utils/graphql/subscriptions';
 
 const createStripeCheckoutSession = async (req: Request, res: Response) => {
   const userId = res.locals.userId;
-  const { plan, interval = 'month' } = req.body;
+  const { plan, interval = 'month', framework = 'react' } = req.body;
 
   if (!plan || !userId) {
     return res.status(405).send({ message: 'Bad request.' });
@@ -14,6 +14,7 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
   const lineItem = await getLineItem({
     plan,
     interval,
+    framework,
   });
 
   if (!lineItem) {
@@ -26,7 +27,7 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
     return res.status(405).send({ message: 'Stripe customer id not found.' });
   }
 
-  const origin = req.headers.origin || 'https://pro.reactflow.dev';
+  const origin = req.headers.origin;
 
   const session = await stripe.checkout.sessions.create({
     customer: stripeCustomerId,

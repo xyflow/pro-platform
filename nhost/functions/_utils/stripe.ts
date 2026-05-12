@@ -60,11 +60,18 @@ type GetLineItemParams = {
   plan: string;
   quantity?: number;
   interval?: 'month' | 'year';
+  framework?: 'react' | 'svelte' | 'vue';
 };
 
-export const getLineItem = async ({ plan, quantity = 1, interval = 'month' }: GetLineItemParams) => {
+export const getLineItem = async ({
+  plan,
+  quantity = 1,
+  interval = 'month',
+  framework = 'react',
+}: GetLineItemParams) => {
   const prices = await getPrices();
-  const priceId = prices[plan]?.[`${interval}ly`].id;
+  // @ts-expect-error
+  const priceId = prices[plan]?.[`${interval}ly`]?.[framework]?.id;
 
   if (!priceId) {
     return null;
