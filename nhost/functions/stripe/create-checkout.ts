@@ -5,7 +5,13 @@ import { getOrCreateCustomer } from '../_utils/graphql/subscriptions';
 
 const createStripeCheckoutSession = async (req: Request, res: Response) => {
   const userId = res.locals.userId;
-  const { plan, interval = 'month', framework = 'react' } = req.body;
+  const {
+    plan,
+    interval = 'month',
+    framework = 'react',
+    successUrl = 'https://pro.reactflow.dev',
+    cancelUrl = 'https://pro.reactflow.dev/subscribe',
+  } = req.body;
 
   if (!plan || !userId) {
     return res.status(405).send({ message: 'Bad request.' });
@@ -27,8 +33,6 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
     return res.status(405).send({ message: 'Stripe customer id not found.' });
   }
 
-  const origin = req.headers.origin;
-
   const session = await stripe.checkout.sessions.create({
     customer: stripeCustomerId,
     line_items: [lineItem],
@@ -43,8 +47,10 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
     },
     allow_promotion_codes: true,
     billing_address_collection: 'required',
-    success_url: `${origin}?payment_success=true&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/subscribe?payment_cancelled=true`,
+    // we pass the payment_success=true to wait in the subscripton provider
+    // until the subscription is not "free" anymore
+    success_url: `${successUrl}?payment_success=true&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${cancelUrl}?payment_cancelled=true`,
   });
 
   return res.json(session);

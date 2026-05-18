@@ -3,6 +3,7 @@
 import useNhostFunction from '@/hooks/useNhostFunction';
 import { useState } from 'react';
 import { PricingTable, defaultSubscriptionPlans, BillingInterval, SubscriptionPlanId } from '@xyflow/xy-ui';
+import { getHostName } from '@/utils';
 
 export default function PricingTableComponent() {
   const callNhostFunction = useNhostFunction();
@@ -23,10 +24,14 @@ export default function PricingTableComponent() {
 
     setLoading(plan, true);
 
+    const hostName = getHostName();
+
     const response = await callNhostFunction('/stripe/create-checkout', {
       plan,
       interval,
       framework: 'react',
+      successUrl: hostName,
+      cancelUrl: `${hostName}/subscribe`,
     });
 
     if (!response.error && response.url) {
