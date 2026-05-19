@@ -9,8 +9,8 @@ const createStripeCheckoutSession = async (req: Request, res: Response) => {
     plan,
     interval = 'month',
     framework = 'react',
-    successUrl = 'https://pro.reactflow.dev',
-    cancelUrl = 'https://pro.reactflow.dev/subscribe',
+    successUrl = req.headers.origin ? `https://${req.headers.origin}` : 'https://pro.reactflow.dev',
+    cancelUrl = req.headers.origin ? `https://${req.headers.origin}` : 'https://pro.reactflow.dev/subscribe',
   } = req.body;
 
   if (!plan || !userId) {

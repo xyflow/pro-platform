@@ -7,7 +7,8 @@ async function createStripeCustomerPortal(req: Request, res: Response) {
   const userId = res.locals.userId;
   const stripeCustomerId = await getOrCreateCustomer(userId);
 
-  const { returnUrl = 'https://pro.reactflow.dev/account' } = req.body;
+  const { returnUrl = req.headers.origin ? `https://${req.headers.origin}` : 'https://pro.reactflow.dev/account' } =
+    req.body;
 
   const session = await stripe.billingPortal.sessions.create({
     customer: stripeCustomerId,
