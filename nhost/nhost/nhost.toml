@@ -28,7 +28,7 @@ name = 'UPSTASH_REDIS_TOKEN'
 value = '{{ secrets.UPSTASH_REDIS_TOKEN }}'
 
 [hasura]
-version = 'v2.25.1-ce'
+version = 'v2.48.10-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
 webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
 
@@ -170,7 +170,7 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.5-20221009-1'
+version = '14.20-20251217-1'
 
 [postgres.resources]
 [postgres.resources.storage]
@@ -186,7 +186,7 @@ sender = "noreply@xyflow.com"
 user = "noreply@xyflow.com"
 
 [storage]
-version = '0.3.0'
+version = '0.9.1'
 
 [observability]
 [observability.grafana]
