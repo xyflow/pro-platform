@@ -28,7 +28,7 @@ name = 'UPSTASH_REDIS_TOKEN'
 value = '{{ secrets.UPSTASH_REDIS_TOKEN }}'
 
 [hasura]
-version = 'v2.25.1-ce'
+version = 'v2.48.10-ce'
 adminSecret = '{{ secrets.HASURA_GRAPHQL_ADMIN_SECRET }}'
 webhookSecret = '{{ secrets.NHOST_WEBHOOK_SECRET }}'
 
@@ -59,7 +59,7 @@ version = '0.47.0'
 
 [auth.redirections]
 clientUrl = 'http://localhost:3000'
-allowedUrls = ['http://localhost:3000', 'https://*.vercel.app', 'https://*.netlify.app', 'https://pro.reactflow.dev']
+allowedUrls = ['http://localhost:3000', 'http://localhost:3002', 'https://*.vercel.app', 'https://*.reactflow.dev', 'https://reactflow.dev', 'https://*.svelteflow.dev', 'https://svelteflow.dev']
 
 [auth.signUp]
 enabled = true
@@ -170,24 +170,23 @@ enabled = false
 issuer = 'nhost'
 
 [postgres]
-version = '14.5-20221009-1'
+version = '14.20-20251217-1'
 
 [postgres.resources]
 [postgres.resources.storage]
 capacity = 10
 
-# [provider]
-# [provider.smtp]
-# user = 'noreply@reactflow.dev'
-# password = '{{ secrets.SMTP_PASSWORD }}'
-# sender = 'noreply@reactflow.dev'
-# host = 'smtp-moklick.alwaysdata.net'
-# port = 465
-# secure = true
-# method = 'LOGIN'
+[provider.smtp]
+host = "smtp-moklick.alwaysdata.net"
+method = "LOGIN"
+password = "{{ secrets.SMTP_PASSWORD }}"
+port = 465
+secure = true
+sender = "noreply@xyflow.com"
+user = "noreply@xyflow.com"
 
 [storage]
-version = '0.3.0'
+version = '0.9.1'
 
 [observability]
 [observability.grafana]

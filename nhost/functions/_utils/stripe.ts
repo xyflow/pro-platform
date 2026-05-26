@@ -18,17 +18,25 @@ export const getPricesFromStripeApi = async () => {
 
   const prices = data.reduce((res, curr) => {
     if (typeof curr.lookup_key === 'string' && curr.currency_options) {
-      const productId = curr.lookup_key.split('_')[0];
-      const intervalId = curr.lookup_key.split('_')[1];
+      const keySplit = curr.lookup_key.split('_');
+      const productId = keySplit[0];
+      const intervalId = keySplit[1];
+      const framework = keySplit[2] ?? 'react';
+
       const currencies = Object.keys(curr.currency_options) ?? [];
 
       res[productId] = res[productId] ?? {};
-      res[productId][intervalId] = res[productId][intervalId] ?? { id: curr.id, pricing: {} };
+      res[productId][intervalId] = res[productId][intervalId] ?? {};
+      // @ts-expect-error
+      res[productId][intervalId][framework] = res[productId][intervalId][framework] ?? {
+        id: curr.id,
+        pricing: {},
+      };
 
       currencies.forEach((currency) => {
         const currencyOptions = curr.currency_options?.[currency];
         // @ts-expect-error
-        res[productId][intervalId].pricing[currency] =
+        res[productId][intervalId][framework].pricing[currency] =
           currencyOptions?.unit_amount ?? currencyOptions?.unit_amount_decimal ?? 0;
       });
     }
@@ -52,11 +60,18 @@ type GetLineItemParams = {
   plan: string;
   quantity?: number;
   interval?: 'month' | 'year';
+  framework?: 'react' | 'svelte' | 'vue';
 };
 
-export const getLineItem = async ({ plan, quantity = 1, interval = 'month' }: GetLineItemParams) => {
+export const getLineItem = async ({
+  plan,
+  quantity = 1,
+  interval = 'month',
+  framework = 'react',
+}: GetLineItemParams) => {
   const prices = await getPrices();
-  const priceId = prices[plan]?.[`${interval}ly`].id;
+  // @ts-expect-error
+  const priceId = prices[plan]?.[`${interval}ly`]?.[framework]?.id;
 
   if (!priceId) {
     return null;
