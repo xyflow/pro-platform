@@ -8,6 +8,7 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { AuthErrorNotification } from './AuthNotification';
+import { getHostName } from '@/utils';
 
 const ResetPassword = () => {
   const turnstileRef = useRef<TurnstileInstance | null>(null);
@@ -40,7 +41,7 @@ const ResetPassword = () => {
         'Content-Type': 'application/json',
         'x-cf-turnstile-response': turnstileResponse,
       },
-      body: JSON.stringify({ email, options: { redirectTo: `${window.location.origin}/account` } }),
+      body: JSON.stringify({ email, options: { redirectTo: getHostName() } }),
     });
 
     if (res.ok) {
