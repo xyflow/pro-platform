@@ -8,6 +8,7 @@ import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { AuthErrorNotification } from './AuthNotification';
+import { getHostName } from '@/utils';
 
 const SignInMagicLink = () => {
   const turnstileRef = useRef<TurnstileInstance | null>(null);
@@ -40,7 +41,7 @@ const SignInMagicLink = () => {
         'Content-Type': 'application/json',
         'x-cf-turnstile-response': turnstileResponse,
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, options: { redirectTo: getHostName() } }),
     });
 
     if (res.ok) {

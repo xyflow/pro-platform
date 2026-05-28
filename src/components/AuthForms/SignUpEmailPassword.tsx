@@ -9,6 +9,7 @@ import { redirect } from 'next/navigation';
 
 import { AuthErrorNotification } from './AuthNotification';
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile';
+import { getHostName } from '@/utils';
 
 function Signup() {
   const [email, setEmail] = useState<string>('');
@@ -23,11 +24,16 @@ function Signup() {
 
     const turnstileResponse = turnstileRef.current?.getResponse();
 
-    await signUpEmailPassword(email, password, undefined, {
-      headers: {
-        'x-cf-turnstile-response': turnstileResponse,
-      },
-    });
+    await signUpEmailPassword(
+      email,
+      password,
+      { redirectTo: getHostName() },
+      {
+        headers: {
+          'x-cf-turnstile-response': turnstileResponse,
+        },
+      }
+    );
 
     turnstileRef.current?.reset();
   };
