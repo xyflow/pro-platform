@@ -5,18 +5,23 @@ import { getIncludedSeats, upsertTeamSubscription, getTeamMembers } from '../_ut
 import { createUser, getUserIdByEmail } from '../_utils/graphql/users';
 import { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
 import { sendMailTemplate } from '../_utils/mailjet';
-import { MAILJET_TEAM_INVITE_TEMPLATE_ID } from '../_utils/constants';
+import { MAILJET_TEAM_INVITE_TEMPLATE_IDS } from '../_utils/constants';
+import { Framework } from '../_utils/types';
 
-async function sendTeamMemberInviteMail(email: string) {
+async function sendTeamMemberInviteMail(email: string, framework: Framework = Framework.React) {
   if (email) {
-    return await sendMailTemplate(email, 'You have been invited to React Flow Pro!', MAILJET_TEAM_INVITE_TEMPLATE_ID);
+    return await sendMailTemplate(
+      email,
+      `You have been invited to ${framework} Flow Pro!`,
+      MAILJET_TEAM_INVITE_TEMPLATE_IDS[framework]
+    );
   }
   return true;
 }
 
 async function inviteTeamMember(req: Request, res: Response) {
   const createdById = res.locals.userId;
-  const { email, paymentConfirmed } = req.body;
+  const { email, paymentConfirmed, framework = Framework.React } = req.body;
 
   if (!email || !createdById) {
     return res.status(400).send({ message: 'Please provide a valid email address.' });
@@ -69,7 +74,7 @@ async function inviteTeamMember(req: Request, res: Response) {
 
   // create a user if the user doesn't exist yet
   if (!userId) {
-    const cu = await createUser({ email });
+    const cu = await createUser({ email, framework });
     console.log(cu);
 
     userId = await getUserIdByEmail(email);
@@ -92,7 +97,7 @@ async function inviteTeamMember(req: Request, res: Response) {
   }
 
   try {
-    await sendTeamMemberInviteMail(email);
+    await sendTeamMemberInviteMail(email, framework);
   } catch (error) {
     console.log(error);
   }

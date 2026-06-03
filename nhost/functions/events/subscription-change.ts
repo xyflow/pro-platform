@@ -6,35 +6,19 @@ import { updateTeamSubscriptionPlan } from '../_utils/graphql/team-subscriptions
 import { sendDiscordNotification } from '../_utils/discord';
 import { sendMailTemplate, subscribeMailingList, unsubscribeMailingList } from '../_utils/mailjet';
 import { MAILJET_PRO_MAILING_LIST_ID, MAILJET_WELCOME_MAIL_TEMPLATE_IDS } from '../_utils/constants';
+import { PaidSubscriptionPlan, FreeSubscriptionPlan, Framework, SubscriptionPlan } from '../_utils/types';
 
-enum PaidSubscriptionPlan {
-  Starter = 'starter',
-  Pro = 'pro',
-  Enterprise = 'enterprise',
-}
-
-enum FreeSubscriptionPlan {
-  Free = 'free',
-  Student = 'student',
-  OSS = 'oss',
-}
-
-async function sendWelcomeMail(email: string, plan: PaidSubscriptionPlan) {
-  const template = MAILJET_WELCOME_MAIL_TEMPLATE_IDS[plan] || MAILJET_WELCOME_MAIL_TEMPLATE_IDS.default;
+async function sendWelcomeMail(email: string, plan: PaidSubscriptionPlan, framework: Framework = Framework.React) {
+  const template = MAILJET_WELCOME_MAIL_TEMPLATE_IDS[framework] || MAILJET_WELCOME_MAIL_TEMPLATE_IDS.default;
 
   if (email) {
-    return await sendMailTemplate(email, 'Welcome to React Flow Pro!', template);
+    return await sendMailTemplate(email, `Welcome to ${framework} Flow Pro!`, template);
   }
+
   return true;
 }
 
-async function sendSubscriptionNotification({
-  email,
-  plan,
-}: {
-  email: string;
-  plan: PaidSubscriptionPlan | FreeSubscriptionPlan;
-}) {
+async function sendSubscriptionNotification({ email, plan }: { email: string; plan: SubscriptionPlan }) {
   if (!email || !plan) {
     return false;
   }
@@ -61,7 +45,7 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
     return res.status(400).send({ message: 'no user id.' });
   }
 
-  const { email } = (await getUser(userId)) ?? {};
+  const { email, metadata } = (await getUser(userId)) ?? {};
 
   if (!email) {
     return res.status(400).send({ message: `no email found for user ${userId}` });
@@ -81,9 +65,10 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
   ) {
     // send welcome mail and signup for the pro subscriber newsletter
     try {
-      await sendWelcomeMail(email, currentPlan);
+      await sendWelcomeMail(email, currentPlan, metadata?.framework);
       await subscribeMailingList(email, MAILJET_PRO_MAILING_LIST_ID, {
         plan: currentPlan,
+        framework: metadata?.framework,
       });
       await sendSubscriptionNotification({ email, plan: currentPlan });
       await updateWelcomeMailStatus(subscriptionId, true);
@@ -99,11 +84,14 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
     });
   }
 
-  if (currentPlan !== oldPlan && (currentPlan === 'student' || currentPlan === 'oss')) {
+  if (
+    currentPlan !== oldPlan &&
+    (currentPlan === FreeSubscriptionPlan.Student || currentPlan === FreeSubscriptionPlan.OSS)
+  ) {
     await sendSubscriptionNotification({ email, plan: currentPlan });
   }
 
-  if (currentPlan !== oldPlan && currentPlan === 'free') {
+  if (currentPlan !== oldPlan && currentPlan === FreeSubscriptionPlan.Free) {
     try {
       await unsubscribeMailingList(email, MAILJET_PRO_MAILING_LIST_ID);
     } catch (error) {

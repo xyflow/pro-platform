@@ -59,7 +59,7 @@ version = '0.47.0'
 
 [auth.redirections]
 clientUrl = 'http://localhost:3000'
-allowedUrls = ['http://localhost:3000', 'http://localhost:3002', 'https://*.vercel.app', 'https://*.reactflow.dev', 'https://reactflow.dev', 'https://*.svelteflow.dev', 'https://svelteflow.dev']
+allowedUrls = ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:3003', 'https://*.vercel.app', 'https://*.reactflow.dev', 'https://reactflow.dev', 'https://*.svelteflow.dev', 'https://svelteflow.dev']
 
 [auth.signUp]
 enabled = true

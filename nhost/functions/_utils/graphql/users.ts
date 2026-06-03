@@ -9,8 +9,8 @@ export const nhost = new NhostClient({
 });
 
 const CREATE_USER = gql`
-  mutation InsertUser($email: citext!) {
-    insertUser(object: { email: $email, locale: "en" }) {
+  mutation InsertUser($email: citext!, $framework: String) {
+    insertUser(object: { email: $email, locale: "en", metadata: { framework: $framework } }) {
       id
       email
     }
@@ -20,18 +20,19 @@ const CREATE_USER = gql`
 type User = {
   email: string;
   id: string;
+  metadata?: Record<string, any>;
 };
 
 type GetUserByMailResponse = {
   users: User[];
 };
 
-export async function createUser({ email }: { email: string }) {
+export async function createUser({ email, framework = 'react' }: { email: string; framework?: string }) {
   if (!email) {
     return false;
   }
 
-  return await GraphQLClient.request<GetUserByMailResponse>(CREATE_USER, { email });
+  return await GraphQLClient.request<GetUserByMailResponse>(CREATE_USER, { email, framework });
 }
 
 const GET_USER_BY_MAIL = gql`
@@ -39,6 +40,7 @@ const GET_USER_BY_MAIL = gql`
     users(where: { email: { _eq: $email } }) {
       email
       id
+      metadata
     }
   }
 `;
@@ -53,6 +55,7 @@ const GET_USER_BY_ID = gql`
     user(id: $id) {
       email
       id
+      metadata
     }
   }
 `;
