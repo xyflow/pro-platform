@@ -19,7 +19,15 @@ async function sendWelcomeMail(email: string, plan: PaidSubscriptionPlan, framew
   return true;
 }
 
-async function sendSubscriptionNotification({ email, plan }: { email: string; plan: SubscriptionPlan }) {
+async function sendSubscriptionNotification({
+  email,
+  plan,
+  framework,
+}: {
+  email: string;
+  plan: SubscriptionPlan;
+  framework?: Framework;
+}) {
   if (!email || !plan) {
     return false;
   }
@@ -28,8 +36,8 @@ async function sendSubscriptionNotification({ email, plan }: { email: string; pl
 
   const message =
     plan === FreeSubscriptionPlan.Student || plan === FreeSubscriptionPlan.OSS
-      ? `👩🏽‍🎓 new ${plan.toUpperCase()} sign up: ${email}`
-      : `🎉 new sub: <https://${website}> [${plan.toUpperCase()}]`;
+      ? `👩🏽‍🎓 new ${framework} ${plan.toUpperCase()} sign up: ${email}`
+      : `🎉 new ${framework} sub: <https://${website}> [${plan.toUpperCase()}]`;
 
   return await sendDiscordNotification(message);
 }
@@ -71,7 +79,7 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
         plan: currentPlan,
         framework: metadata?.framework,
       });
-      await sendSubscriptionNotification({ email, plan: currentPlan });
+      await sendSubscriptionNotification({ email, plan: currentPlan, framework: metadata?.framework });
       await updateWelcomeMailStatus(subscriptionId, true);
     } catch (error) {
       console.log(error);
@@ -89,7 +97,7 @@ export default async function handleSubscriptionChange(req: Request, res: Respon
     currentPlan !== oldPlan &&
     (currentPlan === FreeSubscriptionPlan.Student || currentPlan === FreeSubscriptionPlan.OSS)
   ) {
-    await sendSubscriptionNotification({ email, plan: currentPlan });
+    await sendSubscriptionNotification({ email, plan: currentPlan, framework: metadata?.framework });
   }
 
   if (currentPlan !== oldPlan && currentPlan === FreeSubscriptionPlan.Free) {
