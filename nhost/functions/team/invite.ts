@@ -5,14 +5,16 @@ import { getIncludedSeats, upsertTeamSubscription, getTeamMembers } from '../_ut
 import { createUser, getUserIdByEmail } from '../_utils/graphql/users';
 import { getStripeSubscription, updateSeatQuantity } from '../_utils/stripe';
 import { sendMailTemplate } from '../_utils/mailjet';
-import { MAILJET_TEAM_INVITE_TEMPLATE_IDS } from '../_utils/constants';
+import { FRAMEWORK_NAMES, MAILJET_TEAM_INVITE_TEMPLATE_IDS } from '../_utils/constants';
 import { Framework } from '../_utils/types';
 
 async function sendTeamMemberInviteMail(email: string, framework: Framework = Framework.React) {
   if (email) {
+    const frameworkName = FRAMEWORK_NAMES[framework] || framework;
+
     return await sendMailTemplate(
       email,
-      `You have been invited to ${framework} Flow Pro!`,
+      `You have been invited to ${frameworkName} Flow Pro!`,
       MAILJET_TEAM_INVITE_TEMPLATE_IDS[framework]
     );
   }

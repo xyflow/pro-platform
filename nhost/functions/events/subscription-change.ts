@@ -5,14 +5,15 @@ import { updateWelcomeMailStatus } from '../_utils/graphql/subscriptions';
 import { updateTeamSubscriptionPlan } from '../_utils/graphql/team-subscriptions';
 import { sendDiscordNotification } from '../_utils/discord';
 import { sendMailTemplate, subscribeMailingList, unsubscribeMailingList } from '../_utils/mailjet';
-import { MAILJET_PRO_MAILING_LIST_ID, MAILJET_WELCOME_MAIL_TEMPLATE_IDS } from '../_utils/constants';
+import { FRAMEWORK_NAMES, MAILJET_PRO_MAILING_LIST_ID, MAILJET_WELCOME_MAIL_TEMPLATE_IDS } from '../_utils/constants';
 import { PaidSubscriptionPlan, FreeSubscriptionPlan, Framework, SubscriptionPlan } from '../_utils/types';
 
 async function sendWelcomeMail(email: string, plan: PaidSubscriptionPlan, framework: Framework = Framework.React) {
   const template = MAILJET_WELCOME_MAIL_TEMPLATE_IDS[framework] || MAILJET_WELCOME_MAIL_TEMPLATE_IDS.default;
+  const frameworkName = FRAMEWORK_NAMES[framework] || framework;
 
   if (email) {
-    return await sendMailTemplate(email, `Welcome to ${framework} Flow Pro!`, template);
+    return await sendMailTemplate(email, `Welcome to ${frameworkName} Flow Pro!`, template);
   }
 
   return true;

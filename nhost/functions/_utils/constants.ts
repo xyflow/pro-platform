@@ -16,6 +16,12 @@ export const MAILJET_WELCOME_MAIL_TEMPLATE_IDS = {
   default: 8078808,
 };
 
+export const FRAMEWORK_NAMES = {
+  react: 'React',
+  svelte: 'Svelte',
+  vue: 'Vue',
+};
+
 export const IS_DEVELOPMENT = process.env.NHOST_SUBDOMAIN === 'local';
 export const IS_PRODUCTION = process.env.NHOST_SUBDOMAIN !== 'local';
 export const IS_STAGING = process.env.NHOST_SUBDOMAIN === 'qatudfhrsubqcehhdsgx';
