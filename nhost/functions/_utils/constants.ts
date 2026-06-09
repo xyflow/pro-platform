@@ -1,12 +1,25 @@
 export const MAILJET_PUBLIC_MAILING_LIST_ID = 105980;
 export const MAILJET_PRO_MAILING_LIST_ID = 96936;
 export const MAILJET_PUBLIC_NEWSLETTER_CONFIRM_TEMPLATE_ID = 4288745;
-export const MAILJET_TEAM_INVITE_TEMPLATE_ID = 5364667;
+
+export const MAILJET_TEAM_INVITE_TEMPLATE_IDS = {
+  react: 5364667,
+  svelte: 8078960,
+  vue: 5364667,
+  default: 5364667,
+};
+
 export const MAILJET_WELCOME_MAIL_TEMPLATE_IDS = {
-  starter: 4265635,
-  pro: 4265536,
-  enterprise: 5364987,
-  default: 4265635,
+  react: 8078808,
+  svelte: 8078810,
+  vue: 8078809,
+  default: 8078808,
+};
+
+export const FRAMEWORK_NAMES = {
+  react: 'React',
+  svelte: 'Svelte',
+  vue: 'Vue',
 };
 
 export const IS_DEVELOPMENT = process.env.NHOST_SUBDOMAIN === 'local';
