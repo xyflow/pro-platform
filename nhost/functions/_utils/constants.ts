@@ -11,7 +11,7 @@ export const MAILJET_TEAM_INVITE_TEMPLATE_IDS = {
 
 export const MAILJET_WELCOME_MAIL_TEMPLATE_IDS = {
   react: 8078808,
-  svelte: 8078810,
+  svelte: 8078874,
   vue: 8078809,
   default: 8078808,
 };
