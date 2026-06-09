@@ -22,7 +22,7 @@ async function sendWelcomeMail(email: string, plan: PaidSubscriptionPlan, framew
 async function sendSubscriptionNotification({
   email,
   plan,
-  framework,
+  framework = Framework.React,
 }: {
   email: string;
   plan: SubscriptionPlan;
