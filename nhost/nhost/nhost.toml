@@ -177,13 +177,13 @@ version = '14.20-20251217-1'
 capacity = 10
 
 [provider.smtp]
-host = "smtp-moklick.alwaysdata.net"
+host = "in-v3.mailjet.com"
 method = "LOGIN"
-password = "{{ secrets.SMTP_PASSWORD }}"
-port = 465
-secure = true
+password = "{{ secrets.MAILJET_APIKEY_PRIVATE }}"
+port = 587
+secure = false
 sender = "noreply@xyflow.com"
-user = "noreply@xyflow.com"
+user = "{{ secrets.MAILJET_APIKEY_PUBLIC }}"
 
 [storage]
 version = '0.9.1'
