@@ -42,5 +42,5 @@ export function getCurrencySign(currency: Currency) {
 }
 
 export function getHostName() {
-  return process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : window.location.origin;
+  return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 }

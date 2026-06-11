@@ -22,6 +22,13 @@ const nextConfig = {
     ],
   },
 
+  env: {
+    NEXT_PUBLIC_SITE_URL:
+      process.env.NODE_ENV === 'development'
+        ? 'http://localhost:3000'
+        : `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`,
+  },
+
   async redirects() {
     return redirects;
   },
