@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-const utils = require('./src/utils');
 const redirects = require('./redirects.json');
 
 const nextConfig = {
