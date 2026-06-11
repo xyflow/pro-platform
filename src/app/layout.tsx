@@ -13,6 +13,7 @@ export const metadata = {
   title: 'React Flow Pro',
   description:
     'Build Better Node-Based UIs with React Flow. By subscribing to React Flow Pro you are securing the maintanance and development of our open source libraries.',
+  robots: 'noindex, nofollow',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
