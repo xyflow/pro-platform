@@ -42,5 +42,11 @@ export function getCurrencySign(currency: Currency) {
 }
 
 export function getHostName() {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
+  if (isStaging()) {
+    return `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`;
+  }
+
+  return process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+    ? `http://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'http://localhost:3000';
 }
