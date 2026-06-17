@@ -51,7 +51,7 @@ export async function sendMailTemplate(email: string, subject: string, templateI
       Messages: [
         {
           From: {
-            Email: 'noreply@xyflow.com',
+            Email: 'info@xyflow.com',
             Name: 'xyflow',
           },
           To: [
@@ -96,7 +96,7 @@ export async function sendMail({
       Messages: [
         {
           From: {
-            Email: 'noreply@xyflow.com',
+            Email: 'contact@xyflow.com',
             Name: 'xyflow',
           },
           To: [
