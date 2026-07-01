@@ -68,5 +68,50 @@
     "source": "/ethical-standards",
     "destination": "https://xyflow.com/ethical-standards",
     "permanent": true
+  },
+  {
+    "source": "/signin",
+    "destination": "https://reactflow.dev/pro/sign-in",
+    "permanent": true
+  },
+  {
+    "source": "/signin/magic-link",
+    "destination": "https://reactflow.dev/pro/sign-in/magic-link",
+    "permanent": true
+  },
+  {
+    "source": "/signup",
+    "destination": "https://reactflow.dev/pro/sign-up",
+    "permanent": true
+  },
+  {
+    "source": "/examples",
+    "destination": "https://reactflow.dev/examples/pro-examples",
+    "permanent": true
+  },
+  {
+    "source": "/templates",
+    "destination": "https://reactflow.dev/ui/templates/workflow-editor",
+    "permanent": true
+  },
+  {
+    "source": "/account",
+    "destination": "https://reactflow.dev/pro/account",
+    "permanent": true
+  },
+  {
+    "source": "/team",
+    "destination": "https://reactflow.dev/pro/team",
+    "permanent": true
+  },
+  {
+    "source": "/",
+    "destination": "https://reactflow.dev/pro/dashboard",
+    "permanent": true
+  },
+  {
+    "source": "/:path*",
+    "destination": "/",
+    "permanent": true
   }
 ]
