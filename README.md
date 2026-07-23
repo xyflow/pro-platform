@@ -1,13 +1,8 @@
-<div align="center">
-
-![pro-readme-title-2](https://github.com/xyflow/pro-platform/assets/9868315/95a25241-fc25-4cc2-9caa-d2007de53bfe)
-
-![GitHub License MIT](https://img.shields.io/github/license/wbkd/react-flow?color=%23ff0072)
+> [!IMPORTANT]
+> This project is not maintained anymore. The pro platform has been integrated into our [nextjs website](https://reactflow.dev/) which is not open-source.
 
 The React Flow Pro platform allows subscribers to access advanced code examples and direct contact to the xyflow team.<br/>
 Built with [Nextjs](https://nextjs.org/), [Nhost](https://nhost.io/), [Stripe](https://stripe.com) and [shadcn/ui](https://ui.shadcn.com/).
-
-</div>
 
 ## Features
 
